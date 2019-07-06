@@ -89,6 +89,10 @@ h1>a:after, a.gatsby-resp-image-link:after {
 
 @media screen and (max-width: 865px) {
     body {
-        padding: 0
+        padding: 0;
+        background: none;
+    }
+    body:after, body:before {
+        display: none;
     }
 }
