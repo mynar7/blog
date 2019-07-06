@@ -1,91 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog about that's mostly about code by Lee Warrick.]]></description><link>http://github.com/dylang/node-rss</link><generator>RSS for Node</generator><lastBuildDate>Sat, 06 Jul 2019 05:26:25 GMT</lastBuildDate><item><title><![CDATA[Hello World]]></title><link>https://leewarrick.com/blog/hello-world/</link><guid isPermaLink="false">https://leewarrick.com/blog/hello-world/</guid><pubDate>Sat, 06 Jul 2019 18:12:03 GMT</pubDate><content:encoded>function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i &lt; arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i &lt; sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) &gt;= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i &lt; sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) &gt;= 0) continue; target[key] = source[key]; } return target; }
-
-/* @jsx mdx */
-var _frontmatter = {
-  &quot;title&quot;: &quot;Hello World&quot;,
-  &quot;date&quot;: &quot;2019-07-06T22:12:03+0400&quot;
-};
-
-var makeShortcode = function makeShortcode(name) {
-  return function MDXDefaultShortcode(props) {
-    console.warn(&quot;Component &quot; + name + &quot; was not imported, exported, or provided by MDXProvider as global scope&quot;);
-    return mdx(&quot;div&quot;, props);
-  };
-};
-
-var layoutProps = {
-  _frontmatter: _frontmatter
-};
-var MDXLayout = &quot;wrapper&quot;;
-return function MDXContent(_ref) {
-  var components = _ref.components,
-      props = _objectWithoutProperties(_ref, [&quot;components&quot;]);
-
-  return mdx(MDXLayout, _extends({}, layoutProps, props, {
-    components: components,
-    mdxType: &quot;MDXLayout&quot;
-  }), mdx(&quot;p&quot;, null, &quot;This is my first post on my new fake blog! How exciting!&quot;), mdx(&quot;p&quot;, null, &quot;I\u2019m sure I\u2019ll write a lot more interesting things in the future.&quot;), mdx(&quot;p&quot;, null, &quot;Oh, and here\u2019s a great quote from this Wikipedia on\n&quot;, mdx(&quot;a&quot;, _extends({
-    parentName: &quot;p&quot;
-  }, {
-    &quot;href&quot;: &quot;http://en.wikipedia.org/wiki/Salted_duck_egg&quot;
-  }), &quot;salted duck eggs&quot;), &quot;.&quot;), mdx(&quot;blockquote&quot;, null, mdx(&quot;p&quot;, {
-    parentName: &quot;blockquote&quot;
-  }, &quot;A salted duck egg is a Chinese preserved food product made by soaking duck\neggs in brine, or packing each egg in damp, salted charcoal. In Asian\nsupermarkets, these eggs are sometimes sold covered in a thick layer of salted\ncharcoal paste. The eggs may also be sold with the salted paste removed,\nwrapped in plastic, and vacuum packed. From the salt curing process, the\nsalted duck eggs have a briny aroma, a gelatin-like egg white and a\nfirm-textured, round yolk that is bright orange-red in color.&quot;)), mdx(&quot;p&quot;, null, mdx(&quot;undefined&quot;, {
-    parentName: &quot;p&quot;
-  }, &quot;\n  &quot;, mdx(&quot;a&quot;, {
-    &quot;className&quot;: &quot;gatsby-resp-image-link&quot;,
-    &quot;href&quot;: &quot;/blog/static/8058f3f26913fea3b6a89a73344fe94a/2b40c/salty_egg.jpg&quot;,
-    &quot;style&quot;: {
-      &quot;display&quot;: &quot;block&quot;
-    },
-    &quot;target&quot;: &quot;_blank&quot;,
-    &quot;rel&quot;: [&quot;noopener&quot;]
-  }, &quot;\n  \n  &quot;, mdx(&quot;span&quot;, _extends({
-    parentName: &quot;a&quot;
-  }, {
-    &quot;className&quot;: &quot;gatsby-resp-image-wrapper&quot;,
-    &quot;style&quot;: {
-      &quot;position&quot;: &quot;relative&quot;,
-      &quot;display&quot;: &quot;block&quot;,
-      &quot;maxWidth&quot;: &quot;590px&quot;,
-      &quot;marginLeft&quot;: &quot;auto&quot;,
-      &quot;marginRight&quot;: &quot;auto&quot;
-    }
-  }), &quot;\n    &quot;, mdx(&quot;span&quot;, _extends({
-    parentName: &quot;span&quot;
-  }, {
-    &quot;className&quot;: &quot;gatsby-resp-image-background-image&quot;,
-    &quot;style&quot;: {
-      &quot;paddingBottom&quot;: &quot;75%&quot;,
-      &quot;position&quot;: &quot;relative&quot;,
-      &quot;bottom&quot;: &quot;0px&quot;,
-      &quot;left&quot;: &quot;0px&quot;,
-      &quot;backgroundSize&quot;: &quot;cover&quot;,
-      &quot;display&quot;: &quot;block&quot;
-    }
-  }), &quot;\n      &quot;, mdx(&quot;img&quot;, _extends({
-    parentName: &quot;span&quot;
-  }, {
-    &quot;className&quot;: &quot;gatsby-resp-image-image&quot;,
-    &quot;style&quot;: {
-      &quot;width&quot;: &quot;100%&quot;,
-      &quot;height&quot;: &quot;100%&quot;,
-      &quot;margin&quot;: &quot;0px&quot;,
-      &quot;verticalAlign&quot;: &quot;middle&quot;,
-      &quot;position&quot;: &quot;absolute&quot;,
-      &quot;top&quot;: &quot;0px&quot;,
-      &quot;left&quot;: &quot;0px&quot;,
-      &quot;boxShadow&quot;: &quot;inset 0px 0px 0px 400px white&quot;
-    },
-    &quot;alt&quot;: &quot;Chinese Salty Egg&quot;,
-    &quot;title&quot;: &quot;&quot;,
-    &quot;src&quot;: &quot;/blog/static/8058f3f26913fea3b6a89a73344fe94a/c739e/salty_egg.jpg&quot;,
-    &quot;srcSet&quot;: [&quot;/blog/static/8058f3f26913fea3b6a89a73344fe94a/8ee9c/salty_egg.jpg 148w&quot;, &quot;/blog/static/8058f3f26913fea3b6a89a73344fe94a/ebbe7/salty_egg.jpg 295w&quot;, &quot;/blog/static/8058f3f26913fea3b6a89a73344fe94a/c739e/salty_egg.jpg 590w&quot;, &quot;/blog/static/8058f3f26913fea3b6a89a73344fe94a/5413e/salty_egg.jpg 885w&quot;, &quot;/blog/static/8058f3f26913fea3b6a89a73344fe94a/4efde/salty_egg.jpg 1180w&quot;, &quot;/blog/static/8058f3f26913fea3b6a89a73344fe94a/2b40c/salty_egg.jpg 2048w&quot;],
-    &quot;sizes&quot;: &quot;(max-width: 590px) 100vw, 590px&quot;
-  })), &quot;\n    &quot;), &quot;\n  &quot;), &quot;\n  \n  &quot;), &quot;\n    &quot;)));
-}
-MDXContent.isMDXComponent = true;</content:encoded></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog about that's mostly about code by Lee Warrick.]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Sat, 06 Jul 2019 05:39:44 GMT</lastBuildDate><item><title><![CDATA[Hello World]]></title><description><![CDATA[This is my first post on my new fake blog! How exciting! I'm sure I'll write a lot more interesting things in the future. Oh, and here's a…]]></description><link>https://leewarrick.com/blog/hello-world/</link><guid isPermaLink="false">https://leewarrick.com/blog/hello-world/</guid><pubDate>Sat, 06 Jul 2019 18:12:03 GMT</pubDate><content:encoded>&lt;p&gt;This is my first post on my new fake blog! How exciting!&lt;/p&gt;&lt;p&gt;I’m sure I’ll write a lot more interesting things in the future.&lt;/p&gt;&lt;p&gt;Oh, and here’s a great quote from this Wikipedia on
+&lt;a href=&quot;http://en.wikipedia.org/wiki/Salted_duck_egg&quot;&gt;salted duck eggs&lt;/a&gt;.&lt;/p&gt;&lt;blockquote&gt;&lt;p&gt;A salted duck egg is a Chinese preserved food product made by soaking duck
+eggs in brine, or packing each egg in damp, salted charcoal. In Asian
+supermarkets, these eggs are sometimes sold covered in a thick layer of salted
+charcoal paste. The eggs may also be sold with the salted paste removed,
+wrapped in plastic, and vacuum packed. From the salt curing process, the
+salted duck eggs have a briny aroma, a gelatin-like egg white and a
+firm-textured, round yolk that is bright orange-red in color.&lt;/p&gt;&lt;/blockquote&gt;&lt;p&gt;&lt;undefined&gt;
+  &lt;a class=&quot;gatsby-resp-image-link&quot; href=&quot;/blog/static/8058f3f26913fea3b6a89a73344fe94a/2b40c/salty_egg.jpg&quot; style=&quot;display:block&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+  
+  &lt;span class=&quot;gatsby-resp-image-wrapper&quot; style=&quot;position:relative;display:block;max-width:590px;margin-left:auto;margin-right:auto&quot;&gt;
+    &lt;span class=&quot;gatsby-resp-image-background-image&quot; style=&quot;padding-bottom:75%;position:relative;bottom:0px;left:0px;background-size:cover;display:block&quot;&gt;
+      &lt;img class=&quot;gatsby-resp-image-image&quot; style=&quot;width:100%;height:100%;margin:0px;vertical-align:middle;position:absolute;top:0px;left:0px;box-shadow:inset 0px 0px 0px 400px white&quot; alt=&quot;Chinese Salty Egg&quot; title=&quot;&quot; src=&quot;/blog/static/8058f3f26913fea3b6a89a73344fe94a/c739e/salty_egg.jpg&quot; srcSet=&quot;/blog/static/8058f3f26913fea3b6a89a73344fe94a/8ee9c/salty_egg.jpg 148w,/blog/static/8058f3f26913fea3b6a89a73344fe94a/ebbe7/salty_egg.jpg 295w,/blog/static/8058f3f26913fea3b6a89a73344fe94a/c739e/salty_egg.jpg 590w,/blog/static/8058f3f26913fea3b6a89a73344fe94a/5413e/salty_egg.jpg 885w,/blog/static/8058f3f26913fea3b6a89a73344fe94a/4efde/salty_egg.jpg 1180w,/blog/static/8058f3f26913fea3b6a89a73344fe94a/2b40c/salty_egg.jpg 2048w&quot; sizes=&quot;(max-width: 590px) 100vw, 590px&quot;/&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/undefined&gt;&lt;/p&gt;</content:encoded></item></channel></rss>
