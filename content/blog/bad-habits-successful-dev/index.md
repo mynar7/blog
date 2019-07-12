@@ -5,7 +5,7 @@ date: '2019-07-12T10:00:00+0400'
 
 Welcome to my blog!
 
-I'm a front-end [developer](https://www.linkedin.com/in/leewarrick), developer meetup [organizer](https://meetup.com/project-code-experience), [podcast](https://techjr.dev) host, and I get paid for some of those things.
+I'm a front-end [developer](https://www.linkedin.com/in/lee-warrick), meetup [organizer](https://meetup.com/project-code-experience), [podcast](https://techjr.dev) host, and I get paid for some of those things.
 
 Before we start, I'm not saying you have to be or do all those things to be successful. Making software is really my only metric for being successful as a developer. If you code and make things, that's what matters at the end of the day. Everything else is a bonus in my book.
 
@@ -49,7 +49,7 @@ This plays a little into the previous point. How does the saying go?
 
 I have personal projects, talks I want to do, meetups to plan, podcasts to record, and now a blog to write. That's just in the realm of development. It's hard to focus on 10 things at the same time and actually accomplish something.
 
-We live in a world that glorifies multitasking and and industry that worships work. Don't feel like you have to do all the things. It's OK to focus on one thing at a time.
+We live in a world that glorifies multitasking and an industry that worships work. Don't feel like you have to do all the things. It's OK to focus on one thing at a time.
 
 ## 5. Spending all my free time on Coding
 

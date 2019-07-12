@@ -3,8 +3,9 @@ module.exports = {
   siteMetadata: {
     title: `Strings and Things`,
     author: `Lee Warrick`,
-    description: `A blog about that's mostly about code by Lee Warrick.`,
+    description: `A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code`,
     siteUrl: `https://leewarrick.com/blog`,
+    logo: `https://leewarrick.com/blog/logo.png`,
     social: {
       twitter: `leewarrickjr`,
       github: `mynar7`,

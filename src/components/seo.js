@@ -35,6 +35,18 @@ function SEO({ description, lang, meta, keywords, title }) {
                 content: `website`,
               },
               {
+                property: `og:image`,
+                content: data.site.siteMetadata.logo,
+              },
+              {
+                property: `twitter:image`,
+                content: data.site.siteMetadata.logo,
+              },
+              {
+                property: `twitter:alt:image`,
+                content: 'Green, purple, and black Buddhist enso swirl logo',
+              },
+              {
                 name: `twitter:card`,
                 content: `summary`,
               },
@@ -57,7 +69,7 @@ function SEO({ description, lang, meta, keywords, title }) {
                       name: `keywords`,
                       content: keywords.join(`, `),
                     }
-                  : []
+                  : ['blog', 'web development', 'developer', 'front-end developer']
               )
               .concat(meta)}
           />
@@ -90,6 +102,7 @@ const detailsQuery = graphql`
         title
         description
         author
+        logo
       }
     }
   }
