@@ -29,11 +29,12 @@ function Bio() {
               }}
             />
             <p>
-              Written by <a href="https://leewarrick.com"><strong>{author}</strong></a>, Front-end Developer, Guitarist, Gamer, and Co-host of the <a href="https://techjr.dev">Tech Jr Podcast</a>. Follow him on
+              Written by <a href="https://leewarrick.com"><strong>{author}</strong></a>, Front-end Developer, Guitarist, Gamer, and Co-host of the <a href="https://techjr.dev">Tech Jr Podcast</a>. {/*Follow him on
               {` `}
               <a href={`https://twitter.com/${social.twitter}`}>
                 Twitter
-              </a>.
+            </a>, and */}Feel free to <a href="https://tinyletter.com/leewarrick"><strong>Subscribe</strong></a>!
+
             </p>
           </div>
         )

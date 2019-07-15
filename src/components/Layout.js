@@ -63,7 +63,7 @@ class Layout extends React.Component {
           <span style={{marginBottom: '10px'}}>
           © {new Date().getFullYear()}, Built with
           {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>, Love, and <a href="https://cameronsworld.net">Inter-webs</a>
+          <a href="https://www.gatsbyjs.org">Gatsby</a>, <a href="https://www.youtube.com/watch?v=HEXWRTEbj1I">Love</a>, and <a href="https://cameronsworld.net">Inter-webs</a>.
           </span>
           {location.pathname !== rootPath &&
             <span>

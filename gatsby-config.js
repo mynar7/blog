@@ -70,7 +70,7 @@ module.exports = {
       options: {
         name: `Strings and Things`,
         short_name: `Strings and Things`,
-        start_url: `/`,
+        start_url: `/blog/`,
         background_color: `#ffffff`,
         theme_color: `#496db1`,
         display: `minimal-ui`,
