@@ -1,6 +1,6 @@
 ---
 title: The Ultimate Guide to Starting a Tech Podcast
-date: '2019-07-27T16:00:00+0400'
+date: '2019-07-28T11:30:00+0400'
 ---
 
 I started the [Tech Jr](https://techjr.dev) podcast with my co-host Eddie in April of this year. We haven't been around for very long, but we've had some great success reaching developers in our community and beyond with helpful advice and knowledge.
