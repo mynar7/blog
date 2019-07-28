@@ -85,7 +85,7 @@ If you're just looking to get your show on the air and don't care about the tech
 
 ### Option 2: build the site yourself, pay for hosting.
 
-You can absolutely build your own site and use a service to handle RSS and hosting. [Syntax.fm](https://syntax.fm) has a Gatsby site and uses libsyn for RSS/hosting for example.
+You can absolutely build your own site and use a service to handle RSS and hosting. [Syntax.fm](https://syntax.fm) has a [Nextjs](https://nextjs.org/) site and uses libsyn for RSS/hosting for example.
 
 There's also [anchor.fm](https://anchor.fm) that will handle hosting and provide some other goodies for you.
 
