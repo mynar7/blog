@@ -254,7 +254,7 @@ The good news is zoom is able to record your calls and automatically gives you s
 
 Also, if you or anyone else on the call has connection issues, you'll get some funky audio to edit.
 
-<a name="zoom"></a>
+<a name="skype"></a>
 
 #### Skype
 
