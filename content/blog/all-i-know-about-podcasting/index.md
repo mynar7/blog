@@ -1,5 +1,5 @@
 ---
-title: All I know about Podcasting
+title: The Ultimate Guide to Starting a Tech Podcast
 date: '2019-07-27T16:00:00+0400'
 ---
 
@@ -9,10 +9,11 @@ I've been asked a few times about how to get started with a podcast, what our wo
 
 I'm going to unload everything I've learned about making a podcast, so buckle up.
 
-First, though, a hot-take 🔥:
+Before we start, a hot-take 🔥:
 
->All of a sudden everyone has a “podcast” 🙆🏽‍♀️🙆🏽‍♀️🙆🏽‍♀️😂😂 [@MacGUnleashed](https://twitter.com/tlotlo__m/status/1154675873276137472)
-> > &mdash; M I M I [@tlotlo__m](https://twitter.com/tlotlo__m) July 26, 2019
+>When I run into an old friend, and I have no idea what they’ve been up to, I just say, “I love your podcast.” Haven’t been wrong yet.
+
+>&mdash; [@fimoculous](https://twitter.com/fimoculous/status/1138182748735246337) June 10, 2019
 
 ## Contents:
 * [Getting Started:](#essentials)
@@ -56,13 +57,13 @@ There's 3 main things you need to have a podcast:
 * An RSS feed
 * A website
 
-The website is technically optional, but people will expect you to have one, and there's accelerators that will help you out if you're not able to build one. File hosting and RSS, however, are unavoidable and necessary.
+The website is technically optional, but people will expect you to have one. File hosting and RSS, however, are unavoidable and necessary.
 
 #### A note about the RSS feed:
 
 If you want your show to be on itunes, spotify, google play, and beyond, you're going to need an RSS feed. RSS is just a bunch of xml tags similar to HTML that contains a list of your episodes and information about them like the  title, description, author, and where the audio file lives.
 
-Itunes and the rest will consume this feed and use it to list your latest episodes on their platforms. Some will download your episode and host it themselves, while others will point listeners directly to your hosting solution. More importantly though, _other_ platforms will scrape itunes and re-list your show on _their_ platform. Weird, I know.
+Itunes and other aggregators will consume this feed and use it to list your latest episodes on their platforms. Some will download your episode and host it themselves, while others will point listeners directly to your hosting solution. More importantly though, _other_ platforms will scrape itunes and re-list your show on _their_ platform.
 
 Basically this is all to say that RSS is incredibly important to your show, so do your research before you pick a solution for it.
 
@@ -153,9 +154,9 @@ AWS offers analytics if you know where to look, and you'll at least get some usa
 
 Also, iTunes, Google, and Spotify will all give you analytics through their respective creator dashboards. (How did you think libsyn gets those numbers?)
 
-Lastly, there's sites like [chartable](https://chartable.com) that will aggregate data from those disparate dashboards into something easier to parse. They even offer a free service to proxy your file downloads through their servers to accurately count downloads for you, if you're interested.
+Lastly, there's sites like [chartable](https://chartable.com) that will aggregate data from those disparate dashboards into something easier to parse. They even offer a free service to proxy your file downloads through their servers to accurately provide download counts.
 
-**Note:** While having analytics _might_ help with getting sponsors for your show, I'd argue it's not really very important in the grand scheme of things. They can be fun to look at, but also something to obsess over or feel bad about if they're not flattering.
+**Note:** While having analytics _might_ help with getting sponsors for your show, I'd argue it's not really very important in the grand scheme of things. They can be fun to look at, but also something to obsess over or feel bad about if they're not flattering. Their best use is in determining what your audience likes so you can tailor your content accordingly.
 
 <a name="sponsors"></a>
 
@@ -169,23 +170,21 @@ _Wait, per ***thousand*** listeners?_
 
 Yes. The reality is that you're probably not going to be worrying about sponsors at first, and you may never get sponsored.
 
-Listen, _I_ like money, _you_ like money, we all gotta eat, etc. But for our show, until it happens, sponsorship is a pipe dream.
+Listen, _I like_ money, _you like_ money, and we all gotta eat. But for our show, until it happens, sponsorship cash is a daydream.
 
 It's far from free money, by the way. Making ad spots and negotiating with sponsors is also added workload for you, the content creator. And of course, your fans may not appreciate having to listen to ad spots.
 
 At the end of the day, I make Tech Jr **because I want to** and it's important to me. Helping junior devs is a passion, not a business goal. Hey, if I make a buck along the way, great. If I don't, no sweat. I'm not going to place all my eggs in that basket.
 
-Honestly, podcasting is a great way to telegraph your passion for your niche and establish yourself as an expert in your space. It is impressive on a portfolio or resume, and you end up talking to and building a rapport with a lot of great people through interviews. So while there's not necessarily cash benefits to podcasting, there's other value.
+Honestly, podcasting is a great way to telegraph your passion for your niche and establish yourself as an expert in your space. It is impressive on a portfolio or resume, and you end up building a rapport with a lot of great people through interviews. So while there's not necessarily cash benefits to podcasting, there's other value.
 
-That being said, [there are other ways](https://counterweightcreative.co/ultimate-guide-why-podcast-sponsorships-waste-your-time/) to monetize your show. You can set up a [paypal](https://www.paypal.me/leewarrick) page for donations, start a patreon, or be your own advertiser for a service or product you sell (swag anyone?).
+That being said, [there are other ways](https://counterweightcreative.co/ultimate-guide-why-podcast-sponsorships-waste-your-time/) to monetize your show. You can set up a paypal page for donations ([Buy me a coffee?](https://paypal.me/leewarrick)), start a patreon, or be your own advertiser for a service or product you sell (swag anyone?).
 
 <a name="audio"></a>
 
 ## Making the Audio Files
 
-Now that you've landed on a hosting solution, what about making the actual audio files?
-
-Audio quality is incredibly important for your show. You've got a few seconds to hook listeners, and if they hear bad audio, you've probably lost them. Nobody wants to hear to background noise, dead air, or people talking through the microphone equivalent of a potato (I'm looking at you, built-in laptop mic podcasters).
+Audio quality is incredibly important for your show. You've got a few seconds to hook listeners, and if they hear bad audio, you've probably lost them. Nobody wants to hear to background noise, dead air, or people talking through the microphone equivalent of a potato 🥔 (I'm looking at you, built-in laptop mic podcasters).
 
 <a name="mic"></a>
 
@@ -271,17 +270,17 @@ Of course, if you or anyone else on the call has connection issues, you'll get s
 
 #### Zencastr
 
-[Zencastr](https://zencastr.com/) is a browser-based voip podcasting-focused solution.
+[Zencastr](https://zencastr.com/) is a browser-based voip recording app.
 
-Here's how it works: You set up a session through their web app, get a link for all parties to click, and once they do, they're taken to the web app as well. Once there, zencastr provides voip/recording through the browser, gives you separate tracks, and even uploads them to a google drive folder for you.
+Here's how it works: You set up a session through the website, get a link for all parties to click, and once they do, they're taken to the web app as well. Once there, zencastr provides voip and records through the browser, gives you separate tracks, and even uploads them to a google drive folder for you.
 
-When it works, it's fantastic. When it doesn't, your episode is toast.
+When it works, it's fantastic. When it doesn't, your episode is toast 🍞.
 
-They claim to have local backups running, but I've seen tracks get shortened or cut in weird spots due to spotty connections.
+They claim to have local backups running, but I've still gotten shortened tracks due to spotty connections.
 
 So, if you or anyone else on the call has connection issues, you'll _still_ get some funky audio to edit.
 
-Luckily I've had backups going in those situations, but if you have to do backups anyway...
+Luckily we've had backups going in those situations, but if you have to do backups anyway...
 
 <a name="local"></a>
 
@@ -289,7 +288,7 @@ Luckily I've had backups going in those situations, but if you have to do backup
 
 This is the most reliable solution we've found for our show. We ask our guests to record their own audio and send it to us afterward. Then, we use one of the aforementioned methods as the backup in case the guest makes a mistake recording or just forgets to send their audio.
 
-Most of our guests have a Mic and have recorded before, so we've had good luck so far. For the others we use zencastr and 🙏.
+Most of our guests have a mic and some recording experience, so we've had good luck so far. For the others we use zencastr and 🙏.
 
 The takeaway here is to just make sure you have a backup plan so you're not recording an episode twice.
 
@@ -305,7 +304,7 @@ This seems obvious, but you should spend some time making sure what you're sayin
 
 If you're doing a Tech podcast, you'll probably always have plenty to talk about. In general though, it's good to pick an evergreen subject so you won't struggle to come up with episodes.
 
-If you pick a trendy technology or something with too tiny a niche/userbase, you may struggle to come up with topics.
+If you pick a trendy technology or something with too small of a niche, you may struggle to come up with topics.
 
 <a name="audience"></a>
 
@@ -315,6 +314,8 @@ Be sure to tailor content to your listeners. For example, Syntax knows they have
 
 In our case, we're aiming to help early career developers. We try to do the same and provide simple explanations for technical concepts as well as provide career advice geared toward juniors.
 
+The point here is to produce content your audience wants to hear, and not just talk about the things you want to talk about.
+
 <a name="prep"></a>
 
 ### Prepare for your Episodes beforehand
@@ -323,11 +324,11 @@ I can't stress this one enough.
 
 I write an outline for every episode that we do on our show.
 
-It's usually just bullet points of things I want to touch on or questions I hope to ask, but it helps keep the episode focused and on topic. I'll also re-order my topics/bullet points to make things flow smoothly and logically.
+It's usually just bullet points of things I want to touch on or questions I hope to ask, but I'll also re-order those bullet points to group things logically by topic. This really helps keep the episode focused and on topic.
 
-An outline really helps eliminate dead air and "um"s or "uh"s when trying to think of what to say next.
+An outline also helps eliminate dead air and "um"s or "uh"s when trying to think of what to say next.
 
-Also, sometimes your guest may ask for your questions beforehand so they can do their own research and preparation. If you have an outline, you can send that to them prior to the interview.
+It also helps with interviews. Sometimes your guest may ask for your questions beforehand so they can do their own research and preparation. If you have an outline, you can send that to them prior to the interview.
 
 <a name="organizing"></a>
 
@@ -412,7 +413,7 @@ What I _will_ say though, is that our lesser known guests **almost always** prom
 
 So interview the little people! They have great stories to tell and your listeners may appreciate being able to relate to guests with less star-power.
 
-<a name="askforhelp"></a>
+<a name="ask"></a>
 
 ### Ask your Listeners to Help
 
@@ -450,13 +451,13 @@ I've seen shows pop up and instantly become sensations. They get thousands of li
 
 The thing is, those shows _already had an audience_ that they brought to their new podcast.
 
-It takes years of effort to build a following and establish a presence with credibility. I struggle with being patient, personally. However, I try to remind myself that *these things take time*.
+It takes years of effort to build a following and establish a presence with credibility. I struggle with being patient, but I try to remind myself that *these things take time*.
 
 <a name="persevere"></a>
 
 ### Prepare for the long game
 
-In line with the previous point, most shows don't make it very far.
+Most shows don't make it very far.
 
 According to [Dan Misener](https://blog.pacific-content.com/podcast-success-a-long-game-fd6522b72752):
 > * 12% of podcasts have only published a single episode
@@ -469,11 +470,9 @@ The longer you're at it and the more episodes you make, the higher your chances 
 
 ### Feedback
 
-You're not likely to get much.
-
 Podcasting feels a little like shouting into the void of space at times. Most people don't leave a review or reach out to say whether or not they like the show.
 
-The listeners that _do_ reach out are Rock Stars 🎸, though, and we love you for it.
+(To the listeners that _do_ reach out though, you're all Rock Stars 🎸 and we love you.)
 
 We put out about 6 episodes for Tech Jr to little fanfare. It wasn't until I hosted our monthly meetup that I even realized we had listeners.
 
@@ -487,7 +486,7 @@ It's a really great feeling to get that feedback, so if you enjoy a podcast, lea
 
 If reading this post discouraged you from podcasting, that wasn't my intention.
 
-If you're passionate about it, do it! My aim was to help you succeed by covering all the facets to podcasting you might not have thought about. So I hope this post was helpful and informative. I truly enjoy producing content for Tech Jr, and I hope to be able to continue to do so.
+If you're passionate about it, do it! My aim was to help you succeed by covering all the facets of podcasting you might not have thought about. So I hope this post was helpful and informative. I truly enjoy producing content for Tech Jr, and I hope to be able to continue to do so.
 
 Many thanks to all the other podcasters out there that offer advice and support for our show. And kudos to those podcasters out there that continue to deliver great content.
 

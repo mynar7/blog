@@ -1,5 +1,6 @@
 :root {
     --primary: rgb(73, 109, 177);
+    --primaryFaded: rgba(73, 109, 177, 0.2);
     --gray: rgb(80, 80, 80);
     --white: rgb(250, 250, 250);
 }
@@ -53,22 +54,18 @@ a {
     color: inherit;
     text-decoration: none;
     position: relative;
-    transition: color 0.2s;
-    white-space: nowrap;
+    transition: color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 -10px 0 0 var(--primaryFaded) inset;
 }
 
-h1>a, h2>a, h3>a, h4>a, h5>a, h6>a {
-    white-space: normal;
-}
-
-a:after {
+/* a:after {
     content: "";
     background: var(--primary);
     position: absolute;
     left: 0;
     bottom: 5px;
     width: 100%;
-    height: 15%;
+    height: 5px;
     opacity: 0.3;
     transition: opacity 0.2s, bottom 0.2s, height 0.2s;
 }
@@ -77,14 +74,34 @@ a:hover:after {
     bottom: -1px;
     opacity: 1;
     height: 2px;
-}
+} */
 
 a:hover {
-    color: var(--primary)
+    color: var(--primary);
+    box-shadow: 0 -2px 0 0 var(--primary) inset;
 }
 
-h1>a:after, a.gatsby-resp-image-link:after {
+/* h1>a:after, a.gatsby-resp-image-link:after {
     display: none
+} */
+
+a.gatsby-resp-image-link {
+    box-shadow: none
+}
+
+blockquote {
+    position: relative;
+    font-style: italic;
+}
+
+blockquote:after {
+    content: "";
+    position: absolute;
+    left: -70px;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background-color: var(--gray);
 }
 
 @media screen and (max-width: 865px) {
