@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createContext, useState, useEffect, useRef } from 'react'
 import { Link, graphql } from 'gatsby'
 import { MDXRenderer } from 'gatsby-mdx'
 
@@ -7,14 +7,48 @@ import Layout from '../components/Layout'
 import SEO from '../components/seo'
 import { rhythm, scale } from '../utils/typography'
 
-class BlogPostTemplate extends React.Component {
-  render() {
-    const post = this.props.data.mdx
-    const siteTitle = this.props.data.site.siteMetadata.title
-    const { previous, next } = this.props.pageContext
+const LogContext = createContext()
 
-    return (
-      <Layout location={this.props.location} title={siteTitle}>
+const BlogPostTemplate = (props) => {
+  const post = props.data.mdx
+  const siteTitle = props.data.site.siteMetadata.title
+  const { previous, next } = props.pageContext
+
+  const [logs, setLogs] = useState([])
+  const count = useRef(0)
+  function getId() {
+    count.current = count.current + 1
+    return count.current
+  }
+  const loggerId = useRef()
+  const refLogs = React.useRef()
+  const setCurrentLogger = (id) => loggerId.current = id
+  const clearLogs = (id) => {
+    refLogs.current = refLogs.current.filter(logObj => logObj.uniqueIdentifier !== id)
+    setLogs(refLogs.current)
+  }
+  useEffect(() => {
+    refLogs.current = []
+    console.stdlog = console.log.bind(console);
+    console.log = function() {
+      if (loggerId.current) {
+        const logObjIndex = refLogs.current.findIndex(logObj => logObj.uniqueIdentifier === loggerId.current)
+        if (logObjIndex > -1) {
+          refLogs.current = refLogs.current.map((logObj) => logObj.uniqueIdentifier === loggerId.current
+          ? {...logObj, logs: [...logObj.logs, Array.from(arguments)]}
+          : logObj)
+        } else {
+          refLogs.current = [...refLogs.current, {uniqueIdentifier: loggerId.current, logs: [Array.from(arguments)]}]
+        }
+        setLogs(refLogs.current)
+      }
+      console.stdlog.apply(console, arguments);
+    }
+  }, [])
+
+  return (
+    <LogContext.Provider value={{logs, clearLogs, setCurrentLogger, getId}}>
+      <Layout location={props.location} title={siteTitle}>
         <SEO title={post.frontmatter.title} description={post.excerpt} />
         <h1 style={{
           marginTop: rhythm(2.5)
@@ -64,11 +98,13 @@ class BlogPostTemplate extends React.Component {
           </li>
         </ul>
       </Layout>
-    )
-  }
+    </LogContext.Provider>
+  )
 }
 
+
 export default BlogPostTemplate
+export { LogContext }
 
 export const pageQuery = graphql`
   query($slug: String!) {
