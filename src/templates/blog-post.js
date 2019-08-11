@@ -27,9 +27,10 @@ const BlogPostTemplate = (props) => {
     refLogs.current = refLogs.current.filter(logObj => logObj.uniqueIdentifier !== id)
     setLogs(refLogs.current)
   }
+  const originalLog = useRef()
   useEffect(() => {
     refLogs.current = []
-    console.stdlog = console.log.bind(console);
+    originalLog.current = console.log//.bind(this);
     console.log = function() {
       if (loggerId.current) {
         const logObjIndex = refLogs.current.findIndex(logObj => logObj.uniqueIdentifier === loggerId.current)
@@ -42,7 +43,8 @@ const BlogPostTemplate = (props) => {
         }
         setLogs(refLogs.current)
       }
-      console.stdlog.apply(console, arguments);
+      originalLog.current.apply(this, arguments);
+      return function() { console.log = originalLog.current.bind(console); }
     }
   }, [])
 

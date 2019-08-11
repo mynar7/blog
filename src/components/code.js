@@ -124,11 +124,15 @@ function LiveJsEditor({code: initialCode, language, theme, keyNum}) {
 function JsComponent({code, keyNum}) {
   const id = useRef(keyNum)
   const { logs, clearLogs, setCurrentLogger } = useContext(LogContext)
-  const evaluateCode = () => {
+  function evaluateCode() {
     clearLogs(id.current)
     setCurrentLogger(id.current)
-    eval(code)
-    setCurrentLogger(null)
+    try {
+      eval(code)
+    } catch(error) {
+      console.log("Error Message: " + error.message)
+    }
+    // setCurrentLogger(null)
   }
   return (
     <>
