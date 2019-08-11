@@ -27,7 +27,7 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-mdx`,
+      resolve: `gatsby-plugin-mdx`,
       options: {
         extensions: ['.mdx', '.md'],
         gatsbyRemarkPlugins: [
@@ -51,6 +51,7 @@ module.exports = {
             resolve: `gatsby-remark-smartypants`,
           },
         ],
+        plugins: [`gatsby-remark-images`],
       },
     },
     `gatsby-transformer-sharp`,
@@ -63,7 +64,7 @@ module.exports = {
     // },
     {
       resolve: `gatsby-plugin-feed`,
-      options: require("gatsby-mdx/feed")
+      options: require("gatsby-plugin-mdx/feed")
     },
     {
       resolve: `gatsby-plugin-manifest`,

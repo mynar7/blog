@@ -46,17 +46,7 @@ class Layout extends React.Component {
       )
     }
     return (
-      <div
-        style={{
-          // marginLeft: `auto`,
-          // marginRight: `auto`,
-          margin: `auto`,
-          maxWidth: rhythm(32),
-          padding: `${rhythm(1.5)} ${rhythm(1.5)}`,
-          background: `var(--white)`,
-          boxShadow: `2px 4px 3px var(--gray)`
-        }}
-      >
+      <div className="wrapper">
         {header}
         {children}
         <footer style={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap'}}>

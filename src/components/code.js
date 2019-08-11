@@ -14,7 +14,7 @@ function ResetButton({initialCode, update}) {
     setTimeout(() => update(1), 0)
   }
   return (
-    <button style={{marginTop: rhythm(0.5)}} onClick={performUpdate}>Reset</button>
+    <button style={{marginTop: rhythm(0.5)}} onClick={performUpdate}>Reset Code</button>
   )
 }
 
@@ -22,7 +22,7 @@ export const Code = ({ codeString, language, ...props }) => {
   const [updater, forceUpdate] = useState(1);
   if (props['react-live']) {
     return (
-      <div style={{marginBottom: rhythm(1)}}>
+      <div style={{marginBottom: rhythm(2)}}>
           <LiveProvider code={updater ? codeString : codeString.split(/\r\n|\r|\n/).map(() => `🔥\n`).join("")}
             noInline={props['use-render'] ? true : false} theme={theme}>
             <LiveEditor />
@@ -35,21 +35,21 @@ export const Code = ({ codeString, language, ...props }) => {
   }
   else if (props['js-live']){
     return (
-      <div style={{marginBottom: rhythm(1)}}>
+      <div style={{marginBottom: rhythm(2)}}>
         <LiveJsEditor code={codeString} language={language} theme={theme} />
       </div>
     )
   }
   else if (props['html-live']){
     return (
-      <div style={{marginBottom: rhythm(1)}}>
+      <div style={{marginBottom: rhythm(2)}}>
         <LiveHtmlEditor code={codeString} language={language} theme={theme} />
       </div>
     )
   }
   else {
     return (
-      <div style={{marginBottom: rhythm(1)}}>
+      <div style={{marginBottom: rhythm(2)}}>
         <Highlight {...defaultProps} code={codeString} language={language} theme={theme}>
           {({ className, style, tokens, getLineProps, getTokenProps }) => (
             <pre className={className} style={{padding: '10px', ...style}}>
@@ -97,7 +97,13 @@ function CodeHighlight(code, language) {
 
 function LiveHtmlEditor({code: initialCode, language, theme}) {
   const [code, setCode] = useState(initialCode)
+  const [updater, forceUpdate] = useState(1)
   const themePlain = theme.plain
+  function reset() {
+    setCode(initialCode)
+    forceUpdate(0)
+    setTimeout(() => forceUpdate(1), 0)
+  }
   return(
     <>
       <Editor
@@ -111,7 +117,11 @@ function LiveHtmlEditor({code: initialCode, language, theme}) {
           ...themePlain
         }}
       />
-      <HtmlComponent code={code} reset={() => setCode(initialCode)}/>
+      {
+        updater
+        ? <HtmlComponent code={code} reset={reset}/>
+        : <pre>{code.split(/\r\n|\r|\n/).map(() => `🔥\n`).join("")}</pre>
+      }
     </>
   )
 }
@@ -161,8 +171,8 @@ function JsComponent({code, reset}) {
         }
       </pre>
       <button onClick={evaluateCode}>Run</button>
-      <button onClick={() => clearLogs(id.current)}>Clear</button>
-      <button onClick={reset}>Reset</button>
+      <button onClick={() => clearLogs(id.current)}>Clear Logs</button>
+      <button onClick={reset}>Reset Code</button>
     </>
   )
 }
