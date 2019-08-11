@@ -175,12 +175,23 @@ function Counter() {
 
 ## But what about Node?
 
-Ah yes... the eternal question. How the heck do you debug node JS?
+Ah yes... the eternal question. How does one debug NodeJS?
 
 You can use [VS Code](https://code.visualstudio.com/docs/nodejs/nodejs-debugging), you can use a neat tool called [NDB](https://github.com/GoogleChromeLabs/ndb), but I say we just use chrome and move on with our lives.
 
-(Note: I personally always say "ndb" as in "No Big Deal", instead of "node debugger", and it makes me nuts. I **always** mistype it, I can't google it, and so it makes a fool of me everytime I try to use it.)
+(Note: I personally always confuse "ndb" and "nbd" as in "No Big Deal", instead of "node debugger", and it makes me nuts. I **always** mistype it, I can't google it, and so it makes a fool of me everytime I try to use it.)
 
-1. First you have to add the `--inspect` flag when you run your app.
+1. Open chrome and type `chrome://inspect`
+1. Then start your app with the `--inspect` flag.
     * Ex: `node --inspect server.js`
-1. You should see some
+    * You should see something like: `Debugger listening on ws://127.0.0.1:9229/dfcsd4c63-123e-234-adsd-123lkdfgk`
+1. Go back to Chrome, you should see "Remote Target" and a file name/path to your file, plus a little `inspect` link. Click it! This should pop open a separate dev tools window.
+1. Add some debuggers to your code and go to town!
+
+**Note** You may have to close and re-open chrome's debug pane for your app if it doesn't detect your debugger statement on the first pass. I'm also on the latest version of chrome, and you should be too 😉
+
+## Parting Thoughts
+
+Debugging isn't always my first-line of defense against weird JavaScript, but I use it a lot more often now that I've got a decent workflow for it.
+
+How do you debug code? Hit me up on [twitter](https://twitter.com/leewarrickjr) and let me know!
