@@ -4,7 +4,7 @@ import theme from 'prism-react-renderer/themes/oceanicNext'
 import { LiveProvider, LiveEditor, LiveError, LivePreview, LiveContext } from 'react-live'
 import Editor from 'react-simple-code-editor';
 import { rhythm } from '../utils/typography'
-import { LogContext } from '../templates/blog-post'
+import { useLogContext } from './LogProvider'
 
 function ResetButton({initialCode, update}) {
   const { onChange } = useContext(LiveContext)
@@ -14,9 +14,10 @@ function ResetButton({initialCode, update}) {
     setTimeout(() => update(1), 0)
   }
   return (
-    <button onClick={performUpdate}>Reset</button>
+    <button style={{marginTop: rhythm(0.5)}} onClick={performUpdate}>Reset</button>
   )
 }
+
 export const Code = ({ codeString, language, ...props }) => {
   const [updater, forceUpdate] = useState(1);
   if (props['react-live']) {
@@ -137,10 +138,9 @@ function LiveJsEditor({code: initialCode, language, theme}) {
 }
 
 function JsComponent({code, reset}) {
-  const { getId } = useContext(LogContext)
-  const id = useRef(getId())
+  const id = useRef(Date.now() + Math.random())
   const timeOutId = useRef()
-  const { logs, clearLogs, setCurrentLogger } = useContext(LogContext)
+  const { logs, clearLogs, setCurrentLogger } = useLogContext()
   function evaluateCode() {
     clearInterval(timeOutId.current)
     clearLogs(id.current)
