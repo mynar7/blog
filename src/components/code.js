@@ -1,29 +1,41 @@
-import React, {useState, useContext, useEffect, useRef} from 'react'
+import React, {useState, useContext, useRef} from 'react'
 import Highlight, { defaultProps, Prism } from 'prism-react-renderer'
 import theme from 'prism-react-renderer/themes/oceanicNext'
-import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live'
+import { LiveProvider, LiveEditor, LiveError, LivePreview, LiveContext } from 'react-live'
 import Editor from 'react-simple-code-editor';
-import { rhythm, scale } from '../utils/typography'
+import { rhythm } from '../utils/typography'
 import { LogContext } from '../templates/blog-post'
 
-
+function ResetButton({initialCode, update}) {
+  const { onChange } = useContext(LiveContext)
+  function performUpdate() {
+    onChange(initialCode)
+    update(0)
+    setTimeout(() => update(1), 0)
+  }
+  return (
+    <button onClick={performUpdate}>Reset</button>
+  )
+}
 export const Code = ({ codeString, language, ...props }) => {
-  const { getId } = useContext(LogContext)
+  const [updater, forceUpdate] = useState(1);
   if (props['react-live']) {
     return (
       <div style={{marginBottom: rhythm(1)}}>
-        <LiveProvider code={codeString} noInline={props['use-render'] ? true : false} theme={theme}>
-          <LiveEditor />
-          <LiveError />
-          <LivePreview />
-        </LiveProvider>
+          <LiveProvider code={updater ? codeString : codeString.split(/\r\n|\r|\n/).map(() => `🔥\n`).join("")}
+            noInline={props['use-render'] ? true : false} theme={theme}>
+            <LiveEditor />
+            <LiveError />
+            <LivePreview />
+            <ResetButton initialCode={codeString} update={forceUpdate}/>
+          </LiveProvider>
       </div>
     )
   }
   else if (props['js-live']){
     return (
       <div style={{marginBottom: rhythm(1)}}>
-        <LiveJsEditor code={codeString} language={language} theme={theme} keyNum={getId()}/>
+        <LiveJsEditor code={codeString} language={language} theme={theme} />
       </div>
     )
   }
@@ -55,9 +67,12 @@ export const Code = ({ codeString, language, ...props }) => {
   }
 }
 
-function HtmlComponent({code}) {
+function HtmlComponent({code, reset}) {
   return (
-    <div dangerouslySetInnerHTML={{__html: code}} />
+    <>
+      <div dangerouslySetInnerHTML={{__html: code}} />
+      <button onClick={reset}>Reset</button>
+    </>
   )
 }
 
@@ -95,12 +110,12 @@ function LiveHtmlEditor({code: initialCode, language, theme}) {
           ...themePlain
         }}
       />
-      <HtmlComponent code={code}/>
+      <HtmlComponent code={code} reset={() => setCode(initialCode)}/>
     </>
   )
 }
 
-function LiveJsEditor({code: initialCode, language, theme, keyNum}) {
+function LiveJsEditor({code: initialCode, language, theme}) {
   const [code, setCode] = useState(initialCode)
   const themePlain = theme.plain
   return(
@@ -116,15 +131,18 @@ function LiveJsEditor({code: initialCode, language, theme, keyNum}) {
           ...themePlain
         }}
       />
-      <JsComponent code={code} keyNum={keyNum}/>
+      <JsComponent code={code} reset={() => setCode(initialCode)} />
     </>
   )
 }
 
-function JsComponent({code, keyNum}) {
-  const id = useRef(keyNum)
+function JsComponent({code, reset}) {
+  const { getId } = useContext(LogContext)
+  const id = useRef(getId())
+  const timeOutId = useRef()
   const { logs, clearLogs, setCurrentLogger } = useContext(LogContext)
   function evaluateCode() {
+    clearInterval(timeOutId.current)
     clearLogs(id.current)
     setCurrentLogger(id.current)
     try {
@@ -132,7 +150,7 @@ function JsComponent({code, keyNum}) {
     } catch(error) {
       console.log("Error Message: " + error.message)
     }
-    // setCurrentLogger(null)
+    timeOutId.current = setTimeout(() => setCurrentLogger(null), 5000)
   }
   return (
     <>
@@ -144,6 +162,7 @@ function JsComponent({code, keyNum}) {
       </pre>
       <button onClick={evaluateCode}>Run</button>
       <button onClick={() => clearLogs(id.current)}>Clear</button>
+      <button onClick={reset}>Reset</button>
     </>
   )
 }

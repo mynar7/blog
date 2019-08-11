@@ -30,7 +30,7 @@ const BlogPostTemplate = (props) => {
   const originalLog = useRef()
   useEffect(() => {
     refLogs.current = []
-    originalLog.current = console.log//.bind(this);
+    originalLog.current = console.log
     console.log = function() {
       if (loggerId.current) {
         const logObjIndex = refLogs.current.findIndex(logObj => logObj.uniqueIdentifier === loggerId.current)
@@ -44,12 +44,12 @@ const BlogPostTemplate = (props) => {
         setLogs(refLogs.current)
       }
       originalLog.current.apply(this, arguments);
-      return function() { console.log = originalLog.current.bind(console); }
+      return function() { console.log = originalLog.current; }
     }
   }, [])
 
   return (
-    <LogContext.Provider value={{logs, clearLogs, setCurrentLogger, getId}}>
+    <LogContext.Provider value={{ logs, clearLogs, setCurrentLogger, getId }}>
       <Layout location={props.location} title={siteTitle}>
         <SEO title={post.frontmatter.title} description={post.excerpt} />
         <h1 style={{
