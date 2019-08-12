@@ -147,7 +147,7 @@ Want to debug React? No problem! You can use the same workflow as above, even wh
 
 #### A small catch
 
-OK, there's one minor note I have to make. We want to debug, *our* code, and not React's code, right? However, the debugger will step through **all** of the code that's running, not just yours. So you might find yourself in some weird React code as you're stepping through your component. T
+OK, there's one minor note I have to make. We want to debug, *our* code, and not React's code, right? However, the debugger will step through **all** of the code that's running, not just yours. So you might find yourself in some weird React code as you're stepping through your component.
 
 No sweat! There's ways to handle that. Try these tips:
 
