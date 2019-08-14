@@ -1,3 +1,5 @@
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 module.exports = {
   pathPrefix: '/blog',
   siteMetadata: {
@@ -29,10 +31,17 @@ module.exports = {
     {
       resolve: `gatsby-transformer-remark`,
       options: {
-        tableOfContents: {
-          heading: null,
-          maxDepth: 6,
-        },
+        plugins: [
+          {
+            resolve: 'gatsby-remark-images'
+          },
+          {
+            resolve: `gatsby-remark-copy-linked-files`,
+          },
+          {
+            resolve: 'gatsby-remark-smartypants'
+          },
+        ],
       },
     },
     {
@@ -55,7 +64,6 @@ module.exports = {
           {
             resolve: `gatsby-remark-copy-linked-files`,
           },
-
           {
             resolve: `gatsby-remark-smartypants`,
           },
@@ -78,12 +86,30 @@ module.exports = {
           {
             serialize: ({ query: { site, allMarkdownRemark } }) =>
             allMarkdownRemark.edges.map(edge => {
+                const dom = new JSDOM(edge.node.html)
+                dom.window.document.querySelectorAll('img').forEach(img => {
+                  const siteUrl = site.siteMetadata.siteUrl.replace("/blog", "")
+                  img.src = siteUrl + img.src
+                  img.parentNode.href = siteUrl + img.parentNode.href
+                })
+                dom.window.document.querySelectorAll('*').forEach(element => {
+                  element.removeAttribute('style')
+                  element.removeAttribute('class')
+                  element.removeAttribute('data-meta')
+                  element.removeAttribute('srcset')
+                  element.removeAttribute('sizes')
+                })
+                const siteHTMLString = dom.window.document.body.innerHTML
+                  .replace(/\n/g, "") // remove newline
+                  .replace(/[\t ]+\</g, "<") // remove whitespace before tags
+                  .replace(/\>[\t ]+\</g, "><") // remove ws between tags
+                  .replace(/\>[\t ]+$/g, ">") // remove ws after tags
                 return {
                   ...edge.node.frontmatter,
                   description: edge.node.excerpt,
                   url: site.siteMetadata.siteUrl + edge.node.fields.slug,
                   guid: site.siteMetadata.siteUrl + edge.node.fields.slug,
-                  custom_elements: [{ "content:encoded": edge.node.html }],
+                  custom_elements: [{ "content:encoded": siteHTMLString }],
                 }
               }),
             query: `

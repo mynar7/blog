@@ -1,6 +1,6 @@
 ---
 title: How to Debug JavaScript Quickly
-date: '2019-08-11T23:00:00+0400'
+date: 2019-08-11T23:00:00-0400
 ---
 
 ![Photo of fire ants](./fireants.jpg)

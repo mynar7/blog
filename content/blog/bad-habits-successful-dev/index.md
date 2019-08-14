@@ -1,6 +1,6 @@
 ---
 title: 7 Bad Habits of a Successful Developer
-date: '2019-07-12T10:00:00+0400'
+date: 2019-07-12T10:00:00-0400
 ---
 
 Welcome to my blog!
