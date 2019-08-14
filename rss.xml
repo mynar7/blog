@@ -1,30 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Wed, 14 Aug 2019 17:45:29 GMT</lastBuildDate><item><title><![CDATA[How to Debug JavaScript Quickly]]></title><description><![CDATA[If you’ve ever thought, “meh… I’m fine with console.log, learning to debug is as painful as rolling in fire ants”, this article is for you…]]></description><link>https://leewarrick.com/blog/debugging-javascript/</link><guid isPermaLink="false">https://leewarrick.com/blog/debugging-javascript/</guid><pubDate>Sun, 11 Aug 2019 19:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span
-      class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 650px;&quot;
-    &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/blog/static/d8b30a405f9f7076dc088249d765c2bf/96f4b/fireants.jpg&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
-    class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 66.63265306122449%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAANABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMEAv/EABcBAAMBAAAAAAAAAAAAAAAAAAABAgP/2gAMAwEAAhADEAAAAZFrxGlBMC//xAAYEAEBAQEBAAAAAAAAAAAAAAAAARESAv/aAAgBAQABBQK3HTF9Olf/xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAZEAACAwEAAAAAAAAAAAAAAAAAERAhMVH/2gAIAQEABj8C7GCVDNP/xAAaEAACAwEBAAAAAAAAAAAAAAAAAREhMXGB/9oACAEBAAE/IYDvxha3zSA8xgmaklwnI//aAAwDAQACAAMAAAAQE+//xAAXEQEAAwAAAAAAAAAAAAAAAAABEBEh/9oACAEDAQE/EFvI/8QAFxEBAAMAAAAAAAAAAAAAAAAAARARIf/aAAgBAgEBPxAK2P/EABwQAQADAAIDAAAAAAAAAAAAAAEAESExQWGB0f/aAAgBAQABPxBSlhlmh7jTtvDVszMvlQuFVjazbu4a4KgGH2EkU5l9T//Z&apos;); background-size: cover; display: block;&quot;
-  &gt;&lt;/span&gt;
-  &lt;img
-        class=&quot;gatsby-resp-image-image&quot;
-        alt=&quot;Photo of fire ants&quot;
-        title=&quot;Photo of fire ants&quot;
-        src=&quot;/blog/static/d8b30a405f9f7076dc088249d765c2bf/a111b/fireants.jpg&quot;
-        srcset=&quot;/blog/static/d8b30a405f9f7076dc088249d765c2bf/aca85/fireants.jpg 163w,
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Wed, 14 Aug 2019 18:58:14 GMT</lastBuildDate><item><title><![CDATA[How to Debug JavaScript Quickly]]></title><description><![CDATA[If you’ve ever thought, “meh… I’m fine with console.log, learning to debug is as painful as rolling in fire ants”, this article is for you…]]></description><link>https://leewarrick.com/blog/debugging-javascript/</link><guid isPermaLink="false">https://leewarrick.com/blog/debugging-javascript/</guid><pubDate>Sun, 11 Aug 2019 19:00:00 GMT</pubDate><content:encoded>&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;&lt;span&gt;
+      &lt;a href=&quot;/blog/static/d8b30a405f9f7076dc088249d765c2bf/96f4b/fireants.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+    &lt;span&gt;&lt;/span&gt;
+  &lt;img alt=&quot;Photo of fire ants&quot; title=&quot;Photo of fire ants&quot; src=&quot;https://leewarrick.com/blog/blog/static/d8b30a405f9f7076dc088249d765c2bf/a111b/fireants.jpg&quot; srcset=&quot;/blog/static/d8b30a405f9f7076dc088249d765c2bf/aca85/fireants.jpg 163w,
 /blog/static/d8b30a405f9f7076dc088249d765c2bf/0954f/fireants.jpg 325w,
 /blog/static/d8b30a405f9f7076dc088249d765c2bf/a111b/fireants.jpg 650w,
 /blog/static/d8b30a405f9f7076dc088249d765c2bf/ce471/fireants.jpg 975w,
-/blog/static/d8b30a405f9f7076dc088249d765c2bf/96f4b/fireants.jpg 980w&quot;
-        sizes=&quot;(max-width: 650px) 100vw, 650px&quot;
-      /&gt;
+/blog/static/d8b30a405f9f7076dc088249d765c2bf/96f4b/fireants.jpg 980w&quot; sizes=&quot;(max-width: 650px) 100vw, 650px&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;If you’ve ever thought, &lt;em&gt;“meh… I’m fine with&lt;/em&gt; &lt;code&gt;console.log&lt;/code&gt;&lt;em&gt;, learning to debug is as painful as rolling in fire ants”&lt;/em&gt;, this article is for you!&lt;/p&gt;
@@ -66,11 +47,11 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-meta=&quot;js-live&quot;&gt;function doStuff(thing) {
+&lt;pre&gt;&lt;code data-meta=&quot;js-live&quot;&gt;function doStuff(thing) {
     thing = thing / 4 * -1
     thing = Math.pow(thing, 1)
     const thing2 = Math.trunc(thing) + 5
-    debugger // &amp;#x3C;-- this makes the magic happen
+    debugger // &amp;lt;-- this makes the magic happen
     return thing2
 }
 
@@ -84,15 +65,15 @@ console.log(&quot;And the result is...&quot; + result)
 &lt;h2&gt;Checking out variable values&lt;/h2&gt;
 &lt;p&gt;You can hover over variables in the debugger and see their value as you step through the code.&lt;/p&gt;
 &lt;p&gt;First let’s look at some HTML:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-meta=&quot;html-live&quot;&gt;&amp;#x3C;div id=&quot;magical&quot;&gt;Boooooring&amp;#x3C;/div&gt;
+&lt;pre&gt;&lt;code data-meta=&quot;html-live&quot;&gt;&amp;lt;div id=&quot;magical&quot;&amp;gt;Boooooring&amp;lt;/div&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Now let’s watch some JavaScript spice things up in the html above. Try stepping through to the “awesome” variable, then hovering over it to see all the magical properties and methods a DOM object has attached to it.&lt;/p&gt;
 &lt;p&gt;(Don’t forget to use ↗↘ to step through, and ▶ when you’re finished)&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-meta=&quot;js-live&quot;&gt;debugger // Let&apos;s watch the magic happen~ ✨👏
+&lt;pre&gt;&lt;code data-meta=&quot;js-live&quot;&gt;debugger // Let&apos;s watch the magic happen~ ✨👏
 const div = document.getElementById(&apos;magical&apos;)
 const awesome = document.createElement(&apos;marquee&apos;)
 //I&apos;m I-remember-marquee-tags years old. 🤫
-awesome.innerHTML = &apos;&amp;#x3C;h2&gt;✨🚀~MAGICAL~ 🦄🌈&amp;#x3C;/h2&gt;&apos;
+awesome.innerHTML = &apos;&amp;lt;h2&amp;gt;✨🚀~MAGICAL~ 🦄🌈&amp;lt;/h2&amp;gt;&apos;
 div.textContent = &quot;&quot; //boring no more...
 div.appendChild(awesome)
 &lt;/code&gt;&lt;/pre&gt;
@@ -101,7 +82,7 @@ div.appendChild(awesome)
 &lt;p&gt;Let’s try and get… oh, let’s say the level of sweetness on this meatball object below.&lt;/p&gt;
 &lt;p&gt;It would take me a &lt;em&gt;lot&lt;/em&gt; of &lt;code&gt;console.log&lt;/code&gt;s to finally drill down to that… but there’s a better way!&lt;/p&gt;
 &lt;p&gt;Debug, Hover the variable, then expand the properties until you find the key you’re looking for then &lt;strong&gt;Right-Click&lt;/strong&gt; and select &lt;strong&gt;Copy Property Path&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-meta=&quot;js-live&quot;&gt;const meatball = {
+&lt;pre&gt;&lt;code data-meta=&quot;js-live&quot;&gt;const meatball = {
     ingredients: {
         spices: [&quot;Oregano&quot;, &quot;Italian&quot;, &quot;Mystery&quot;],
         meats: {
@@ -134,7 +115,7 @@ div.appendChild(awesome)
 //then right-click on &quot;level&quot; and choose &quot;copy property path&quot;
 //paste it after meatball below:
 debugger
-console.log(&quot;Mama makes a meatball that&apos;s &quot; + /*meatball.&amp;#x3C;paste here and uncomment&gt;*/ + &quot;/9 in sweetness&quot;)
+console.log(&quot;Mama makes a meatball that&apos;s &quot; + /*meatball.&amp;lt;paste here and uncomment&amp;gt;*/ + &quot;/9 in sweetness&quot;)
 //don&apos;t forget to erase the debugger when you run it!
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2&gt;Blackboxing 📦 and React ⚛&lt;/h2&gt;
@@ -147,7 +128,7 @@ console.log(&quot;Mama makes a meatball that&apos;s &quot; + /*meatball.&amp;#x3
 &lt;li&gt;Still lost? Look at the &lt;strong&gt;Call Stack&lt;/strong&gt; Panel. The scripts here are the ones you’re currently stepping through. In some weird script? &lt;strong&gt;Right-click&lt;/strong&gt; and select &lt;strong&gt;“Blackbox script”&lt;/strong&gt; to skip debugging the script you’re in.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Try it below!&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-meta=&quot;react-live&quot;&gt;function Counter() {
+&lt;pre&gt;&lt;code data-meta=&quot;react-live&quot;&gt;function Counter() {
     const [count, setCount] = React.useState(0)
     function countUp(count) {
         debugger
@@ -155,10 +136,10 @@ console.log(&quot;Mama makes a meatball that&apos;s &quot; + /*meatball.&amp;#x3
         setCount(newCount)
     }
     return (
-        &amp;#x3C;div&gt;
-            &amp;#x3C;h2&gt;Count is {count}&amp;#x3C;/h2&gt;
-            &amp;#x3C;button onClick={() =&gt; countUp(count)}&gt;Increment&amp;#x3C;/button&gt;
-        &amp;#x3C;/div&gt;
+        &amp;lt;div&amp;gt;
+            &amp;lt;h2&amp;gt;Count is {count}&amp;lt;/h2&amp;gt;
+            &amp;lt;button onClick={() =&amp;gt; countUp(count)}&amp;gt;Increment&amp;lt;/button&amp;gt;
+        &amp;lt;/div&amp;gt;
     )
 }
 &lt;/code&gt;&lt;/pre&gt;
@@ -181,7 +162,7 @@ console.log(&quot;Mama makes a meatball that&apos;s &quot; + /*meatball.&amp;#x3
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt; You may have to close and re-open chrome’s debug pane for your app if it doesn’t detect your debugger statement on the first pass. I’m also on the latest version of chrome, and you should be too 😉&lt;/p&gt;
 &lt;h2&gt;Parting Thoughts&lt;/h2&gt;
 &lt;p&gt;Debugging isn’t always my first-line of defense against weird JavaScript, but I use it a lot more often now that I’ve got a decent workflow for it.&lt;/p&gt;
-&lt;p&gt;How do you debug code? Hit me up on &lt;a href=&quot;https://twitter.com/leewarrickjr&quot;&gt;twitter&lt;/a&gt; and let me know!&lt;/p&gt;</content:encoded></item><item><title><![CDATA[The Ultimate Guide to Starting a Tech Podcast]]></title><description><![CDATA[I started the Tech Jr podcast with my co-host Eddie in April of this year. We haven’t been around for very long, but we’ve had some great…]]></description><link>https://leewarrick.com/blog/all-i-know-about-podcasting/</link><guid isPermaLink="false">https://leewarrick.com/blog/all-i-know-about-podcasting/</guid><pubDate>Sun, 28 Jul 2019 07:30:00 GMT</pubDate><content:encoded>&lt;p&gt;I started the &lt;a href=&quot;https://techjr.dev&quot;&gt;Tech Jr&lt;/a&gt; podcast with my co-host Eddie in April of this year. We haven’t been around for very long, but we’ve had some great success reaching developers in our community and beyond with helpful advice and knowledge.&lt;/p&gt;
+&lt;p&gt;How do you debug code? Hit me up on &lt;a href=&quot;https://twitter.com/leewarrickjr&quot;&gt;twitter&lt;/a&gt; and let me know!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</content:encoded></item><item><title><![CDATA[The Ultimate Guide to Starting a Tech Podcast]]></title><description><![CDATA[I started the Tech Jr podcast with my co-host Eddie in April of this year. We haven’t been around for very long, but we’ve had some great…]]></description><link>https://leewarrick.com/blog/all-i-know-about-podcasting/</link><guid isPermaLink="false">https://leewarrick.com/blog/all-i-know-about-podcasting/</guid><pubDate>Sun, 28 Jul 2019 07:30:00 GMT</pubDate><content:encoded>&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;I started the &lt;a href=&quot;https://techjr.dev&quot;&gt;Tech Jr&lt;/a&gt; podcast with my co-host Eddie in April of this year. We haven’t been around for very long, but we’ve had some great success reaching developers in our community and beyond with helpful advice and knowledge.&lt;/p&gt;
 &lt;p&gt;I’ve been asked a few times about how to get started with a podcast, what our workflow is, what equipment we use, and generally how we do things for our show. I’ve also asked a lot of those questions myself and done a lot of research along the way to launching Tech Jr, so I figured it was time to boil that down into a blog post.&lt;/p&gt;
 &lt;p&gt;I’m going to unload everything I’ve learned about making a podcast, so buckle up.&lt;/p&gt;
 &lt;p&gt;Before we start, a hot-take 🔥:&lt;/p&gt;
@@ -479,7 +460,7 @@ console.log(&quot;Mama makes a meatball that&apos;s &quot; + /*meatball.&amp;#x3
 &lt;p&gt;If reading this post discouraged you from podcasting, that wasn’t my intention.&lt;/p&gt;
 &lt;p&gt;If you’re passionate about it, do it! My aim was to help you succeed by covering all the facets of podcasting you might not have thought about. So I hope this post was helpful and informative. I truly enjoy producing content for Tech Jr, and I hope to be able to continue to do so.&lt;/p&gt;
 &lt;p&gt;Many thanks to all the other podcasters out there that offer advice and support for our show. And kudos to those podcasters out there that continue to deliver great content.&lt;/p&gt;
-&lt;p&gt;And of course, thank you, reader, for making it through this lengthy post. 👏😎✨&lt;/p&gt;</content:encoded></item><item><title><![CDATA[7 Bad Habits of a Successful Developer]]></title><description><![CDATA[Welcome to my blog!I’m a front-end developer, meetup organizer, podcast host, and I get paid for some of those things.Before we start, I’m…]]></description><link>https://leewarrick.com/blog/bad-habits-successful-dev/</link><guid isPermaLink="false">https://leewarrick.com/blog/bad-habits-successful-dev/</guid><pubDate>Fri, 12 Jul 2019 06:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Welcome to my blog!&lt;/p&gt;
+&lt;p&gt;And of course, thank you, reader, for making it through this lengthy post. 👏😎✨&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</content:encoded></item><item><title><![CDATA[7 Bad Habits of a Successful Developer]]></title><description><![CDATA[Welcome to my blog!I’m a front-end developer, meetup organizer, podcast host, and I get paid for some of those things.Before we start, I’m…]]></description><link>https://leewarrick.com/blog/bad-habits-successful-dev/</link><guid isPermaLink="false">https://leewarrick.com/blog/bad-habits-successful-dev/</guid><pubDate>Fri, 12 Jul 2019 06:00:00 GMT</pubDate><content:encoded>&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;Welcome to my blog!&lt;/p&gt;
 &lt;p&gt;I’m a front-end &lt;a href=&quot;https://www.linkedin.com/in/lee-warrick&quot;&gt;developer&lt;/a&gt;, meetup &lt;a href=&quot;https://meetup.com/project-code-experience&quot;&gt;organizer&lt;/a&gt;, &lt;a href=&quot;https://techjr.dev&quot;&gt;podcast&lt;/a&gt; host, and I get paid for some of those things.&lt;/p&gt;
 &lt;p&gt;Before we start, I’m not saying you have to be or do all those things to be successful. Making software is really my only metric for being successful as a developer. If you code and make things, that’s what matters at the end of the day. Everything else is a bonus in my book.&lt;/p&gt;
 &lt;p&gt;That being said, I’d like to talk about some things that I could do better.&lt;/p&gt;
@@ -489,33 +470,14 @@ console.log(&quot;Mama makes a meatball that&apos;s &quot; + /*meatball.&amp;#x3
 &lt;p&gt;Now, I work on a team that doesn’t take group walks. They have a habit of going out to eat together, but I bring my lunch and don’t partake. I also am constantly taking a free second here or there to take care of business for my podcast, meetup, or side projects. Lunchtime is a prime target for getting a few extra things done. So what ends up happening is that most days I end up eating at my desk.&lt;/p&gt;
 &lt;p&gt;Don’t do this. Take a break, get away from the screen, and go walk around outside for a few minutes.&lt;/p&gt;
 &lt;h2&gt;2. Going down rabbit holes&lt;/h2&gt;
-&lt;p&gt;&lt;span
-      class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto;  max-width: 650px;&quot;
-    &gt;
-      &lt;a
-    class=&quot;gatsby-resp-image-link&quot;
-    href=&quot;/blog/static/a321c6d327761b0f5e89e8ca5b4a5da7/96f4b/rabbit.jpg&quot;
-    style=&quot;display: block&quot;
-    target=&quot;_blank&quot;
-    rel=&quot;noopener&quot;
-  &gt;
-    &lt;span
-    class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 66.63265306122449%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAANABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABQAD/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhADEAAAARtUN5A5mP/EABoQAQADAAMAAAAAAAAAAAAAAAEAAgMEETH/2gAIAQEAAQUCJUSPpx6Rzqy2Off/xAAVEQEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAwEBPwGH/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPwE//8QAGRAAAgMBAAAAAAAAAAAAAAAAABABETJB/9oACAEBAAY/Ai5XVk//xAAbEAADAQADAQAAAAAAAAAAAAAAAREhQXGRsf/aAAgBAQABPyFMOFb6Zhsc36Ekdg3qn2f/2gAMAwEAAgADAAAAEMDf/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPxAf/8QAFREBAQAAAAAAAAAAAAAAAAAAABH/2gAIAQIBAT8QiP/EABoQAQADAQEBAAAAAAAAAAAAAAEAESExQeH/2gAIAQEAAT8QLpBHFiiKFQHRcSmscphRYi3R8RGaQe7BC1HRk//Z&apos;); background-size: cover; display: block;&quot;
-  &gt;&lt;/span&gt;
-  &lt;img
-        class=&quot;gatsby-resp-image-image&quot;
-        alt=&quot;Photo of a peaceful Rabbit&quot;
-        title=&quot;Photo of a peaceful Rabbit&quot;
-        src=&quot;/blog/static/a321c6d327761b0f5e89e8ca5b4a5da7/a111b/rabbit.jpg&quot;
-        srcset=&quot;/blog/static/a321c6d327761b0f5e89e8ca5b4a5da7/aca85/rabbit.jpg 163w,
+&lt;p&gt;&lt;span&gt;
+      &lt;a href=&quot;/blog/static/a321c6d327761b0f5e89e8ca5b4a5da7/96f4b/rabbit.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+    &lt;span&gt;&lt;/span&gt;
+  &lt;img alt=&quot;Photo of a peaceful Rabbit&quot; title=&quot;Photo of a peaceful Rabbit&quot; src=&quot;https://leewarrick.com/blog/blog/static/a321c6d327761b0f5e89e8ca5b4a5da7/a111b/rabbit.jpg&quot; srcset=&quot;/blog/static/a321c6d327761b0f5e89e8ca5b4a5da7/aca85/rabbit.jpg 163w,
 /blog/static/a321c6d327761b0f5e89e8ca5b4a5da7/0954f/rabbit.jpg 325w,
 /blog/static/a321c6d327761b0f5e89e8ca5b4a5da7/a111b/rabbit.jpg 650w,
 /blog/static/a321c6d327761b0f5e89e8ca5b4a5da7/ce471/rabbit.jpg 975w,
-/blog/static/a321c6d327761b0f5e89e8ca5b4a5da7/96f4b/rabbit.jpg 980w&quot;
-        sizes=&quot;(max-width: 650px) 100vw, 650px&quot;
-      /&gt;
+/blog/static/a321c6d327761b0f5e89e8ca5b4a5da7/96f4b/rabbit.jpg 980w&quot; sizes=&quot;(max-width: 650px) 100vw, 650px&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;“Going down a rabbit hole” is what happens when you run into a problem while writing code and start jumping between researching solutions, without actually accomplishing the task.&lt;/p&gt;
@@ -550,4 +512,4 @@ console.log(&quot;Mama makes a meatball that&apos;s &quot; + /*meatball.&amp;#x3
 &lt;p&gt;I wish to one day have the wisdom to know the things I should focus on and ignore the rest or look them up as I need them.&lt;/p&gt;
 &lt;h2&gt;Parting words&lt;/h2&gt;
 &lt;p&gt;Remember that you can’t do everything and that you’re a mere mortal. Be kind to yourself and guard against burnout. Lastly, take time now and then to remember how far you’ve come and be proud of that accomplishment.&lt;/p&gt;
-&lt;p&gt;Thanks for reading.&lt;/p&gt;</content:encoded></item></channel></rss>
+&lt;p&gt;Thanks for reading.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</content:encoded></item></channel></rss>
