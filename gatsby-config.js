@@ -27,6 +27,15 @@ module.exports = {
       },
     },
     {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        tableOfContents: {
+          heading: null,
+          maxDepth: 6,
+        },
+      },
+    },
+    {
       resolve: `gatsby-plugin-mdx`,
       options: {
         extensions: ['.mdx', '.md'],
@@ -64,7 +73,48 @@ module.exports = {
     // },
     {
       resolve: `gatsby-plugin-feed`,
-      options: require("gatsby-plugin-mdx/feed")
+      options: {
+        feeds: [
+          {
+            serialize: ({ query: { site, allMarkdownRemark } }) =>
+            allMarkdownRemark.edges.map(edge => {
+                return {
+                  ...edge.node.frontmatter,
+                  description: edge.node.excerpt,
+                  url: site.siteMetadata.siteUrl + edge.node.fields.slug,
+                  guid: site.siteMetadata.siteUrl + edge.node.fields.slug,
+                  custom_elements: [{ "content:encoded": edge.node.html }],
+                }
+              }),
+            query: `
+            {
+              allMarkdownRemark(
+                limit: 1000,
+                sort: {
+                  order: DESC,
+                  fields: [frontmatter___date]
+                }
+              ) {
+                edges {
+                  node {
+                    frontmatter {
+                      title
+                      date
+                    }
+                    fields {
+                      slug
+                    }
+                    excerpt
+                    html
+                  }
+                }
+              }
+            }
+          `,
+            output: `rss.xml`,
+          },
+        ],
+      }
     },
     {
       resolve: `gatsby-plugin-manifest`,
