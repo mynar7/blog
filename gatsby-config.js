@@ -3,6 +3,7 @@ const { JSDOM } = jsdom;
 module.exports = {
   pathPrefix: '/blog',
   siteMetadata: {
+    pathPrefix: '/blog',
     title: `Strings and Things`,
     author: `Lee Warrick`,
     description: `A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code`,
@@ -88,7 +89,7 @@ module.exports = {
             allMarkdownRemark.edges.map(edge => {
                 const dom = new JSDOM(edge.node.html)
                 dom.window.document.querySelectorAll('img').forEach(img => {
-                  const siteUrl = site.siteMetadata.siteUrl.replace("/blog", "")
+                  const siteUrl = site.siteMetadata.siteUrl.replace(site.siteMetadata.pathPrefix, "")
                   img.src = siteUrl + img.src
                   img.parentNode.href = siteUrl + img.parentNode.href
                 })
@@ -109,7 +110,18 @@ module.exports = {
                   description: edge.node.excerpt,
                   url: site.siteMetadata.siteUrl + edge.node.fields.slug,
                   guid: site.siteMetadata.siteUrl + edge.node.fields.slug,
-                  custom_elements: [{ "content:encoded": siteHTMLString }],
+                  custom_elements: [
+                    { "content:encoded": siteHTMLString },
+                    {
+                      "atom:link": {
+                        _attr: {
+                          rel: "self",
+                          href: site.siteMetadata.siteUrl + '/rss.xml',
+                          type: "application/rss+xml"
+                        },
+                      }
+                    }
+                  ],
                 }
               }),
             query: `
