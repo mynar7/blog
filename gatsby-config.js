@@ -1,9 +1,9 @@
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
+const sitePrefix = '/blog'
 module.exports = {
-  pathPrefix: '/blog',
+  pathPrefix: sitePrefix,
   siteMetadata: {
-    pathPrefix: '/blog',
     title: `Strings and Things`,
     author: `Lee Warrick`,
     description: `A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code`,
@@ -89,7 +89,7 @@ module.exports = {
             allMarkdownRemark.edges.map(edge => {
                 const dom = new JSDOM(edge.node.html)
                 dom.window.document.querySelectorAll('img').forEach(img => {
-                  const siteUrl = site.siteMetadata.siteUrl.replace(site.siteMetadata.pathPrefix, "")
+                  const siteUrl = site.siteMetadata.siteUrl.replace(sitePrefix, "")
                   img.src = siteUrl + img.src
                   img.parentNode.href = siteUrl + img.parentNode.href
                 })
@@ -101,10 +101,10 @@ module.exports = {
                   element.removeAttribute('sizes')
                 })
                 const siteHTMLString = dom.window.document.body.innerHTML
-                  .replace(/\n/g, "") // remove newline
-                  .replace(/[\t ]+\</g, "<") // remove whitespace before tags
-                  .replace(/\>[\t ]+\</g, "><") // remove ws between tags
-                  .replace(/\>[\t ]+$/g, ">") // remove ws after tags
+                  // .replace(/\n/g, "") // remove newline
+                  // .replace(/[\t ]+\</g, "<") // remove whitespace before tags
+                  // .replace(/\>[\t ]+\</g, "><") // remove ws between tags
+                  // .replace(/\>[\t ]+$/g, ">") // remove ws after tags
                 return {
                   ...edge.node.frontmatter,
                   description: edge.node.excerpt,
