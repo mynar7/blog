@@ -135,7 +135,9 @@ But you're going to learn a lot of things if you get it done.
 
 The important thing here is to realize that you need to keep at it, and that if you planned correctly in the previous step, there's an end in sight.
 
-Just remember that finishing that first project and realizing you've built something with an entirely new skill, language, or framework is ✨🎵🕊**G L O R I O U S**🕊🎵✨
+Just remember that finishing that first project and realizing you've built something with an entirely new skill, language, or framework is...
+
+✨🎵🕊**G L O R I O U S**🕊🎵✨
 
 ## 6. Maintaining Momentum
 
