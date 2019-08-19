@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Mon, 19 Aug 2019 01:59:46 GMT</lastBuildDate><item><title><![CDATA[Learn to code anything in 6 Steps]]></title><description><![CDATA[Learning to code something new can be a painful process. We inevitably get stuck or frustrated as we stumble through new concepts and ideas…]]></description><link>https://leewarrick.com/blog/how-to-learn-anything/</link><guid isPermaLink="false">https://leewarrick.com/blog/how-to-learn-anything/</guid><pubDate>Sun, 18 Aug 2019 23:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Learning to code something new can be a painful process. We inevitably get stuck or frustrated as we stumble through new concepts and ideas.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Mon, 19 Aug 2019 02:01:50 GMT</lastBuildDate><item><title><![CDATA[Learn to Code Anything in 6 Steps]]></title><description><![CDATA[Learning to code something new can be a painful process. We inevitably get stuck or frustrated as we stumble through new concepts and ideas…]]></description><link>https://leewarrick.com/blog/how-to-learn-anything/</link><guid isPermaLink="false">https://leewarrick.com/blog/how-to-learn-anything/</guid><pubDate>Sun, 18 Aug 2019 23:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Learning to code something new can be a painful process. We inevitably get stuck or frustrated as we stumble through new concepts and ideas.&lt;/p&gt;
 &lt;p&gt;I’ve learned some hard concepts as a programmer. I’ve started from scratch in a new language as well as struggled through difficult concepts in an area I’m already comfortable in.&lt;/p&gt;
 &lt;p&gt;Working through those challenges has taught me that there’s a process to learning to program in a different language or ecosystem. There’s a pattern that emerges.&lt;/p&gt;
 &lt;p&gt;It’s a little like the &lt;a href=&quot;https://psychcentral.com/lib/the-5-stages-of-loss-and-grief/&quot;&gt;five stages of grief&lt;/a&gt;; some people are in different spots or skip steps, but everyone struggles through roughly the same process.&lt;/p&gt;
-&lt;h2&gt;1. Exposure to a new topic&lt;/h2&gt;
+&lt;h2&gt;1. Exposure to a New Topic&lt;/h2&gt;
 &lt;p&gt;&lt;span&gt;
       &lt;a href=&quot;https://leewarrick.com/blog/static/2da77f2fee4504f6c268c971c8947f5b/971c4/pain.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
@@ -16,7 +16,7 @@
 &lt;p&gt;It took me a long time to realize and find comfort in the fact that this feeling of despair when facing a new, challenging task is temporary. It goes away with time and patience.&lt;/p&gt;
 &lt;p&gt;When you find yourself faced with an overwhelming task or topic, think of yourself like a sculptor. A sculptor can’t produce a large piece in an afternoon with a sledgehammer; she has to chisel away slowly to transform the unforgiving rock into art. Hard topics are boulders we try to sculpt into artful understanding slowly over time.&lt;/p&gt;
 &lt;p&gt;You need rest, patience, and persistence to learn what at first feels insurmountable.&lt;/p&gt;
-&lt;h2&gt;2. Developing a High-level understanding&lt;/h2&gt;
+&lt;h2&gt;2. Developing a High-level Understanding&lt;/h2&gt;
 &lt;p&gt;Many tutorials and guides zero in on the syntax and finite steps required to accomplish something. This is great if you’re a veteran and well-versed in the subject matter.&lt;/p&gt;
 &lt;p&gt;So as a guitarist I might watch a 10 minute video and walk away with,&lt;/p&gt;
 &lt;blockquote&gt;
@@ -61,7 +61,7 @@
 &lt;p&gt;So do your research and try to stay motivated while you’re working though this part. It’s easy to say, &lt;em&gt;“Ugh, forget it, I’ll figure out npm another day”&lt;/em&gt;, and then give up on learning Node.&lt;/p&gt;
 &lt;p&gt;However, once you get past this boring part of the process, you can start to learn the fun parts. 🦄&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; If you’re looking for a blog post topic, this is a great start. I &lt;strong&gt;guarantee&lt;/strong&gt; that the workflow knowledge you take for granted is crucial to a novice’s continued learning out there. You probably know more than you think you do, so share it.&lt;/p&gt;
-&lt;h2&gt;4. Defining a small, attainable goal&lt;/h2&gt;
+&lt;h2&gt;4. Defining a Small, Attainable Goal&lt;/h2&gt;
 &lt;p&gt;&lt;span&gt;
       &lt;a href=&quot;https://leewarrick.com/blog/static/97619f9c4f00665ce37cb17d3dc5c2fb/971c4/lego.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
@@ -79,7 +79,7 @@
 &lt;p&gt;I sat down across from my new teacher one night and he asked me, &lt;em&gt;“What would you like to learn?”&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;I had no idea. He didn’t either. How could he teach me?&lt;/p&gt;
 &lt;p&gt;Avoiding the creation of clearly-defined goals often leads to a lot of wasted time.&lt;/p&gt;
-&lt;h2&gt;5. Putting in the work&lt;/h2&gt;
+&lt;h2&gt;5. Putting in the Work&lt;/h2&gt;
 &lt;p&gt;Coding is hard. Building useful things out of code is harder. Even veteran programmers struggle:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;20+ yrs dev exp, 8 books w/ 100k+ copies sold, 300k+ hours watched of my videos, 4k+ taught in person…&lt;/p&gt;
