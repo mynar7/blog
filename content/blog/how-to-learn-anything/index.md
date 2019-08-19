@@ -1,5 +1,5 @@
 ---
-title: Learn to code anything in 6 Steps
+title: Learn to Code Anything in 6 Steps
 date: 2019-08-18T19:00:00-0400
 ---
 
@@ -11,7 +11,7 @@ Working through those challenges has taught me that there's a process to learnin
 
 It's a little like the [five stages of grief](https://psychcentral.com/lib/the-5-stages-of-loss-and-grief/); some people are in different spots or skip steps, but everyone struggles through roughly the same process.
 
-## 1. Exposure to a new topic
+## 1. Exposure to a New Topic
 
 ![Photo by Aarón Blanco Tejedor of mural of man in pain](./pain.jpg)
 
@@ -29,7 +29,7 @@ When you find yourself faced with an overwhelming task or topic, think of yourse
 
 You need rest, patience, and persistence to learn what at first feels insurmountable.
 
-## 2. Developing a High-level understanding
+## 2. Developing a High-level Understanding
 
 Many tutorials and guides zero in on the syntax and finite steps required to accomplish something. This is great if you're a veteran and well-versed in the subject matter.
 
@@ -93,7 +93,7 @@ However, once you get past this boring part of the process, you can start to lea
 
 **NOTE:** If you're looking for a blog post topic, this is a great start. I **guarantee** that the workflow knowledge you take for granted is crucial to a novice's continued learning out there. You probably know more than you think you do, so share it.
 
-## 4. Defining a small, attainable goal
+## 4. Defining a Small, Attainable Goal
 
 ![Photo by Kelly Sikkema of a child building a rocket ship out of legos](./lego.jpg)
 
@@ -119,7 +119,7 @@ I had no idea. He didn't either. How could he teach me?
 
 Avoiding the creation of clearly-defined goals often leads to a lot of wasted time.
 
-## 5. Putting in the work
+## 5. Putting in the Work
 
 Coding is hard. Building useful things out of code is harder. Even veteran programmers struggle:
 
