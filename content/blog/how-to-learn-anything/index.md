@@ -1,15 +1,19 @@
 ---
 title: Learn to code anything in 6 Steps
-date: 2019-08-17T15:00:00-0400
+date: 2019-08-18T19:00:00-0400
 ---
 
-I'm a bootcamp graduate, tutor, and now a front-end developer. Before that I was a college student, a paramedic, a self-taught guitarist, a nurse, and a firefighter. All that adds up to a lot of hours spent learning how to do new things.
+Learning to code something new can be a painful process. We inevitably get stuck or frustrated as we stumble through new concepts and ideas.
 
-I wish I could say I was a quick and efficient learner through all those things, but the truth is that I spent a long time and wasted a lot of hours spinning my proverbial tires. Case in point: I'm a halfway decent [guitarist](https://soundcloud.com/leewarrick), but I've also been playing for over 20 years. There are 12 year-old kids on YouTube that can out-shred me.
+I've learned some hard concepts as a programmer. I've started from scratch in a new language as well as struggled through difficult concepts in an area I'm already comfortable in.
 
-However, after learning to code, then watching and teaching others to learn to code, I've begun to see a pattern emerge. It's a little like the [five stages of grief](https://psychcentral.com/lib/the-5-stages-of-loss-and-grief/); some people are in different spots or skip steps, but everyone struggles through roughly the same process.
+Working through those challenges has taught me that there's a process to learning to program in a different language or ecosystem. There's a pattern that emerges.
 
-## Exposure to a new topic
+It's a little like the [five stages of grief](https://psychcentral.com/lib/the-5-stages-of-loss-and-grief/); some people are in different spots or skip steps, but everyone struggles through roughly the same process.
+
+## 1. Exposure to a new topic
+
+![Photo by Aarón Blanco Tejedor of mural of man in pain](./pain.jpg)
 
 When you're first introduced to a completely new concept, it can be overwhelming.
 
@@ -25,7 +29,7 @@ When you find yourself faced with an overwhelming task or topic, think of yourse
 
 You need rest, patience, and persistence to learn what at first feels insurmountable.
 
-## Developing a High-level understanding
+## 2. Developing a High-level understanding
 
 Many tutorials and guides zero in on the syntax and finite steps required to accomplish something. This is great if you're a veteran and well-versed in the subject matter.
 
@@ -35,7 +39,7 @@ So as a guitarist I might watch a 10 minute video and walk away with,
 
 > _I can accomplish that by using CAGED patterns to match  up with the chords in a progression."_
 
-And I get it. But remember I've played guitar for about 20 years. If you're not a guitarist or not familiar with basic music theory, that tip is gibberish to you.
+And I get it, but I've played guitar for about 20 years. If you're not a guitarist or not familiar with basic music theory, that tip is gibberish to you.
 
 Looking back at the handlebars example, I had to come to grips with a lot of foreign concepts.
 
@@ -55,7 +59,7 @@ There are many times I've run up against this:
 
 Seeking out high-level explanations for those topics and understanding them first was key to allowing me to learn how to use those tools.
 
-## Learning the Workflow
+## 3. Learning the Workflow
 
 With a new coding skill usually comes a new workflow.
 
@@ -69,11 +73,11 @@ To give an example, I've recently been learning Python. I immediately had questi
 1. Can I edit and run Python with VSCode?
 1. What the heck is a REPL?
 1. How do I manage dependencies? Why do they install globally instead of locally by default?
-1. Wait what are virtual environments?
+1. What are virtual environments?
 1. What is a Jupyter Notebook?
-1. How do I run a Jupyter notebook file? (Oh, hm it comes with Anaconda)
+1. How do I run a Jupyter notebook file? _...Oh, hmmm. It comes with Anaconda_
 1. What is anaconda?
-1. Ananconda COMES with a Python installation!?
+1. Ananconda COMES with a Python installation!? 😫
 
 Then I had to go back to step 2 and work through most of the same questions with conda 🤦‍
 
@@ -83,19 +87,23 @@ What I *can* say is that if you don't need the handholding, it's easy to skim fu
 
 Personally, I really appreciate whenever someone takes the time to build the audience up to a topic and provides some clear, concise steps to follow to get up and running. It's a huge time-saver and let's me get right into the part I enjoy, which is coding.
 
-So do your research and try to stay motivated while you're working though this part. It's easy to say, _"Ugh, forget it, I'll figure out npm another day."_ And then give up on learning Node. Once you get past this, you can start to learn the fun parts. 🦄
+So do your research and try to stay motivated while you're working though this part. It's easy to say, _"Ugh, forget it, I'll figure out npm another day"_, and then give up on learning Node.
+
+However, once you get past this boring part of the process, you can start to learn the fun parts. 🦄
 
 **NOTE:** If you're looking for a blog post topic, this is a great start. I **guarantee** that the workflow knowledge you take for granted is crucial to a novice's continued learning out there. You probably know more than you think you do, so share it.
 
-## Defining a small, attainable goal
+## 4. Defining a small, attainable goal
+
+![Photo by Kelly Sikkema of a child building a rocket ship out of legos](./lego.jpg)
 
 Once you've got a good workflow and can actually execute the code you're writing, it's time to figure out something to build.
 
 This seems obvious, but it's actually a crucial step.
 
-You need to scope yourself to something achieveable, but also useful and fun to build. Something that will challenge you, but not so much so that you give up.
+You need to scope yourself to something achieveable, but also useful and fun to build. Something that will challenge you, but not so much that you give up.
 
-If you're learning web development for example, you don't want to start out trying to build a facebook clone. You're going to be sent down so many rabbit holes (servers, databases, react, etc) you'll never get anything accomplished.
+If you're learning web development, you don't want to start out trying to build a facebook clone. You're going to be sent down so many rabbit holes (servers, databases, react, etc) you'll never get anything accomplished.
 
 As a beginner, you probably want to stick to HTML and just build a basic site. If you have a little knowledge, maybe use HTML and CSS to make a site with a nice layout and design. If that's too easy, maybe add in some interactivity with JavaScript.
 
@@ -103,15 +111,15 @@ Again, this seems simple, but can be devilishly challenging if you're entering a
 
 You have to spend some time figuring out what your actual goals are for learning this new skill, then work backwards. What would you like to be able to build? What will you need to learn to build it? How can you practice those things?
 
-Skipping this planning and research often leads to a lot of wasted time.
-
 As a guitarist, I started taking lessons as a young adult after about ten years of study. At that point I knew about scales, chords, how to play a song, etc. I knew all the basics.
 
 I sat down across from my new teacher one night and he asked me, _"What would you like to learn?"_
 
 I had no idea. He didn't either. How could he teach me?
 
-## Suffering and Coding
+Avoiding the creation of clearly-defined goals often leads to a lot of wasted time.
+
+## 5. Putting in the work
 
 Coding is hard. Building useful things out of code is harder. Even veteran programmers struggle:
 
@@ -127,9 +135,11 @@ But you're going to learn a lot of things if you get it done.
 
 The important thing here is to realize that you need to keep at it, and that if you planned correctly in the previous step, there's an end in sight.
 
-Finishing that first project and realizing you've built something with an entirely new skill, language, or framework is ✨🎵🕊**G L O R I O U S**🕊🎵✨
+Just remember that finishing that first project and realizing you've built something with an entirely new skill, language, or framework is ✨🎵🕊**G L O R I O U S**🕊🎵✨
 
-## Maintaining Momentum
+## 6. Maintaining Momentum
+
+![Photo by Brian Erickson of running on a mountain pass](./hiking.jpg)
 
 Once you have that first win, it's time to get another under your belt.
 
@@ -137,7 +147,7 @@ Once you have that first win, it's time to get another under your belt.
 
 **Yes.** 😐
 
-Go back to the previous two steps and start figuring out what you can build next that will get you further toward your goal. You _do_ have a goal, right? There's a **reason** you started learning this new skill, _right_?
+Go back to the previous two steps and start figuring out what you can build next that will get you further toward your goal. (You _do_ have a goal, right?)
 
 Figure out how you can expand what you've learned and take those new skills into the next project. Build something bigger or completely different that's going to teach you a little bit more about how to reach that end goal.
 
@@ -157,4 +167,4 @@ Becomes: _"Hmm, better figure out a workflow."_
 
 And so on.
 
-I've been through these steps myself many times as a developer, and without realizing it in learning many other non-development things.
+I've been through these steps myself many times as a developer. You'll get faster if you keep going.
