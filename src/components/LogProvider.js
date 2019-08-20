@@ -1,4 +1,4 @@
-import React, {createContext, useRef, useEffect, useState, useContext} from 'react'
+import React, {createContext, useRef, useEffect, useState, useContext, useReducer} from 'react'
 
 const LogContext = createContext()
 
@@ -12,7 +12,9 @@ function useLogContext() {
 
 function LogProvider(props) {
     const [logs, setLogs] = useState([])
+    const [globalScripts, setScriptLoaded] = useReducer(scriptReducer, {})
     const loggerId = useRef()
+    const requestedScriptsToLoad = useRef([])
     const refLogs = React.useRef()
     const setCurrentLogger = (id) => loggerId.current = id
     const clearLogs = (id) => {
@@ -40,8 +42,23 @@ function LogProvider(props) {
         }
     }, [])
 
+    function loadScript(name, url) {
+        if (requestedScriptsToLoad.current.indexOf(name) === -1) {
+            requestedScriptsToLoad.current = [...requestedScriptsToLoad.current, name]
+            fetch(url)
+            .then(res => res.text())
+            .then(res => {
+                setScriptLoaded({name, script: res, loading: false})
+            })
+    }
+    }
+
+    function scriptReducer(state, {name, script, loading}) {
+        return {...state, [name]: {script, loading} }
+    }
+
     return (
-        <LogContext.Provider value={{ logs, clearLogs, setCurrentLogger }} {...props}/>
+        <LogContext.Provider value={{ logs, clearLogs, setCurrentLogger, loadScript, globalScripts }} {...props}/>
     )
 }
 

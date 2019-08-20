@@ -1,4 +1,4 @@
-import React, {useState, useContext, useRef} from 'react'
+import React, {useState, useContext, useRef, useEffect} from 'react'
 import Highlight, { defaultProps, Prism } from 'prism-react-renderer'
 import theme from 'prism-react-renderer/themes/oceanicNext'
 import { LiveProvider, LiveEditor, LiveError, LivePreview, LiveContext } from 'react-live'
@@ -20,6 +20,16 @@ function ResetButton({initialCode, update}) {
 
 export const Code = ({ codeString, language, ...props }) => {
   const [updater, forceUpdate] = useState(1);
+  const { loadScript } = useLogContext()
+  let scripts
+  if (props.scripts) {
+    const scriptPairs = props.scripts.split(',')
+    scriptPairs.forEach(pair => {
+      const [name, script] = pair.split('!')
+      loadScript(name, script)
+    })
+    scripts = scriptPairs.map(pair => pair.split('!')[0])
+  }
   if (props['react-live']) {
     return (
       <div style={{marginBottom: rhythm(2)}}>
@@ -36,7 +46,7 @@ export const Code = ({ codeString, language, ...props }) => {
   else if (props['js-live']){
     return (
       <div style={{marginBottom: rhythm(2)}}>
-        <LiveJsEditor code={codeString} language={language} theme={theme} />
+        <LiveJsEditor code={codeString} language={language} theme={theme} autorun={props.autorun} scripts={scripts}/>
       </div>
     )
   }
@@ -126,7 +136,7 @@ function LiveHtmlEditor({code: initialCode, language, theme}) {
   )
 }
 
-function LiveJsEditor({code: initialCode, language, theme}) {
+function LiveJsEditor({code: initialCode, language, theme, scripts, autorun}) {
   const [code, setCode] = useState(initialCode)
   const themePlain = theme.plain
   return(
@@ -142,26 +152,41 @@ function LiveJsEditor({code: initialCode, language, theme}) {
           ...themePlain
         }}
       />
-      <JsComponent code={code} reset={() => setCode(initialCode)} />
+      <JsComponent code={code} reset={() => setCode(initialCode)} scripts={scripts} autorun={autorun}/>
     </>
   )
 }
 
-function JsComponent({code, reset}) {
+function JsComponent({code, reset, scripts = [], autorun}) {
   const id = useRef(Date.now() + Math.random())
   const timeOutId = useRef()
-  const { logs, clearLogs, setCurrentLogger } = useLogContext()
-  function evaluateCode() {
+  const { logs, clearLogs, setCurrentLogger, globalScripts } = useLogContext()
+  const evaluateCode = () => {
     clearInterval(timeOutId.current)
     clearLogs(id.current)
     setCurrentLogger(id.current)
     try {
-      eval(code)
+      const scriptsToRun = scripts
+      .map(nameOfScript => globalScripts[nameOfScript].script)
+      .reduce((accum, current) => accum + '\n' + current, "")
+      eval(scriptsToRun + '\n' + code)
     } catch(error) {
       console.log("Error Message: " + error.message)
     }
     timeOutId.current = setTimeout(() => setCurrentLogger(null), 5000)
   }
+
+  useEffect(() => {
+    let ready = true
+    scripts.forEach(script => {
+      if (!globalScripts[script] || globalScripts[script].loading) ready = false
+    })
+    if (!ready || !autorun) return
+    // console.log('running autorun')
+    evaluateCode(code)
+
+  }, scripts.map(script => globalScripts[script]))
+
   return (
     <>
       <pre>
