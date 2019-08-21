@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import { LiveProvider, LiveEditor, LiveError, LivePreview, LiveContext } from 'react-live'
 import { rhythm } from '../../utils/typography'
 import { useCodeContext } from './CodeProvider'
+import ScriptsList from './ScriptsList'
 
 function ResetButton({initialCode, update}) {
   const { onChange } = useContext(LiveContext)
@@ -35,7 +36,8 @@ function LiveReactEditor({code, theme, scripts, useRender, editingDisabled}) {
     {scriptsReady &&
       <LiveProvider code={updater ? code : code.split(/\r\n|\r|\n/).map(() => `🔥\n`).join("")}
       noInline={useRender ? true : false} disabled={editingDisabled} theme={theme}>
-      <LiveEditor />
+      <ScriptsList />
+      <LiveEditor style={{outline: 'none'}} />
       <LiveError />
       <LivePreview />
       {
