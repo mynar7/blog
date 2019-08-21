@@ -37,28 +37,34 @@ function JsComponent({code, reset, scripts = [], autorun, hideControls}) {
     clearLogs(id.current) //prevent logging the same result
     setCurrentLogger(id.current)
     try {
+      //make sure scripts are loaded
+      //throw new Error("Failed to load external scripts")
+      let ready = true
+      scripts.forEach(scriptName => {
+        if (!globalScripts[scriptName] || globalScripts[scriptName].loading) ready = false
+      })
+      if (!ready) return
       // this hack concatentates all the global scripts to be evaluated before snippet's script
       // allowing them to be included in the namespace/scope
       const scriptsToRun = scripts
       .map(nameOfScript => globalScripts[nameOfScript].script)
       .reduce((accum, current) => accum + '\n' + current, "")
       code = code.replace(/console\.log/g, 'console.blog')
-      eval(scriptsToRun + '\n' + code)
+      // eval(scriptsToRun + '\n' + code)
+      eval(code)
+      // this enables snippets to log to JS log component for 5 seconds, in case of async snippets
+      timeOutId.current = setTimeout(() => setCurrentLogger(null), 5000)
     } catch(error) {
-      if (console.blog) console.blog("Error Message: " + error.message)
-      else console.log(error.message)
+      console.blog
+      ? console.blog("Error Message: " + error.message)
+      : console.log(error.message)
+      setCurrentLogger(null)
     }
-    // this enables snippets to log to JS log component for 5 seconds, in case of async snippets
-    timeOutId.current = setTimeout(() => setCurrentLogger(null), 5000)
   }
 
   //if autorun is enabled, after mount evaluate code if scripts loaded
   useEffect(() => {
-    let ready = true
-    scripts.forEach(script => {
-      if (!globalScripts[script] || globalScripts[script].loading) ready = false
-    })
-    if (!ready || !autorun || !loggerReady) return
+    if (!autorun || !loggerReady) return
     evaluateCode(code)
   }, [loggerReady, ...scripts.map(script => globalScripts[script])])
 

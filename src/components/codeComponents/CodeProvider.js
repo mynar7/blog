@@ -55,9 +55,15 @@ function CodeProvider(props) {
       setScriptLoaded({ name, script: null, loading: true }) //flag script as loading so dependent components do not render
       function getScript(attempts = 0) {
         if (attempts > 3) return
-        fetch(url, { mode: 'no-cors' }) //fetch script as text
+        fetch(url, {
+          mode: 'no-cors' ,
+          headers: {
+            'Accept': 'application/javascript'
+          }
+        }) //fetch script as text
         .then(res => res.text())
         .then(res => {
+          if (res.startsWith('<')) throw new Error("Failed to load: " + name)
           const newScriptTag = document.createElement('script') //load script globally for react-live components
           newScriptTag.src = url
           newScriptTag.async = true
@@ -67,7 +73,10 @@ function CodeProvider(props) {
           }
           document.body.appendChild(newScriptTag)
         })
-        .catch(() => setTimeout(() => getScript(attempts + 1), 300))
+        .catch((err) => {
+          console.log(err)
+          setTimeout(() => getScript(attempts + 1), 300)
+        })
       }
       getScript()
     }
