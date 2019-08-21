@@ -24,21 +24,33 @@ export const Code = ({ codeString, language, ...props }) => {
   if (props['react-live']) {
     return (
       <div style={{marginBottom: rhythm(2)}}>
-        <LiveReactEditor useRender={props['use-render']} code={codeString} theme={theme} scripts={scripts.current}/>
+        <LiveReactEditor useRender={props['use-render']}
+          code={codeString}
+          theme={theme}
+          editingDisabled={props['no-edit']}
+          scripts={scripts.current}/>
       </div>
     )
   }
   else if (props['js-live']){
     return (
       <div style={{marginBottom: rhythm(2)}}>
-        <LiveJsEditor code={codeString} language={language} theme={theme} autorun={props.autorun} scripts={scripts.current}/>
+        <LiveJsEditor code={codeString}
+          language={language}
+          theme={theme}
+          autorun={props.autorun}
+          editingDisabled={props['no-edit']}
+          scripts={scripts.current}/>
       </div>
     )
   }
   else if (props['html-live']){
     return (
       <div style={{marginBottom: rhythm(2)}}>
-        <LiveHtmlEditor code={codeString} language={language} theme={theme} />
+        <LiveHtmlEditor code={codeString}
+          language={language}
+          editingDisabled={props['no-edit']}
+          theme={theme} />
       </div>
     )
   }

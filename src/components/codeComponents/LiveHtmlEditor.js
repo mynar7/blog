@@ -2,16 +2,19 @@ import React, { useState } from 'react'
 import Editor from 'react-simple-code-editor';
 import CodeHighlight from './CodeHighlight'
 
-function HtmlComponent({code, reset}) {
+function HtmlComponent({code, reset, hideControls}) {
   return (
     <>
       <div dangerouslySetInnerHTML={{__html: code}} />
-      <button onClick={reset}>Reset</button>
+      {
+        !hideControls &&
+        <button onClick={reset}>Reset</button>
+      }
     </>
   )
 }
 
-function LiveHtmlEditor({code: initialCode, language, theme}) {
+function LiveHtmlEditor({code: initialCode, language, theme, editingDisabled}) {
   const [code, setCode] = useState(initialCode)
   const [updater, forceUpdate] = useState(1)
   const themePlain = theme.plain
@@ -26,7 +29,7 @@ function LiveHtmlEditor({code: initialCode, language, theme}) {
         value={code}
         padding={10}
         highlight={code => CodeHighlight({code, language, theme})}
-        onValueChange={setCode}
+        onValueChange={editingDisabled ? () => {} : setCode}
         style={{
           whiteSpace: 'pre',
           fontFamily: 'monospace',
@@ -35,7 +38,7 @@ function LiveHtmlEditor({code: initialCode, language, theme}) {
       />
       {
         updater
-        ? <HtmlComponent code={code} reset={reset}/>
+        ? <HtmlComponent code={code} reset={reset} hideControls={editingDisabled} />
         : <pre>{code.split(/\r\n|\r|\n/).map(() => `🔥\n`).join("")}</pre>
       }
     </>

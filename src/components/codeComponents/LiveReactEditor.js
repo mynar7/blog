@@ -15,7 +15,7 @@ function ResetButton({initialCode, update}) {
   )
 }
 
-function LiveReactEditor({code, theme, scripts, useRender}) {
+function LiveReactEditor({code, theme, scripts, useRender, editingDisabled}) {
   const [updater, forceUpdate] = useState(1);
   const { globalScripts } = useCodeContext()
 
@@ -33,11 +33,14 @@ function LiveReactEditor({code, theme, scripts, useRender}) {
     <>
     {areScriptsLoaded() &&
       <LiveProvider code={updater ? code : code.split(/\r\n|\r|\n/).map(() => `🔥\n`).join("")}
-      noInline={useRender ? true : false} theme={theme}>
+      noInline={useRender ? true : false} disabled={editingDisabled} theme={theme}>
       <LiveEditor />
       <LiveError />
       <LivePreview />
-      <ResetButton initialCode={code} update={forceUpdate} />
+      {
+        !editingDisabled &&
+        <ResetButton initialCode={code} update={forceUpdate} />
+      }
       </LiveProvider>
     }
     </>

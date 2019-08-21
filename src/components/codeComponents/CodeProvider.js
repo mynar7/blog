@@ -15,11 +15,10 @@ function CodeProvider(props) {
   // ensure that scripts/logs weren't processed on each render
   const [globalScripts, setScriptLoaded] = useReducer(scriptReducer, {})
   const requestedScriptsToLoad = useRef([])
-
+  const [loggerReady, setLoggerReady] = useState(false)
   const [logs, setLogs] = useState([])
   const refLogs = React.useRef([])
   const loggerId = useRef() //which code snippet is currently firing logs
-  const originalLog = useRef() // a ref for the original console.log to be used in cleanup of useEffect
 
   const setCurrentLogger = (id) => loggerId.current = id //used by code components to set themselves as the current logger
   const clearLogs = (id) => {
@@ -30,9 +29,7 @@ function CodeProvider(props) {
   // this effect overrides the default function for console.log so each component can hook in
   // individually and receive updates only on the code it runs
   useEffect(() => {
-    originalLog.current = console.log // store reference to original console.log function
-
-    console.log = function () {
+    console.blog = function () {
       if (loggerId.current) {
         const logObjIndex = refLogs.current.findIndex(logObj => logObj.uniqueIdentifier === loggerId.current)
         if (logObjIndex > -1) {
@@ -46,17 +43,19 @@ function CodeProvider(props) {
         }
         setLogs(refLogs.current) //update log state to match ref
       }
-      originalLog.current.apply(this, [...arguments, ]); //invokes console.log function
+      console.log(...arguments);
     }
-
-    return function () { console.log = originalLog.current; } //cleanup this effect on unmount
+    setLoggerReady(true) //ensure console.blog is available
+    return function () { console.blog = null; } //cleanup this effect on unmount
   }, [])
 
   function loadScript(name, url) {
     if (requestedScriptsToLoad.current.indexOf(name) === -1) { //ensure script isn't already loading
       requestedScriptsToLoad.current = [...requestedScriptsToLoad.current, name] //add script to list of scripts
       setScriptLoaded({ name, script: null, loading: true }) //flag script as loading so dependent components do not render
-      window.fetch(url) //fetch script as text
+      function getScript(attempts = 0) {
+        if (attempts > 3) return
+        fetch(url, { mode: 'no-cors' }) //fetch script as text
         .then(res => res.text())
         .then(res => {
           const newScriptTag = document.createElement('script') //load script globally for react-live components
@@ -68,15 +67,25 @@ function CodeProvider(props) {
           }
           document.body.appendChild(newScriptTag)
         })
+        .catch(() => setTimeout(() => getScript(attempts + 1), 300))
+      }
+      getScript()
     }
   }
 
   function scriptReducer(state, { name, script, loading }) {
     return { ...state, [name]: { script, loading } }
   }
-
+  const contextObj = {
+    logs,
+    clearLogs,
+    setCurrentLogger,
+    loggerReady,
+    loadScript,
+    globalScripts,
+  }
   return (
-    <LogContext.Provider value={{ logs, clearLogs, setCurrentLogger, loadScript, globalScripts }} {...props} />
+    <LogContext.Provider value={contextObj} {...props} />
   )
 }
 

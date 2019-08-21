@@ -3,7 +3,7 @@ import Editor from 'react-simple-code-editor';
 import CodeHighlight from './CodeHighlight'
 import { useCodeContext } from './CodeProvider'
 
-function LiveJsEditor({code: initialCode, language, theme, scripts, autorun}) {
+function LiveJsEditor({code: initialCode, language, theme, scripts, autorun, editingDisabled}) {
   const [code, setCode] = useState(initialCode)
   const themePlain = theme.plain
   return(
@@ -12,22 +12,26 @@ function LiveJsEditor({code: initialCode, language, theme, scripts, autorun}) {
         value={code}
         padding={10}
         highlight={code => CodeHighlight({code, language, theme})}
-        onValueChange={setCode}
+        onValueChange={editingDisabled ? () => {} : setCode}
         style={{
           whiteSpace: 'pre',
           fontFamily: 'monospace',
           ...themePlain
         }}
       />
-      <JsComponent code={code} reset={() => setCode(initialCode)} scripts={scripts} autorun={autorun}/>
+      <JsComponent code={code}
+        reset={() => setCode(initialCode)}
+        scripts={scripts}
+        hideControls={editingDisabled}
+        autorun={autorun}/>
     </>
   )
 }
 
-function JsComponent({code, reset, scripts = [], autorun}) {
+function JsComponent({code, reset, scripts = [], autorun, hideControls}) {
   const id = useRef(Date.now() + Math.random()) //create uuid-ish number for identifiying which component is logging
   const timeOutId = useRef() //track timeoutId between renders
-  const { logs, clearLogs, setCurrentLogger, globalScripts } = useCodeContext()
+  const { logs, clearLogs, setCurrentLogger, globalScripts, loggerReady } = useCodeContext()
   const evaluateCode = () => {
     clearInterval(timeOutId.current) //allow this snippet to continue logging
     clearLogs(id.current) //prevent logging the same result
@@ -38,10 +42,11 @@ function JsComponent({code, reset, scripts = [], autorun}) {
       const scriptsToRun = scripts
       .map(nameOfScript => globalScripts[nameOfScript].script)
       .reduce((accum, current) => accum + '\n' + current, "")
-
+      code = code.replace(/console\.log/g, 'console.blog')
       eval(scriptsToRun + '\n' + code)
     } catch(error) {
-      console.log("Error Message: " + error.message)
+      if (console.blog) console.blog("Error Message: " + error.message)
+      else console.log(error.message)
     }
     // this enables snippets to log to JS log component for 5 seconds, in case of async snippets
     timeOutId.current = setTimeout(() => setCurrentLogger(null), 5000)
@@ -53,9 +58,9 @@ function JsComponent({code, reset, scripts = [], autorun}) {
     scripts.forEach(script => {
       if (!globalScripts[script] || globalScripts[script].loading) ready = false
     })
-    if (!ready || !autorun) return
+    if (!ready || !autorun || !loggerReady) return
     evaluateCode(code)
-  }, scripts.map(script => globalScripts[script]))
+  }, [loggerReady, ...scripts.map(script => globalScripts[script])])
 
   return (
     <>
@@ -65,9 +70,14 @@ function JsComponent({code, reset, scripts = [], autorun}) {
           .map(({logs}) => logs.map(logArr => logArr.map(logItem => JSON.stringify(logItem, null, 2)).join("\n") + '\n'))
         }
       </pre>
-      <button onClick={evaluateCode}>Run</button>
-      <button onClick={() => clearLogs(id.current)}>Clear Logs</button>
-      <button onClick={reset}>Reset Code</button>
+      {
+        !hideControls &&
+        <>
+          <button onClick={evaluateCode}>Run</button>
+          <button onClick={() => clearLogs(id.current)}>Clear Logs</button>
+          <button onClick={reset}>Reset Code</button>
+        </>
+      }
     </>
   )
 }
