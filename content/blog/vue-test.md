@@ -91,7 +91,7 @@ console.log(8 * 4)
 
 I gave this one jQuery as a dependency
 ```js js-live autorun scripts=jQuery!https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js
-console.log(8 * 4)
+console.log($.toString())
 ```
 
 This one is a plain snippet
