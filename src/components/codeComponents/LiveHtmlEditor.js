@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Editor from 'react-simple-code-editor';
 import CodeHighlight from './CodeHighlight'
 import SnippetInfo from './SnippetInfo'
+import OutputLabel from './OutputLabel'
 
 function HtmlComponent({code}) {
   return <div dangerouslySetInnerHTML={{__html: code}} />
@@ -34,6 +35,7 @@ function LiveHtmlEditor({code: initialCode, language, theme, editingDisabled}) {
           ...themePlain
         }}
       />
+      <OutputLabel>Rendered HTML:</OutputLabel>
       {
         updater
         ? <HtmlComponent code={code}/>

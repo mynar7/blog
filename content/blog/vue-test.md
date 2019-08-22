@@ -45,6 +45,7 @@ const app = new Vue({
     }
   }
 })
+console.log("I ran already. If you click run I will break the rendered HTML below")
 ```
 ```html html-live
 <style>

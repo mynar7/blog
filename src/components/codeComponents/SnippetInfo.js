@@ -1,5 +1,5 @@
 import React from 'react'
-import { scale, rhythm } from '../../utils/typography'
+import { rhythm } from '../../utils/typography'
 import { useCodeContext } from './CodeProvider'
 
 function SnippetInfo({language, editable = false, scripts = [], live = false, styles: proppedInStyles}) {

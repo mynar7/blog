@@ -3,6 +3,7 @@ import Editor from 'react-simple-code-editor';
 import CodeHighlight from './CodeHighlight'
 import { useCodeContext } from './CodeProvider'
 import SnippetInfo from './SnippetInfo'
+import OutputLabel from './OutputLabel'
 
 function LiveJsEditor({code: initialCode, language, theme, scripts, autorun, editingDisabled}) {
   const [code, setCode] = useState(initialCode)
@@ -74,12 +75,16 @@ function JsComponent({code, reset, scripts = [], autorun, hideControls}) {
 
   return (
     <>
-      <pre>
-        {
-          logs.filter(logObj => logObj.uniqueIdentifier === id.current)
-          .map(({logs}) => logs.map(logArr => logArr.map(logItem => JSON.stringify(logItem, null, 2)).join("\n") + '\n'))
-        }
-      </pre>
+      <OutputLabel>{logs.filter(logObj => logObj.uniqueIdentifier === id.current).length > 0 ? "Output:" : "(Finished, No Output)"}</OutputLabel>
+      {
+        logs.filter(logObj => logObj.uniqueIdentifier === id.current).length > 0 &&
+        <pre>
+          {
+            logs.filter(logObj => logObj.uniqueIdentifier === id.current)
+            .map(({logs}) => logs.map(logArr => logArr.map(logItem => JSON.stringify(logItem, null, 2)).join("\n") + '\n'))
+          }
+        </pre>
+      }
       {
         !hideControls &&
         <>

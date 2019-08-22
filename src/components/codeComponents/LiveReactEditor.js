@@ -4,6 +4,7 @@ import { rhythm } from '../../utils/typography'
 import { useCodeContext } from './CodeProvider'
 import SnippetInfo from './SnippetInfo'
 import PlainCodeHighlight from './PlainCodeHighlight'
+import OutputLabel from './OutputLabel'
 
 function ResetButton({initialCode, update}) {
   const { onChange } = useContext(LiveContext)
@@ -45,6 +46,7 @@ function LiveReactEditor({code, theme, scripts, useRender, editingDisabled}) {
         noInline={useRender ? true : false} disabled={editingDisabled} theme={theme}>
         <SnippetInfo language={'jsx'} scripts={scripts} live={true} editable={!editingDisabled} />
         <LiveEditor />
+        <OutputLabel>Rendered Output:</OutputLabel>
         <LiveError />
         <LivePreview />
         {
