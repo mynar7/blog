@@ -49,48 +49,75 @@ function CodeProvider(props) {
     return function () { console.blog = null; } //cleanup this effect on unmount
   }, [])
 
-  function loadScript(name, url) {
-    if (requestedScriptsToLoad.current.indexOf(name) === -1) { //ensure script isn't already loading
-      requestedScriptsToLoad.current = [...requestedScriptsToLoad.current, name] //add script to list of scripts
-      setScriptLoaded({ name, script: null, loading: true }) //flag script as loading so dependent components do not render
-      function getScript(attempts = 0) {
-        if (attempts > 3) return
-        fetch(url, {
-          mode: 'no-cors' ,
-          headers: {
-            'Accept': 'application/javascript'
-          }
-        }) //fetch script as text
-        .then(res => res.text())
-        .then(res => {
-          if (res.startsWith('<')) throw new Error("Failed to load: " + name)
-          const newScriptTag = document.createElement('script') //load script globally for react-live components
-          newScriptTag.src = url
-          newScriptTag.async = true
-          newScriptTag.type= 'text/javascript';
-          newScriptTag.onload = () => {
-            setScriptLoaded({ name, script: res, loading: false }) //store script text for JS evals, flag as ready
-          }
-          document.body.appendChild(newScriptTag)
-        })
+  async function loadScript(name, url) {
+    setScriptLoaded({ name, script: null, loading: true, failed: false }) //flag script as loading so dependent components do not render
+    async function getScript(attempts = 0) {
+      if (attempts > 3) throw new Error(`Failed to load script for ${name}`)
+      const res = await fetch(url, {
+        mode: 'no-cors' ,
+        headers: {
+          'Accept': 'application/javascript'
+        }
+      }) //fetch script as text
+      const scriptText = await res.text()
         .catch((err) => {
           console.log(err)
           setTimeout(() => getScript(attempts + 1), 300)
         })
+      if (scriptText.startsWith('<')) {
+        setScriptLoaded({ name, script: null, loading: false, failed: true })
+        throw new Error("Failed to load: " + name)
       }
-      getScript()
+      const newScriptTag = document.createElement('script') //load script globally for react-live components
+      newScriptTag.src = url
+      // newScriptTag.async = true
+      newScriptTag.type = 'text/javascript';
+      newScriptTag.onload = () => {
+        setScriptLoaded({ name, script: scriptText, loading: false, failed: false }) //store script text for JS evals, flag as ready
+      }
+      document.body.appendChild(newScriptTag)
+    }
+    await getScript().catch(err => { throw err })
+  }
+
+  function scriptReducer(state, { name, script, loading, failed }) {
+    return { ...state, [name]: { script, loading, failed } }
+  }
+
+  async function queueScripts(scriptsArr) {
+    let scriptsAdded = []
+    scriptsArr.forEach(({name, url}) => {
+      if (requestedScriptsToLoad.current.indexOf(name) === -1) { //ensure script isn't already loading
+        requestedScriptsToLoad.current = [...requestedScriptsToLoad.current, name] //add script to list of scripts
+        scriptsAdded.push({name, url})
+      }
+    })
+    // if a single script was added, just load it
+    if (scriptsAdded.length === 1) {
+      const {name, url} = scriptsAdded[0]
+      await loadScript(name, url).catch(err => console.log(err))
+    } else if (scriptsAdded.length > 1) {
+      //if more than one script, load them in order in case they depend on each other
+      loadScriptsInOrder(scriptsAdded).catch(err => console.log(err))
     }
   }
 
-  function scriptReducer(state, { name, script, loading }) {
-    return { ...state, [name]: { script, loading } }
+  async function loadScriptsInOrder(scriptsToLoad) {
+    const {name, url} = scriptsToLoad[0]
+    await loadScript(name, url)
+    if (scriptsToLoad.length > 1) {
+      //pass along array without first element
+      loadScriptsInOrder(scriptsToLoad.slice(1))
+    }
   }
+
   const contextObj = {
     logs,
     clearLogs,
     setCurrentLogger,
     loggerReady,
-    loadScript,
+    // loadScript,
+    queueScripts,
     globalScripts,
   }
   return (

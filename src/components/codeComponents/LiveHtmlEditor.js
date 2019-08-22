@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Editor from 'react-simple-code-editor';
 import CodeHighlight from './CodeHighlight'
+import SnippetInfo from './SnippetInfo'
 
 function HtmlComponent({code, reset, hideControls}) {
   return (
@@ -25,6 +26,7 @@ function LiveHtmlEditor({code: initialCode, language, theme, editingDisabled}) {
   }
   return(
     <>
+    <SnippetInfo language={language} editable={!editingDisabled} live={true} />
       <Editor
         value={code}
         padding={10}

@@ -1,25 +1,27 @@
 import React, { useEffect, useRef } from 'react'
-import Highlight, { defaultProps } from 'prism-react-renderer'
 import theme from 'prism-react-renderer/themes/oceanicNext'
 import { rhythm } from '../utils/typography'
 import { useCodeContext } from './codeComponents/CodeProvider'
 import LiveHtmlEditor from './codeComponents/LiveHtmlEditor'
 import LiveJsEditor from './codeComponents/LiveJsEditor'
 import LiveReactEditor from './codeComponents/LiveReactEditor'
+import PlainCodeHighlight from './codeComponents/PlainCodeHighlight'
+import SnippetInfo from './codeComponents/SnippetInfo'
+import { Script } from 'vm';
 
 export const Code = ({ codeString, language, ...props }) => {
-  const { loadScript } = useCodeContext()
+  const { queueScripts } = useCodeContext()
   const scripts = useRef([])
   const scriptPairs = useRef([])
   if (props.scripts) {
-    scriptPairs.current = props.scripts.split(',')
-    scripts.current = scriptPairs.current.map(pair => pair.split('!')[0])
+    scriptPairs.current = props.scripts.split(',').map(pair => {
+      const [name, url] = pair.split('!')
+      return {name, url}
+    })
+    scripts.current = scriptPairs.current.map(scriptObj => scriptObj.name)
   }
   useEffect(() => {
-    scriptPairs.current.forEach(pair => {
-      const [name, script] = pair.split('!')
-      loadScript(name, script)
-    })
+    queueScripts(scriptPairs.current)
   }, [])
   if (props['react-live']) {
     return (
@@ -57,19 +59,8 @@ export const Code = ({ codeString, language, ...props }) => {
   else {
     return (
       <div style={{marginBottom: rhythm(2)}}>
-        <Highlight {...defaultProps} code={codeString} language={language} theme={theme}>
-          {({ className, style, tokens, getLineProps, getTokenProps }) => (
-            <pre className={className} style={{padding: '10px', ...style}}>
-              {tokens.map((line, i) => (
-                <div {...getLineProps({ line, key: i })}>
-                  {line.map((token, key) => (
-                    <span {...getTokenProps({ token, key })} />
-                  ))}
-                </div>
-              ))}
-            </pre>
-          )}
-        </Highlight>
+        <SnippetInfo language={language}/>
+        <PlainCodeHighlight code={codeString} language={language} theme={theme} />
       </div>
     )
   }

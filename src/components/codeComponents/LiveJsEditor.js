@@ -2,12 +2,14 @@ import React, { useState, useRef, useEffect } from 'react'
 import Editor from 'react-simple-code-editor';
 import CodeHighlight from './CodeHighlight'
 import { useCodeContext } from './CodeProvider'
+import SnippetInfo from './SnippetInfo'
 
 function LiveJsEditor({code: initialCode, language, theme, scripts, autorun, editingDisabled}) {
   const [code, setCode] = useState(initialCode)
   const themePlain = theme.plain
   return(
     <>
+      <SnippetInfo language={language} editable={!editingDisabled} scripts={scripts} live={true} />
       <Editor
         value={code}
         padding={10}
@@ -38,12 +40,13 @@ function JsComponent({code, reset, scripts = [], autorun, hideControls}) {
     setCurrentLogger(id.current)
     try {
       //make sure scripts are loaded
-      //throw new Error("Failed to load external scripts")
-      let ready = true
+      const scriptsNotLoaded = []
       scripts.forEach(scriptName => {
-        if (!globalScripts[scriptName] || globalScripts[scriptName].loading) ready = false
+        if (globalScripts[scriptName].failed) {
+          scriptsNotLoaded.push(scriptName)
+        }
       })
-      if (!ready) return
+      if (scriptsNotLoaded.length > 0) return console.blog(`Script Execution Stopped: Failed to load ${scriptsNotLoaded.join(", ")}`)
       // this hack concatentates all the global scripts to be evaluated before snippet's script
       // allowing them to be included in the namespace/scope
       const scriptsToRun = scripts
@@ -65,6 +68,7 @@ function JsComponent({code, reset, scripts = [], autorun, hideControls}) {
   //if autorun is enabled, after mount evaluate code if scripts loaded
   useEffect(() => {
     if (!autorun || !loggerReady) return
+    if (scripts.filter(name => !globalScripts[name] || globalScripts[name].loading).length > 0) return
     evaluateCode(code)
   }, [loggerReady, ...scripts.map(script => globalScripts[script])])
 
