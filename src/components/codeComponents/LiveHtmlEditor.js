@@ -3,16 +3,12 @@ import Editor from 'react-simple-code-editor';
 import CodeHighlight from './CodeHighlight'
 import SnippetInfo from './SnippetInfo'
 
-function HtmlComponent({code, reset, hideControls}) {
-  return (
-    <>
-      <div dangerouslySetInnerHTML={{__html: code}} />
-      {
-        !hideControls &&
-        <button onClick={reset}>Reset</button>
-      }
-    </>
-  )
+function HtmlComponent({code}) {
+  return <div dangerouslySetInnerHTML={{__html: code}} />
+}
+
+function HtmlControls({reset}) {
+  return <button onClick={reset}>Reset</button>
 }
 
 function LiveHtmlEditor({code: initialCode, language, theme, editingDisabled}) {
@@ -40,8 +36,12 @@ function LiveHtmlEditor({code: initialCode, language, theme, editingDisabled}) {
       />
       {
         updater
-        ? <HtmlComponent code={code} reset={reset} hideControls={editingDisabled} />
+        ? <HtmlComponent code={code}/>
         : <pre>{code.split(/\r\n|\r|\n/).map(() => `🔥\n`).join("")}</pre>
+      }
+      {
+        !editingDisabled &&
+        <HtmlControls reset={reset} />
       }
     </>
   )
