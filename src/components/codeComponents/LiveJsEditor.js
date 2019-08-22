@@ -34,6 +34,7 @@ function LiveJsEditor({code: initialCode, language, theme, scripts, autorun, edi
 function JsComponent({code, reset, scripts = [], autorun, hideControls}) {
   const id = useRef(Date.now() + Math.random()) //create uuid-ish number for identifiying which component is logging
   const timeOutId = useRef() //track timeoutId between renders
+  const [runOnce, setRunOnce] = useState(false)
   const { logs, clearLogs, setCurrentLogger, globalScripts, loggerReady } = useCodeContext()
   const evaluateCode = () => {
     clearInterval(timeOutId.current) //allow this snippet to continue logging
@@ -56,6 +57,7 @@ function JsComponent({code, reset, scripts = [], autorun, hideControls}) {
       code = code.replace(/console\.log/g, 'console.blog')
       // eval(scriptsToRun + '\n' + code)
       eval(code)
+      if (!runOnce) setRunOnce(true)
       // this enables snippets to log to JS log component for 5 seconds, in case of async snippets
       timeOutId.current = setTimeout(() => setCurrentLogger(null), 5000)
     } catch(error) {
@@ -75,7 +77,10 @@ function JsComponent({code, reset, scripts = [], autorun, hideControls}) {
 
   return (
     <>
-      <OutputLabel>{logs.filter(logObj => logObj.uniqueIdentifier === id.current).length > 0 ? "Output:" : "(Finished, No Output)"}</OutputLabel>
+      {
+        runOnce &&
+        <OutputLabel>{logs.filter(logObj => logObj.uniqueIdentifier === id.current).length > 0 ? "Output:" : "(Finished, No Output)"}</OutputLabel>
+      }
       {
         logs.filter(logObj => logObj.uniqueIdentifier === id.current).length > 0 &&
         <pre>
