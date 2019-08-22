@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Thu, 22 Aug 2019 17:14:06 GMT</lastBuildDate><item><title><![CDATA[Vue Testing]]></title><description><![CDATA[This is my playground for my live code snippetsFirst, a few Vue ExamplesTwo-way Binding in Vue:A Small Movie App in VueNote: if you reset…]]></description><link>https://leewarrick.com/blog/vue-test/</link><guid isPermaLink="false">https://leewarrick.com/blog/vue-test/</guid><pubDate>Wed, 21 Aug 2019 03:00:00 GMT</pubDate><content:encoded>&lt;p&gt;This is my playground for my live code snippets&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Thu, 22 Aug 2019 19:51:54 GMT</lastBuildDate><item><title><![CDATA[Vue Testing]]></title><description><![CDATA[This is my playground for my live code snippetsFirst, a few Vue ExamplesTwo-way Binding in Vue:A Small Movie App in VueNote: if you reset…]]></description><link>https://leewarrick.com/blog/vue-test/</link><guid isPermaLink="false">https://leewarrick.com/blog/vue-test/</guid><pubDate>Wed, 21 Aug 2019 03:00:00 GMT</pubDate><content:encoded>&lt;p&gt;This is my playground for my live code snippets&lt;/p&gt;
 &lt;p&gt;First, a few Vue Examples&lt;/p&gt;
 &lt;h3&gt;Two-way Binding in Vue:&lt;/h3&gt;
 &lt;pre&gt;&lt;code&gt;const app = new Vue({
@@ -33,6 +33,7 @@
     }
   }
 })
+console.log(&quot;I ran already. If you click run I will break the rendered HTML below&quot;)
 &lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;&amp;lt;style&amp;gt;
   .listOfMovies {
