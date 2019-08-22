@@ -51,9 +51,9 @@ function JsComponent({code, reset, scripts = [], autorun, hideControls}) {
       if (scriptsNotLoaded.length > 0) return console.blog(`Script Execution Stopped: Failed to load ${scriptsNotLoaded.join(", ")}`)
       // this hack concatentates all the global scripts to be evaluated before snippet's script
       // allowing them to be included in the namespace/scope
-      const scriptsToRun = scripts
-      .map(nameOfScript => globalScripts[nameOfScript].script)
-      .reduce((accum, current) => accum + '\n' + current, "")
+      // const scriptsToRun = scripts
+      // .map(nameOfScript => globalScripts[nameOfScript].script)
+      // .reduce((accum, current) => accum + '\n' + current, "")
       code = code.replace(/console\.log/g, 'console.blog')
       // eval(scriptsToRun + '\n' + code)
       eval(code)
@@ -68,6 +68,10 @@ function JsComponent({code, reset, scripts = [], autorun, hideControls}) {
     }
   }
 
+  function clearLogsAndLabel() {
+    clearLogs(id.current)
+    setRunOnce(false)
+  }
   //if autorun is enabled, after mount evaluate code if scripts loaded
   useEffect(() => {
     if (!autorun || !loggerReady) return
@@ -94,7 +98,7 @@ function JsComponent({code, reset, scripts = [], autorun, hideControls}) {
         !hideControls &&
         <>
           <button onClick={evaluateCode}>Run</button>
-          <button onClick={() => clearLogs(id.current)}>Clear Logs</button>
+          <button onClick={clearLogsAndLabel}>Clear Logs</button>
           <button onClick={reset}>Reset Code</button>
         </>
       }
