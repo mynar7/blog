@@ -43,9 +43,13 @@ const app = new Vue({
         this.movieInput = ""
       })
     }
+  },
+  mounted() {
+    this.movieInput = "banana"
+    this.getMovie()
   }
 })
-console.log("I ran already. If you click run I will break the rendered HTML below")
+console.log("I ran already. If you click run again I will break the rendered HTML below")
 ```
 ```html html-live
 <style>
