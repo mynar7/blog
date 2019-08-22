@@ -2,7 +2,7 @@ import React from 'react'
 import { MDXProvider } from '@mdx-js/react'
 import { Code } from './src/components/code'
 import { preToCodeBlock } from 'mdx-utils'
-import { LogProvider } from './src/components/LogProvider'
+import { CodeProvider } from './src/components/codeComponents/CodeProvider'
 
 // components is its own object outside of render so that the references to
 // components are stable
@@ -19,7 +19,7 @@ const components = {
   },
 }
 export const wrapRootElement = ({ element }) => (
-  <LogProvider>
+  <CodeProvider>
     <MDXProvider components={components}>{element}</MDXProvider>
-  </LogProvider>
+  </CodeProvider>
 )

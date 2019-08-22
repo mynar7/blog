@@ -1,178 +1,67 @@
-import React, {useState, useContext, useRef} from 'react'
-import Highlight, { defaultProps, Prism } from 'prism-react-renderer'
+import React, { useEffect, useRef } from 'react'
 import theme from 'prism-react-renderer/themes/oceanicNext'
-import { LiveProvider, LiveEditor, LiveError, LivePreview, LiveContext } from 'react-live'
-import Editor from 'react-simple-code-editor';
 import { rhythm } from '../utils/typography'
-import { useLogContext } from './LogProvider'
-
-function ResetButton({initialCode, update}) {
-  const { onChange } = useContext(LiveContext)
-  function performUpdate() {
-    onChange(initialCode)
-    update(0)
-    setTimeout(() => update(1), 0)
-  }
-  return (
-    <button style={{marginTop: rhythm(0.5)}} onClick={performUpdate}>Reset Code</button>
-  )
-}
+import { useCodeContext } from './codeComponents/CodeProvider'
+import LiveHtmlEditor from './codeComponents/LiveHtmlEditor'
+import LiveJsEditor from './codeComponents/LiveJsEditor'
+import LiveReactEditor from './codeComponents/LiveReactEditor'
+import PlainCodeHighlight from './codeComponents/PlainCodeHighlight'
+import SnippetInfo from './codeComponents/SnippetInfo'
+import { Script } from 'vm';
 
 export const Code = ({ codeString, language, ...props }) => {
-  const [updater, forceUpdate] = useState(1);
+  const { queueScripts } = useCodeContext()
+  const scripts = useRef([])
+  const scriptPairs = useRef([])
+  if (props.scripts) {
+    scriptPairs.current = props.scripts.split(',').map(pair => {
+      const [name, url] = pair.split('!')
+      return {name, url}
+    })
+    scripts.current = scriptPairs.current.map(scriptObj => scriptObj.name)
+  }
+  useEffect(() => {
+    queueScripts(scriptPairs.current)
+  }, [])
   if (props['react-live']) {
     return (
       <div style={{marginBottom: rhythm(2)}}>
-          <LiveProvider code={updater ? codeString : codeString.split(/\r\n|\r|\n/).map(() => `🔥\n`).join("")}
-            noInline={props['use-render'] ? true : false} theme={theme}>
-            <LiveEditor />
-            <LiveError />
-            <LivePreview />
-            <ResetButton initialCode={codeString} update={forceUpdate}/>
-          </LiveProvider>
+        <LiveReactEditor useRender={props['use-render']}
+          code={codeString}
+          theme={theme}
+          editingDisabled={props['no-edit']}
+          scripts={scripts.current}/>
       </div>
     )
   }
   else if (props['js-live']){
     return (
       <div style={{marginBottom: rhythm(2)}}>
-        <LiveJsEditor code={codeString} language={language} theme={theme} />
+        <LiveJsEditor code={codeString}
+          language={language}
+          theme={theme}
+          autorun={props.autorun}
+          editingDisabled={props['no-edit']}
+          scripts={scripts.current}/>
       </div>
     )
   }
   else if (props['html-live']){
     return (
       <div style={{marginBottom: rhythm(2)}}>
-        <LiveHtmlEditor code={codeString} language={language} theme={theme} />
+        <LiveHtmlEditor code={codeString}
+          language={language}
+          editingDisabled={props['no-edit']}
+          theme={theme} />
       </div>
     )
   }
   else {
     return (
       <div style={{marginBottom: rhythm(2)}}>
-        <Highlight {...defaultProps} code={codeString} language={language} theme={theme}>
-          {({ className, style, tokens, getLineProps, getTokenProps }) => (
-            <pre className={className} style={{padding: '10px', ...style}}>
-              {tokens.map((line, i) => (
-                <div {...getLineProps({ line, key: i })}>
-                  {line.map((token, key) => (
-                    <span {...getTokenProps({ token, key })} />
-                  ))}
-                </div>
-              ))}
-            </pre>
-          )}
-        </Highlight>
+        <SnippetInfo language={language}/>
+        <PlainCodeHighlight code={codeString} language={language} theme={theme} />
       </div>
     )
   }
-}
-
-function HtmlComponent({code, reset}) {
-  return (
-    <>
-      <div dangerouslySetInnerHTML={{__html: code}} />
-      <button onClick={reset}>Reset</button>
-    </>
-  )
-}
-
-function CodeHighlight(code, language) {
-  return (
-    <Highlight Prism={Prism} code={code} language={language} theme={theme}>
-      {({ tokens, getLineProps, getTokenProps }) => (
-        <>
-          {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
-              {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
-              ))}
-            </div>
-          ))}
-        </>
-      )}
-    </Highlight>
-  )
-}
-
-function LiveHtmlEditor({code: initialCode, language, theme}) {
-  const [code, setCode] = useState(initialCode)
-  const [updater, forceUpdate] = useState(1)
-  const themePlain = theme.plain
-  function reset() {
-    setCode(initialCode)
-    forceUpdate(0)
-    setTimeout(() => forceUpdate(1), 0)
-  }
-  return(
-    <>
-      <Editor
-        value={code}
-        padding={10}
-        highlight={code => CodeHighlight(code, language)}
-        onValueChange={setCode}
-        style={{
-          whiteSpace: 'pre',
-          fontFamily: 'monospace',
-          ...themePlain
-        }}
-      />
-      {
-        updater
-        ? <HtmlComponent code={code} reset={reset}/>
-        : <pre>{code.split(/\r\n|\r|\n/).map(() => `🔥\n`).join("")}</pre>
-      }
-    </>
-  )
-}
-
-function LiveJsEditor({code: initialCode, language, theme}) {
-  const [code, setCode] = useState(initialCode)
-  const themePlain = theme.plain
-  return(
-    <>
-      <Editor
-        value={code}
-        padding={10}
-        highlight={code => CodeHighlight(code, language)}
-        onValueChange={setCode}
-        style={{
-          whiteSpace: 'pre',
-          fontFamily: 'monospace',
-          ...themePlain
-        }}
-      />
-      <JsComponent code={code} reset={() => setCode(initialCode)} />
-    </>
-  )
-}
-
-function JsComponent({code, reset}) {
-  const id = useRef(Date.now() + Math.random())
-  const timeOutId = useRef()
-  const { logs, clearLogs, setCurrentLogger } = useLogContext()
-  function evaluateCode() {
-    clearInterval(timeOutId.current)
-    clearLogs(id.current)
-    setCurrentLogger(id.current)
-    try {
-      eval(code)
-    } catch(error) {
-      console.log("Error Message: " + error.message)
-    }
-    timeOutId.current = setTimeout(() => setCurrentLogger(null), 5000)
-  }
-  return (
-    <>
-      <pre>
-        {
-          logs.filter(logObj => logObj.uniqueIdentifier === id.current)
-          .map(({logs}) => logs.map(logArr => logArr.map(logItem => JSON.stringify(logItem, null, 2)).join("\n") + '\n'))
-        }
-      </pre>
-      <button onClick={evaluateCode}>Run</button>
-      <button onClick={() => clearLogs(id.current)}>Clear Logs</button>
-      <button onClick={reset}>Reset Code</button>
-    </>
-  )
 }
