@@ -1,4 +1,104 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Mon, 19 Aug 2019 02:05:51 GMT</lastBuildDate><item><title><![CDATA[Learn to Code Anything in 6 Steps]]></title><description><![CDATA[Learning to code something new can be a painful process. We inevitably get stuck or frustrated as we stumble through new concepts and ideas…]]></description><link>https://leewarrick.com/blog/how-to-learn-anything/</link><guid isPermaLink="false">https://leewarrick.com/blog/how-to-learn-anything/</guid><pubDate>Sun, 18 Aug 2019 23:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Learning to code something new can be a painful process. We inevitably get stuck or frustrated as we stumble through new concepts and ideas.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Thu, 22 Aug 2019 17:08:15 GMT</lastBuildDate><item><title><![CDATA[Vue Testing]]></title><description><![CDATA[This is my playground for my live code snippetsFirst, a few Vue ExamplesTwo-way Binding in Vue:A Small Movie App in VueNote: if you reset…]]></description><link>https://leewarrick.com/blog/vue-test/</link><guid isPermaLink="false">https://leewarrick.com/blog/vue-test/</guid><pubDate>Wed, 21 Aug 2019 03:00:00 GMT</pubDate><content:encoded>&lt;p&gt;This is my playground for my live code snippets&lt;/p&gt;
+&lt;p&gt;First, a few Vue Examples&lt;/p&gt;
+&lt;h3&gt;Two-way Binding in Vue:&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;const app = new Vue({
+  el: &apos;#vue-testing-entry&apos;,
+  data: {
+    message: &apos;Hello Vue!&apos;
+  }
+})
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;div id=&quot;vue-testing-entry&quot;&amp;gt;
+    {{message}}
+    &amp;lt;br&amp;gt;
+    &amp;lt;input style=&quot;width: 100%&quot; v-model=&quot;message&quot;/&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;A Small Movie App in Vue&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; if you reset the HTML, you’ll then have to run the JavaScript again&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const app = new Vue({
+  el: &apos;#vue-testing-entry2&apos;,
+  data: {
+    movies: [],
+    movieInput: &quot;&quot;
+  },
+  methods: {
+    getMovie() {
+      fetch(&quot;https://omdbapi.com/?apikey=trilogy&amp;amp;t=&quot; + this.movieInput)
+      .then(res =&amp;gt; res.json())
+      .then(res =&amp;gt; {
+        this.movies.push(res)
+        this.movieInput = &quot;&quot;
+      })
+    }
+  }
+})
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;style&amp;gt;
+  .listOfMovies {
+    list-style: none;
+    display: flex;
+    margin: 10px 0 0 0;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  .movieListItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .moviePoster {
+    margin: 0 auto;
+  }
+  .movieForm {
+    display: flex;
+    justify-content: center;
+  }
+&amp;lt;/style&amp;gt;
+&amp;lt;div id=&quot;vue-testing-entry2&quot;&amp;gt;
+  &amp;lt;ul class=&quot;listOfMovies&quot;&amp;gt;
+    &amp;lt;li class=&quot;movieListItem&quot; v-for=&quot;movie in movies&quot;&amp;gt;
+      &amp;lt;img :src=&quot;movie.Poster&quot; width=&quot;100&quot; height=&quot;auto&quot; class=&quot;moviePoster&quot;/&amp;gt;
+      &amp;lt;p&amp;gt;{{movie.Title}}&amp;lt;/p&amp;gt;
+    &amp;lt;/li&amp;gt;
+  &amp;lt;/ul&amp;gt;
+  &amp;lt;form @submit.prevent=&quot;getMovie&quot; class=&quot;movieForm&quot;&amp;gt;
+    &amp;lt;input v-model=&quot;movieInput&quot;/&amp;gt;
+    &amp;lt;button type=&quot;submit&quot;&amp;gt;Get Movie&amp;lt;/button&amp;gt;
+  &amp;lt;/form&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Some Plain JavaScript Examples&lt;/h3&gt;
+&lt;p&gt;I gave this one a bogus external script to load&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;console.log(8 * 4)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I gave this one jQuery as a dependency&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;console.log(8 * 4)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This one is a plain snippet&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const apple = &quot;meatloaf&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;React? Yes!&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;function testComponent() {
+  //React.useEffect(() =&amp;gt; console.log(&apos;styled is: &apos;, styled), [])
+  const Div = styled.div`
+    color: red;
+    font-weight: 900
+  `
+  return (
+    &amp;lt;Div&amp;gt;Banana&amp;lt;/Div&amp;gt;
+  )
+}
+render(testComponent)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Python&lt;/h3&gt;
+&lt;p&gt;I can’t run a live snippet, but I can highlight it&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;age = 1
+def printAge(age):
+  print(age)
+
+printAge(age)
+&lt;/code&gt;&lt;/pre&gt;</content:encoded><atom:link rel="self" href="https://leewarrick.com/blog/rss.xml" type="application/rss+xml"/></item><item><title><![CDATA[Learn to Code Anything in 6 Steps]]></title><description><![CDATA[Learning to code something new can be a painful process. We inevitably get stuck or frustrated as we stumble through new concepts and ideas…]]></description><link>https://leewarrick.com/blog/how-to-learn-anything/</link><guid isPermaLink="false">https://leewarrick.com/blog/how-to-learn-anything/</guid><pubDate>Sun, 18 Aug 2019 23:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Learning to code something new can be a painful process. We inevitably get stuck or frustrated as we stumble through new concepts and ideas.&lt;/p&gt;
 &lt;p&gt;I’ve learned some hard concepts as a programmer. I’ve started from scratch in a new language as well as struggled through difficult concepts in an area I’m already comfortable in.&lt;/p&gt;
 &lt;p&gt;Working through those challenges has taught me that there’s a process to learning to program in a different language or ecosystem. There’s a pattern that emerges.&lt;/p&gt;
 &lt;p&gt;It’s a little like the &lt;a href=&quot;https://psychcentral.com/lib/the-5-stages-of-loss-and-grief/&quot;&gt;five stages of grief&lt;/a&gt;; some people are in different spots or skip steps, but everyone struggles through roughly the same process.&lt;/p&gt;
