@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Thu, 22 Aug 2019 20:28:22 GMT</lastBuildDate><item><title><![CDATA[Vue Testing]]></title><description><![CDATA[This is my playground for my live code snippetsFirst, a few Vue ExamplesTwo-way Binding in Vue:A Small Movie App in VueNote: if you reset…]]></description><link>https://leewarrick.com/blog/vue-test/</link><guid isPermaLink="false">https://leewarrick.com/blog/vue-test/</guid><pubDate>Wed, 21 Aug 2019 03:00:00 GMT</pubDate><content:encoded>&lt;p&gt;This is my playground for my live code snippets&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Thu, 22 Aug 2019 23:49:03 GMT</lastBuildDate><item><title><![CDATA[Vue Testing]]></title><description><![CDATA[This is my playground for my live code snippetsFirst, a few Vue ExamplesTwo-way Binding in Vue:A Small Movie App in VueNote: if you reset…]]></description><link>https://leewarrick.com/blog/vue-test/</link><guid isPermaLink="false">https://leewarrick.com/blog/vue-test/</guid><pubDate>Wed, 21 Aug 2019 03:00:00 GMT</pubDate><content:encoded>&lt;p&gt;This is my playground for my live code snippets&lt;/p&gt;
 &lt;p&gt;First, a few Vue Examples&lt;/p&gt;
 &lt;h3&gt;Two-way Binding in Vue:&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;const app = new Vue({
+&lt;pre&gt;&lt;code data-meta=&quot;js-live&quot;&gt;const app = new Vue({
   el: &apos;#vue-testing-entry&apos;,
   data: {
     message: &apos;Hello Vue!&apos;
   }
 })
 &lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;div id=&quot;vue-testing-entry&quot;&amp;gt;
+&lt;pre&gt;&lt;code data-meta=&quot;html-live&quot;&gt;&amp;lt;div id=&quot;vue-testing-entry&quot;&amp;gt;
     {{message}}
     &amp;lt;br&amp;gt;
     &amp;lt;input style=&quot;width: 100%&quot; v-model=&quot;message&quot;/&amp;gt;
@@ -16,7 +16,7 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;A Small Movie App in Vue&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; if you reset the HTML, you’ll then have to run the JavaScript again&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;const app = new Vue({
+&lt;pre&gt;&lt;code data-meta=&quot;js-live&quot;&gt;const app = new Vue({
   el: &apos;#vue-testing-entry2&apos;,
   data: {
     movies: [],
@@ -39,7 +39,7 @@
 })
 console.log(&quot;I ran already. If you click run again I will break the rendered HTML below&quot;)
 &lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;style&amp;gt;
+&lt;pre&gt;&lt;code data-meta=&quot;html-live&quot;&gt;&amp;lt;style&amp;gt;
   .listOfMovies {
     list-style: none;
     display: flex;
@@ -75,16 +75,16 @@ console.log(&quot;I ran already. If you click run again I will break the rendere
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;Some Plain JavaScript Examples&lt;/h3&gt;
 &lt;p&gt;I gave this one a bogus external script to load&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;console.log(8 * 4)
+&lt;pre&gt;&lt;code data-meta=&quot;js-live&quot;&gt;console.log(8 * 4)
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;I gave this one jQuery as a dependency&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;console.log($.toString())
+&lt;pre&gt;&lt;code data-meta=&quot;js-live&quot;&gt;console.log($.toString())
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;This one is a plain snippet&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;const apple = &quot;meatloaf&quot;
+&lt;pre&gt;&lt;code data-meta=&quot;scripts=fail&quot;&gt;const apple = &quot;meatloaf&quot;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;React? Yes!&lt;/h3&gt;
-&lt;pre&gt;&lt;code&gt;function testComponent() {
+&lt;pre&gt;&lt;code data-meta=&quot;react-live&quot;&gt;function testComponent() {
   //React.useEffect(() =&amp;gt; console.log(&apos;styled is: &apos;, styled), [])
   const Div = styled.div`
     color: red;
@@ -265,7 +265,7 @@ printAge(age)
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;pre&gt;&lt;code&gt;function doStuff(thing) {
+&lt;pre&gt;&lt;code data-meta=&quot;js-live&quot;&gt;function doStuff(thing) {
     thing = thing / 4 * -1
     thing = Math.pow(thing, 1)
     const thing2 = Math.trunc(thing) + 5
@@ -283,11 +283,11 @@ console.log(&quot;And the result is...&quot; + result)
 &lt;h2&gt;Checking out variable values&lt;/h2&gt;
 &lt;p&gt;You can hover over variables in the debugger and see their value as you step through the code.&lt;/p&gt;
 &lt;p&gt;First let’s look at some HTML:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;div id=&quot;magical&quot;&amp;gt;Boooooring&amp;lt;/div&amp;gt;
+&lt;pre&gt;&lt;code data-meta=&quot;html-live&quot;&gt;&amp;lt;div id=&quot;magical&quot;&amp;gt;Boooooring&amp;lt;/div&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Now let’s watch some JavaScript spice things up in the html above. Try stepping through to the “awesome” variable, then hovering over it to see all the magical properties and methods a DOM object has attached to it.&lt;/p&gt;
 &lt;p&gt;(Don’t forget to use ↗↘ to step through, and ▶ when you’re finished)&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;debugger // Let&apos;s watch the magic happen~ ✨👏
+&lt;pre&gt;&lt;code data-meta=&quot;js-live&quot;&gt;debugger // Let&apos;s watch the magic happen~ ✨👏
 const div = document.getElementById(&apos;magical&apos;)
 const awesome = document.createElement(&apos;marquee&apos;)
 //I&apos;m I-remember-marquee-tags years old. 🤫
@@ -300,7 +300,7 @@ div.appendChild(awesome)
 &lt;p&gt;Let’s try and get… oh, let’s say the level of sweetness on this meatball object below.&lt;/p&gt;
 &lt;p&gt;It would take me a &lt;em&gt;lot&lt;/em&gt; of &lt;code&gt;console.log&lt;/code&gt;s to finally drill down to that… but there’s a better way!&lt;/p&gt;
 &lt;p&gt;Debug, Hover the variable, then expand the properties until you find the key you’re looking for then &lt;strong&gt;Right-Click&lt;/strong&gt; and select &lt;strong&gt;Copy Property Path&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;const meatball = {
+&lt;pre&gt;&lt;code data-meta=&quot;js-live&quot;&gt;const meatball = {
     ingredients: {
         spices: [&quot;Oregano&quot;, &quot;Italian&quot;, &quot;Mystery&quot;],
         meats: {
@@ -346,7 +346,7 @@ console.log(&quot;Mama makes a meatball that&apos;s &quot; + /*meatball.&amp;lt;
 &lt;li&gt;Still lost? Look at the &lt;strong&gt;Call Stack&lt;/strong&gt; Panel. The scripts here are the ones you’re currently stepping through. In some weird script? &lt;strong&gt;Right-click&lt;/strong&gt; and select &lt;strong&gt;“Blackbox script”&lt;/strong&gt; to skip debugging the script you’re in.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Try it below!&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;function Counter() {
+&lt;pre&gt;&lt;code data-meta=&quot;react-live&quot;&gt;function Counter() {
     const [count, setCount] = React.useState(0)
     function countUp(count) {
         debugger
