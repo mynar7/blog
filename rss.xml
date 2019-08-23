@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Fri, 23 Aug 2019 01:49:45 GMT</lastBuildDate><item><title><![CDATA[Vue Testing]]></title><description><![CDATA[This is my playground for my live code snippetsFirst, a few Vue ExamplesTwo-way Binding in Vue:A Small Movie App in VueNote: if you reset…]]></description><link>https://leewarrick.com/blog/vue-test/</link><guid isPermaLink="false">https://leewarrick.com/blog/vue-test/</guid><pubDate>Wed, 21 Aug 2019 03:00:00 GMT</pubDate><content:encoded>&lt;p&gt;This is my playground for my live code snippets&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Fri, 23 Aug 2019 04:39:59 GMT</lastBuildDate><item><title><![CDATA[Vue Testing]]></title><description><![CDATA[This is my playground for my live code snippetsFirst, a few Vue ExamplesTwo-way Binding in Vue:A Small Movie App in VueNote: if you reset…]]></description><link>https://leewarrick.com/blog/vue-test/</link><guid isPermaLink="false">https://leewarrick.com/blog/vue-test/</guid><pubDate>Wed, 21 Aug 2019 03:00:00 GMT</pubDate><content:encoded>&lt;p&gt;This is my playground for my live code snippets&lt;/p&gt;
 &lt;p&gt;First, a few Vue Examples&lt;/p&gt;
 &lt;h3&gt;Two-way Binding in Vue:&lt;/h3&gt;
 &lt;pre&gt;&lt;code&gt;const app = new Vue({
@@ -20,15 +20,19 @@
   el: &apos;#vue-testing-entry2&apos;,
   data: {
     movies: [],
-    movieInput: &quot;&quot;
+    movieInput: &quot;&quot;,
+    error: false
   },
   methods: {
     getMovie() {
+      if (!this.movieInput.trim()) return this.movieInput = &quot;&quot;
       fetch(&quot;https://omdbapi.com/?apikey=trilogy&amp;amp;t=&quot; + this.movieInput)
       .then(res =&amp;gt; res.json())
       .then(res =&amp;gt; {
+        if (res.Error) return this.error = true
         this.movies.push(res)
         this.movieInput = &quot;&quot;
+        this.error = false
       })
     }
   },
@@ -37,7 +41,6 @@
     this.getMovie()
   }
 })
-console.log(&quot;I ran already. If you click run again I will break the rendered HTML below&quot;)
 &lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;&amp;lt;style&amp;gt;
   .listOfMovies {
@@ -59,6 +62,9 @@ console.log(&quot;I ran already. If you click run again I will break the rendere
     display: flex;
     justify-content: center;
   }
+  .movieError {
+    text-align: center
+  }
 &amp;lt;/style&amp;gt;
 &amp;lt;div id=&quot;vue-testing-entry2&quot;&amp;gt;
   &amp;lt;ul class=&quot;listOfMovies&quot;&amp;gt;
@@ -71,6 +77,7 @@ console.log(&quot;I ran already. If you click run again I will break the rendere
     &amp;lt;input v-model=&quot;movieInput&quot;/&amp;gt;
     &amp;lt;button type=&quot;submit&quot;&amp;gt;Get Movie&amp;lt;/button&amp;gt;
   &amp;lt;/form&amp;gt;
+  &amp;lt;pre class=&quot;movieError&quot; v-if=&quot;error&quot;&amp;gt;Movie Not Found!&amp;lt;/pre&amp;gt;
 &amp;lt;/div&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;Some Plain JavaScript Examples&lt;/h3&gt;
