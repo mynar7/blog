@@ -9,6 +9,9 @@ function SnippetInfo({language, editable = false, scripts = [], live = false, st
     fontSize: rhythm(0.5),
     lineHeight: rhythm(0.75),
     color: 'var(--grayLight)',
+    whiteSpace: 'pre-wrap',
+    wordBreak: 'keep-all',
+    overflowWrap: 'break-word'
   }
   function Msg(props) {
     return (

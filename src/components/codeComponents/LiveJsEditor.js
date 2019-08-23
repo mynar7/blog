@@ -87,7 +87,7 @@ function JsComponent({code, reset, scripts = [], autorun, hideControls}) {
       }
       {
         logs.filter(logObj => logObj.uniqueIdentifier === id.current).length > 0 &&
-        <pre>
+        <pre style={{whiteSpace: 'pre-wrap', wordBreak: 'keep-all', overflowWrap: 'break-word'}}>
           {
             logs.filter(logObj => logObj.uniqueIdentifier === id.current)
             .map(({logs}) => logs.map(logArr => logArr.map(logItem => JSON.stringify(logItem, null, 2)).join("\n") + '\n'))
