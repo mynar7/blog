@@ -27,20 +27,24 @@ const app = new Vue({
 ### A Small Movie App in Vue
 **Note:** if you reset the HTML, you'll then have to run the JavaScript again
 
-```js js-live scripts=Vue autorun
+```js js-live scripts=Vue autorun linkId=ex2
 const app = new Vue({
   el: '#vue-testing-entry2',
   data: {
     movies: [],
-    movieInput: ""
+    movieInput: "",
+    error: false
   },
   methods: {
     getMovie() {
+      if (!this.movieInput.trim()) return this.movieInput = ""
       fetch("https://omdbapi.com/?apikey=trilogy&t=" + this.movieInput)
       .then(res => res.json())
       .then(res => {
+        if (res.Error) return this.error = true
         this.movies.push(res)
         this.movieInput = ""
+        this.error = false
       })
     }
   },
@@ -49,9 +53,8 @@ const app = new Vue({
     this.getMovie()
   }
 })
-console.log("I ran already. If you click run again I will break the rendered HTML below")
 ```
-```html html-live
+```html html-live linkId=ex2
 <style>
   .listOfMovies {
     list-style: none;
@@ -72,6 +75,9 @@ console.log("I ran already. If you click run again I will break the rendered HTM
     display: flex;
     justify-content: center;
   }
+  .movieError {
+    text-align: center
+  }
 </style>
 <div id="vue-testing-entry2">
   <ul class="listOfMovies">
@@ -84,6 +90,7 @@ console.log("I ran already. If you click run again I will break the rendered HTM
     <input v-model="movieInput"/>
     <button type="submit">Get Movie</button>
   </form>
+  <pre class="movieError" v-if="error">Movie Not Found!</pre>
 </div>
 ```
 

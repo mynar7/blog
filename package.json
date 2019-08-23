@@ -41,8 +41,8 @@
     "typography": "^0.16.17"
   },
   "devDependencies": {
-    "eslint": "^6.0.1",
-    "eslint-plugin-react": "^7.11.1",
+    "eslint": "^6.2.1",
+    "eslint-plugin-react": "^7.14.3",
     "gh-pages": "^2.0.1",
     "prettier": "^1.14.2"
   },

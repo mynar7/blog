@@ -5,7 +5,7 @@ import { useCodeContext } from './CodeProvider'
 import SnippetInfo from './SnippetInfo'
 import OutputLabel from './OutputLabel'
 
-function LiveJsEditor({code: initialCode, language, theme, scripts, autorun, editingDisabled}) {
+function LiveJsEditor({code: initialCode, language, theme, scripts, autorun, editingDisabled, linkId}) {
   const [code, setCode] = useState(initialCode)
   const themePlain = theme.plain
   return(
@@ -26,17 +26,30 @@ function LiveJsEditor({code: initialCode, language, theme, scripts, autorun, edi
         reset={() => setCode(initialCode)}
         scripts={scripts}
         hideControls={editingDisabled}
-        autorun={autorun}/>
+        autorun={autorun}
+        linkId={linkId}/>
     </>
   )
 }
 
-function JsComponent({code, reset, scripts = [], autorun, hideControls}) {
-  const id = useRef(Date.now() + Math.random()) //create uuid-ish number for identifiying which component is logging
+function JsComponent({code, reset, scripts = [], autorun, hideControls, linkId}) {
+  //create uuid-ish number for identifiying which component is logging
+  const id = useRef(Date.now() + Math.random())
   const timeOutId = useRef() //track timeoutId between renders
   const [runOnce, setRunOnce] = useState(false)
-  const { logs, clearLogs, setCurrentLogger, globalScripts, loggerReady } = useCodeContext()
-  const evaluateCode = () => {
+  const {
+    logs,
+    clearLogs,
+    setCurrentLogger,
+    globalScripts,
+    loggerReady,
+    linkedSnippets,
+    updateLinkedSnippets
+  } = useCodeContext()
+
+  function evaluateCode() {
+    if (linkId && linkedSnippets[linkId] === 'waiting')
+      return updateLinkedSnippets(linkId, 'runningJS')
     clearInterval(timeOutId.current) //allow this snippet to continue logging
     clearLogs(id.current) //prevent logging the same result
     setCurrentLogger(id.current)
@@ -48,7 +61,9 @@ function JsComponent({code, reset, scripts = [], autorun, hideControls}) {
           scriptsNotLoaded.push(scriptName)
         }
       })
-      if (scriptsNotLoaded.length > 0) return console.blog(`Script Execution Stopped: Failed to load ${scriptsNotLoaded.join(", ")}`)
+      if (scriptsNotLoaded.length > 0) {
+        return console.blog(`Script Execution Stopped: Failed to load ${scriptsNotLoaded.join(", ")}`)
+      }
       // this hack concatentates all the global scripts to be evaluated before snippet's script
       // allowing them to be included in the namespace/scope
       // const scriptsToRun = scripts
@@ -66,12 +81,14 @@ function JsComponent({code, reset, scripts = [], autorun, hideControls}) {
       : console.log(error.message)
       setCurrentLogger(null)
     }
+    if (linkId) updateLinkedSnippets(linkId, 'waiting')
   }
 
   function clearLogsAndLabel() {
     clearLogs(id.current)
     setRunOnce(false)
   }
+
   //if autorun is enabled, after mount evaluate code if scripts loaded
   useEffect(() => {
     if (!autorun || !loggerReady) return
@@ -79,11 +96,23 @@ function JsComponent({code, reset, scripts = [], autorun, hideControls}) {
     evaluateCode(code)
   }, [loggerReady, ...scripts.map(script => globalScripts[script])])
 
+  useEffect(() => {
+    if (linkedSnippets[linkId] === 'renderedHTML') {
+      evaluateCode()
+    }
+  }, [linkedSnippets[linkId]])
+
   return (
     <>
       {
         runOnce &&
-        <OutputLabel>{logs.filter(logObj => logObj.uniqueIdentifier === id.current).length > 0 ? "Output:" : "(Finished, No Output)"}</OutputLabel>
+        <OutputLabel>
+          {
+            logs.filter(logObj => logObj.uniqueIdentifier === id.current).length > 0
+            ? "Output:"
+            : "(Finished, No Output)"
+          }
+        </OutputLabel>
       }
       {
         logs.filter(logObj => logObj.uniqueIdentifier === id.current).length > 0 &&

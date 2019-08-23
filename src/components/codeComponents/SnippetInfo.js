@@ -51,13 +51,13 @@ function SnippetInfo({language, editable = false, scripts = [], live = false, st
 
   switch(status) {
     case 'loading':
-      return <Msg>Live{editable ? ", editable" : ""} {language} Snippet (Loading {loadingListString}):</Msg>
+      return <Msg>Live{editable ? ", editable " : " "}{language} Snippet (Loading {loadingListString}):</Msg>
     case 'failed':
-      return <Msg>Live{editable ? ", editable" : ""} {language} Snippet (Failed to load {failedListString}):</Msg>
+      return <Msg>Live{editable ? ", editable " : " "}{language} Snippet (Failed to load {failedListString}):</Msg>
     case 'loaded':
-      return <Msg>Live{editable ? ", editable" : ""} {language} Snippet (Loaded {loadedListString}):</Msg>
+      return <Msg>Live{editable ? ", editable " : " "}{language} Snippet (Loaded {loadedListString}):</Msg>
     default:
-      return <Msg>{live ? "Live" : ""}{editable ? ", editable" : ""} {language} Snippet:</Msg>
+      return <Msg>{live ? "Live" : ""}{editable ? ", editable" : ""}{live || editable ? " " : ""}{language} Snippet:</Msg>
   }
 }
 

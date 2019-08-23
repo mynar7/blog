@@ -19,6 +19,7 @@ function CodeProvider(props) {
   const [logs, setLogs] = useState([])
   const refLogs = React.useRef([])
   const loggerId = useRef() //which code snippet is currently firing logs
+  const [ linkedSnippets, setLinkedSnippets ] = useState({})
 
   const setCurrentLogger = (id) => loggerId.current = id //used by code components to set themselves as the current logger
   const clearLogs = (id) => {
@@ -111,15 +112,28 @@ function CodeProvider(props) {
     }
   }
 
+  function addLinkedSnippet(snippetKey) {
+    if (linkedSnippets[snippetKey]) return
+    setLinkedSnippets({...linkedSnippets, [snippetKey]: 'waiting'})
+  }
+
+  function updateLinkedSnippets(snippetKey, status) {
+    if (!linkedSnippets[snippetKey]) return
+    setLinkedSnippets({...linkedSnippets, [snippetKey]: status})
+  }
+
   const contextObj = {
     logs,
     clearLogs,
     setCurrentLogger,
     loggerReady,
-    // loadScript,
     queueScripts,
     globalScripts,
+    linkedSnippets,
+    addLinkedSnippet,
+    updateLinkedSnippets,
   }
+
   return (
     <LogContext.Provider value={contextObj} {...props} />
   )

@@ -7,10 +7,9 @@ import LiveJsEditor from './codeComponents/LiveJsEditor'
 import LiveReactEditor from './codeComponents/LiveReactEditor'
 import PlainCodeHighlight from './codeComponents/PlainCodeHighlight'
 import SnippetInfo from './codeComponents/SnippetInfo'
-import { Script } from 'vm';
 
 export const Code = ({ codeString, language, ...props }) => {
-  const { queueScripts } = useCodeContext()
+  const { queueScripts, addLinkedSnippet } = useCodeContext()
   const scripts = useRef([])
   const scriptPairs = useRef([])
   if (props.scripts) {
@@ -22,6 +21,7 @@ export const Code = ({ codeString, language, ...props }) => {
   }
   useEffect(() => {
     queueScripts(scriptPairs.current)
+    if (props.linkId) addLinkedSnippet(props.linkId)
   }, [])
   if (props['react-live']) {
     return (
@@ -42,7 +42,8 @@ export const Code = ({ codeString, language, ...props }) => {
           theme={theme}
           autorun={props.autorun}
           editingDisabled={props['no-edit']}
-          scripts={scripts.current}/>
+          scripts={scripts.current}
+          linkId={props.linkId}/>
       </div>
     )
   }
@@ -52,7 +53,8 @@ export const Code = ({ codeString, language, ...props }) => {
         <LiveHtmlEditor code={codeString}
           language={language}
           editingDisabled={props['no-edit']}
-          theme={theme} />
+          theme={theme}
+          linkId={props.linkId}/>
       </div>
     )
   }
