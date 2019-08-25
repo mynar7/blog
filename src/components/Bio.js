@@ -33,7 +33,7 @@ function Bio() {
               {` `}
               <a href={`https://twitter.com/${social.twitter}`}>
                 Twitter
-            </a>, and */}Feel free to <a href="https://tinyletter.com/leewarrick"><strong>Subscribe</strong></a>!
+            </a>, and */}<a href="https://tinyletter.com/leewarrick"><strong>Subscribe</strong></a> for updates!
 
             </p>
           </div>
