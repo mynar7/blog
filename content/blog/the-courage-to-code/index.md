@@ -23,7 +23,7 @@ Writing math formula scripts on my graphing calculator was as close as I got to 
 
 The smart kids in my high school seemed to be all applying and getting accepted to college. So I blindly followed suit.
 
-I applied and was accepted to the University of Florida as a chemical engineering student (it seemed like a guaranteed job). I stuck with it for about a month before catching wind of what those folks actually do, then changed majors to Computer Science.
+I applied and was accepted to the University of Florida as a chemical engineering student. I stuck with it for about a month before catching wind of what those folks actually do, then changed majors to Computer Science.
 
 I was going for it folks, I was going to pursue my **dream**.
 
@@ -73,7 +73,7 @@ Sometimes I'd find myself sitting at the nurse's station absent-mindedly clickin
 
 Then I discovered coding bootcamps.
 
-There's a lot of noise out there about bootcamps. You'd be forgiven for thinking that they're the ponzi scheme of our time after spending a little time researching them on the internet.
+There's a lot of noise out there about bootcamps. You'd be forgiven for thinking that they're the ponzi scheme of our time after doing a little research on the internet.
 
 The risk didn't matter though. I saw it as an opportunity to escape. I signed up.
 
