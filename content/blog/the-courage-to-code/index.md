@@ -81,7 +81,7 @@ Going to code bootcamp turned out to be a transformative experience for a few re
 
 1. **I was surrounded by career changers.** When we introduced ourselves on the first day I found myself in the company of marketing executives, fast-food workers, database administrators, school teachers, and even computer science undergrads.
 1. **Everyone struggled to get their code to run.** Sure, some were better than others, but absolutely everyone had difficulties in class and doing the homework.
-1. **We built fun things.** Not once did I have to print a triangle with for loops. We built personal websites, games, toy apps, and more. I could feel myself making progress. I actually enjoyed learning.
+1. **We built fun things.** Not once did I have to print a triangle with `for` loops. We built personal websites, games, toy apps, and more. I could feel myself making progress. I actually enjoyed learning.
 1. **We were encouraged to find our own answers.** From day one we were told to "google it." It was our mantra. We weren't expected to know everything, but we had to be able to search for the answers.
 
 So there I was with like-minded, indecisive people that were struggling to learn, having fun building things, and just as clueless as I was. It was so radically different from that college class I had taken fifteen years ago. It was invigorating.
@@ -102,7 +102,7 @@ The bootcamp did not bless me with a great resume nor a great portfolio, and as 
 
 So I went to meetups. I got on a developer slack channel in town and asked a boatload of stupid questions. I worked tirelessly on my resume and portfolio, soliciting feedback from anyone willing to give it. And all the while I machine-gunned my resume to every developer job on indeed that I was remotely qualified for.
 
-Everytually I saw a job-listing on slack. I messaged the poster, sent my resume and portfolio, and setup an interview.
+Eventually I saw a job-listing on slack. I messaged the poster, sent my resume and portfolio, and setup an interview.
 
 In that interview, I was calm and collected. I made them laugh and answered their questions. My past careers had taught me to maintain my composure and stay calm. One of my interviewers even remarked how it would be great to have a nurse on the team.
 
