@@ -47,7 +47,7 @@ export const Code = ({ codeString, language, ...props }) => {
       </div>
     )
   }
-  else if (props['html-live']){
+  else if (props['html-live'] || props['css-live']){
     return (
       <div style={{marginBottom: rhythm(2)}}>
         <LiveHtmlEditor code={codeString}

@@ -5,8 +5,12 @@ import SnippetInfo from './SnippetInfo'
 import OutputLabel from './OutputLabel'
 import { useCodeContext } from './CodeProvider'
 
-function HtmlComponent({code}) {
-  return <div dangerouslySetInnerHTML={{__html: code}} />
+function HtmlComponent({code, language}) {
+  if (language === 'css') {
+    return <style dangerouslySetInnerHTML={{__html: code}} />
+  } else {
+    return <div dangerouslySetInnerHTML={{__html: code}} />
+  }
 }
 
 function HtmlControls({reset}) {
@@ -21,8 +25,9 @@ function LiveHtmlEditor({code: initialCode, language, theme, editingDisabled, li
   const themePlain = theme.plain
   async function reset() {
     setCode(initialCode)
+    if (language === 'css' || !linkId) return
     await reRender()
-    if (linkId) updateLinkedSnippets(linkId, 'renderedHTML')
+    updateLinkedSnippets(linkId, 'renderedHTML')
   }
 
   function reRender() {
@@ -41,10 +46,11 @@ function LiveHtmlEditor({code: initialCode, language, theme, editingDisabled, li
 
   function setCodeWrapper(code) {
     setCode(code)
-    debouncedSetCode()
+    if (language === 'html') debouncedSetCode()
   }
 
   useEffect(() => {
+    if (language === 'css') return
     if (linkedSnippets[linkId] === 'runningJS') {
       reRender().then(() => {
         updateLinkedSnippets(linkId, 'renderedHTML')
@@ -66,10 +72,16 @@ function LiveHtmlEditor({code: initialCode, language, theme, editingDisabled, li
           ...themePlain
         }}
       />
-      <OutputLabel>Rendered HTML:</OutputLabel>
+      <OutputLabel>
+        {
+          language === 'html'
+          ? 'Rendered HTML:'
+          : 'CSS Applied to page!'
+        }
+      </OutputLabel>
       {
         updater
-        ? <HtmlComponent code={code}/>
+        ? <HtmlComponent code={code} language={language}/>
         : <pre style={{textAlign: 'center'}}>🔥🔥🔥Loading!🔥🔥🔥</pre>
       }
       {
