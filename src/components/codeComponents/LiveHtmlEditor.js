@@ -13,8 +13,8 @@ function HtmlComponent({code, language}) {
   }
 }
 
-function HtmlControls({reset}) {
-  return <button onClick={reset}>Reset</button>
+function HtmlControls({reset, language}) {
+  return <button onClick={reset}>Reset {language.toUpperCase()}</button>
 }
 
 function LiveHtmlEditor({code: initialCode, language, theme, editingDisabled, linkId}) {
@@ -86,7 +86,7 @@ function LiveHtmlEditor({code: initialCode, language, theme, editingDisabled, li
       }
       {
         !editingDisabled &&
-        <HtmlControls reset={reset} />
+        <HtmlControls reset={reset} language={language} />
       }
     </>
   )
