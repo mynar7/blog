@@ -1,6 +1,6 @@
 ---
 title: Vue Testing
-date: 2019-08-20T23:00:00-0400
+date: 2020-08-20T23:00:00-0400
 ---
 
 This is my playground for my live code snippets
@@ -54,31 +54,31 @@ const app = new Vue({
   }
 })
 ```
+```css css-live linkId=ex2
+.listOfMovies {
+  list-style: none;
+  display: flex;
+  margin: 10px 0 0 0;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.movieListItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.moviePoster {
+  margin: 0 auto;
+}
+.movieForm {
+  display: flex;
+  justify-content: center;
+}
+.movieError {
+  text-align: center
+}
+```
 ```html html-live linkId=ex2
-<style>
-  .listOfMovies {
-    list-style: none;
-    display: flex;
-    margin: 10px 0 0 0;
-    justify-content: space-around;
-    flex-wrap: wrap;
-  }
-  .movieListItem {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .moviePoster {
-    margin: 0 auto;
-  }
-  .movieForm {
-    display: flex;
-    justify-content: center;
-  }
-  .movieError {
-    text-align: center
-  }
-</style>
 <div id="vue-testing-entry2">
   <ul class="listOfMovies">
     <li class="movieListItem" v-for="movie in movies">

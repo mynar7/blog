@@ -2,10 +2,16 @@ import React from 'react'
 import Highlight, { defaultProps } from 'prism-react-renderer'
 
 function PlainCodeHighlight({code, language, theme}) {
+  const styles = {
+    whiteSpace: 'pre-wrap',
+    wordBreak: 'keep-all',
+    overflowWrap: 'break-word',
+    padding: '10px'
+  }
   return (
     <Highlight {...defaultProps} code={code} language={language} theme={theme}>
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={{padding: '10px', ...style}}>
+        <pre className={className} style={{...style, ...styles}}>
           {tokens.map((line, i) => (
             <div {...getLineProps({ line, key: i })}>
               {line.map((token, key) => (
