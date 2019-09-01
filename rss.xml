@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Sun, 01 Sep 2019 18:02:52 GMT</lastBuildDate><item><title><![CDATA[Staying Sane while Organizing CSS]]></title><description><![CDATA[In my time as a front-end developer, I’ve seen and heard a lot of gripes about CSS.I often see people reach for a CSS framework like…]]></description><link>https://leewarrick.com/blog/staying-sane-with-css/</link><guid isPermaLink="false">https://leewarrick.com/blog/staying-sane-with-css/</guid><pubDate>Sun, 01 Sep 2019 17:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Sun, 01 Sep 2019 22:44:28 GMT</lastBuildDate><item><title><![CDATA[Staying Sane while Organizing CSS]]></title><description><![CDATA[In my time as a front-end developer, I’ve seen and heard a lot of gripes about CSS.I often see people reach for a CSS framework like…]]></description><link>https://leewarrick.com/blog/staying-sane-with-css/</link><guid isPermaLink="false">https://leewarrick.com/blog/staying-sane-with-css/</guid><pubDate>Sun, 01 Sep 2019 17:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
       &lt;a href=&quot;https://leewarrick.com/blog/static/2fd06797aa9f09bb57ed8458570b82f3/971c4/mugcss.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
   &lt;img alt=&quot;Mug with &apos;CSS is Awesome&apos; written on it, but &apos;Awesome&apos; overflows the border of the text&quot; title=&quot;Mug with &apos;CSS is Awesome&apos; written on it, but &apos;Awesome&apos; overflows the border of the text&quot; src=&quot;https://leewarrick.com/blog/static/2fd06797aa9f09bb57ed8458570b82f3/a111b/mugcss.jpg&quot;&gt;
@@ -192,12 +192,8 @@
 &amp;lt;main&amp;gt;
     &amp;lt;div class=&quot;jumbotron__container&quot;&amp;gt;
         &amp;lt;div class=&quot;jumbotron column center-x center-y&quot;&amp;gt;
-            &amp;lt;h2 class=&quot;jumbotron__heading&quot;&amp;gt;
-                This is a moving message
-            &amp;lt;/h2&amp;gt;
-            &amp;lt;p class=&quot;jumbotron__subtext&quot;&amp;gt;
-                And this is why you should click the button below
-            &amp;lt;/p&amp;gt;
+            &amp;lt;h2&amp;gt;This is a moving message&amp;lt;/h2&amp;gt;
+            &amp;lt;p&amp;gt;And this is why you should click the button below&amp;lt;/p&amp;gt;
             &amp;lt;button class=&quot;jumbotron__button&quot;&amp;gt;Call to Action&amp;lt;/button&amp;gt;
         &amp;lt;/div&amp;gt;
     &amp;lt;/div&amp;gt;
