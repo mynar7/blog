@@ -39,7 +39,7 @@ This is a valid solution if you need to start from scratch, but you typically do
 
 Most CSS frameworks have a normalize built into them already, so you won't need to add this in if you're using Bootstrap, Materialize, etc.
 
-### The 80/20 normalize
+### The Quick and Easy Option
 
 There's a third option here worth mentioning. If you're trying to get things done quickly and not using a framework, you can quickly eliminate most of the funk with something like this:
 
@@ -56,7 +56,7 @@ This ends up stripping out all the micro-adjustments you typically have to come 
 
 You can optionally toss in the `box-sizing` bit to make sure that your widths/heights are not additive. This means if you say an element is `500px`, it will be exactly that regardless of padding, margin, or border that you add in later. I don't typically find myself reaching for this, but it can help when you're doing pixel-perfect layouts.
 
-The last bit is a little 🔥 **hot-tip** 🔥 for debugging CSS layouts. If you're wondering how big or what shape an element is, adding a border can quickly show you how something is being rendered. This adds a border to all elements, showing you how everything is laid out on the page.
+**Note**: The last bit is a little 🔥 **hot-tip** 🔥 for debugging CSS layouts. If you're wondering how big or what shape an element is, adding a border can quickly show you how something is being rendered. This adds a border to all elements, showing you how everything is laid out on the page.
 
 ## Writing Good Markup and 'Going with the Flow'
 
@@ -77,9 +77,11 @@ There's a few tools and tricks that can dramatically reduce the amount of time y
 
 ### Floats
 
-Let's squash this before we get to the fun bits. If you're using floats for layouts, _please stop_. Flexbox is [highly compatible](https://caniuse.com/#feat=flexbox) with older browsers, and it's way easier to use.
+Before we talk about flexbox, let's talk briefly about floats. If you're using floats for layouts, _please stop_. Flexbox is [highly compatible](https://caniuse.com/#feat=flexbox) with older browsers, and it's way easier to use.
 
-Here's probably the only time you'll want to reach for a float:
+Floats are great for wrapping text around an element, but are awful for layouts. They break the flow of HTML and require a clearfix hack to restore that flow for the rest of the elements that come after.
+
+Here's a quick example:
 
 ```html html-live
 <div id="float-example">
@@ -104,14 +106,15 @@ Here's probably the only time you'll want to reach for a float:
     overflow: auto
 }
 ```
+If you erase some of the lorem text, and remove that `overflow` property, you'll see how floats destroy a page's flow.
 
-If you're not wrapping text around an element, you probably don't want to use a float.
+Floats are a good tool if you use them correctly. However for layouts, you probably don't want to use a float.
 
-**Note**: If you're a die-hard float-based layout fan (or even table-based 😱) I'm not trying to rain on your parade. You do you! However I've seen a lot of students struggle and develop negative opinions of CSS based on trying to build a layout using floats. For those new to CSS, I think there's far better options.
+**Note**: If you're a die-hard float-based layout fan (or even table-based 😱) I'm not trying to rain on your parade. However I've seen a lot of students struggle and develop negative opinions of CSS based on trying to build a layout using floats. For those new to CSS, I think there's far better options.
 
 ### Flexbox
 
-Flexbox is a powerful and simple tool to use for creating layouts and positioning elements. If you've never heard of it, Wes Bos has a great free series on it called [What the Flexbox?](https://www.youtube.com/watch?v=Vj7NZ6FiQvo&list=PLu8EoSxDXHP7xj_y6NIAhy0wuCd4uVdid). If that's too much for you there's a great [visual cheat sheet](http://flexbox.malven.co/) that might get you up and running faster.
+Flexbox is a powerful and simple tool to use for creating layouts and positioning elements. If you've never heard of it, Wes Bos has a great free series on it called _[What the Flexbox?](https://www.youtube.com/watch?v=Vj7NZ6FiQvo&list=PLu8EoSxDXHP7xj_y6NIAhy0wuCd4uVdid)_. If you're already familiar with flexbox, there's a great [visual cheat sheet](http://flexbox.malven.co/) you can use as well.
 
 Conceptually, flexbox is all about creating containers. So you create a flex container with `display: flex` and then every direct child element will be aligned a certain way based on that parent container element.
 
@@ -129,9 +132,9 @@ So when it comes to organization of CSS, there's two camps: components, and util
 
 ### Components
 
-Components could be thought of like bootstrap. You copy over a whole block of code that represents a "jumbotron" or "navbar", etc. In your code, this might be represented by one class applied to an element, possibly with a handful of subclasses used on elements within.
+Components could be thought of like how bootstrap organizes their building blocks. A "jumbotron" or "navbar", etc. might be represented by one class applied to an element, or possibly with a handful of subclasses used on elements within. The approach here is to use fewer class names in your HTML, scope/name them smartly, and generally style larger chunks of markup with a handful of classes.
 
-The approach here is to use fewer class names in your HTML, scope/name them smartly, and generally style larger chunks of markup with a single class. A popular convention for naming such classes is [BEM](http://getbem.com/). BEM stands for "Block, Element, Modifier", and it's essentially a system of `--` and `__` inside your classes to increase the reusability and composability of your CSS.
+A popular convention for naming such classes is [BEM](http://getbem.com/). BEM stands for "Block, Element, Modifier", and it's essentially a system of `--` and `__` inside your class names to increase the reusability and composability of your CSS.
 
 Here's a [BEM in 5-minutes](https://www.youtube.com/watch?v=SLjHSVwXYq4) video to get you up to speed.
 
@@ -149,11 +152,11 @@ The con here is that your HTML elements can quickly become bloated with CSS clas
 
 ### Finding Balance
 
-In my experience, a combination of both methods is the sane choice. Having a handful of global utility classes in combination with larger presentational classes for blocks of markup makes the most sense. This has the added benefit of making your markup a little more readable as well.
+In my experience, a combination of both methods is the sane choice. Having a handful of global utility classes in combination with larger presentational classes for blocks of markup makes the most sense. This has the added benefit of making your markup a little more readable as well, because your component class names like `card` are listed beside your layout class names like `row` or `column`. So `card row` would tell you this card has a row of children elements.
 
 Let's look at some examples. Let's build a standard layout, starting with a header and some navigation links.
 
-First let's define some layout classes. This little bit of CSS is going to let us do a lot of heavy lifting. We're going to start with a global color palette using [CSS variables](https://codeburst.io/css-variables-explained-with-5-examples-84adaffaa5bd), then define our layout classes.
+This little bit of CSS is going to let us do a lot of heavy lifting. We're going to start with a global color palette using [CSS variables](https://codeburst.io/css-variables-explained-with-5-examples-84adaffaa5bd), then define our layout classes.
 
 ```css css-live
 :root {
@@ -229,14 +232,15 @@ Let's go a little further and build out a jumbotron/call to action and a little 
 }
 .jumbotron__button {
     background-color: var(--ex-purple-light);
-    color: var(--ex-black);
-    border: 2px solid var(--ex-purple-light);
+    border: 2px solid var(--ex-green-dark);
     border-radius: 4px;
+    color: var(--ex-green-dark);
     transition: background-color 200ms, color 200ms
 }
 .jumbotron__button:hover {
-    color: var(--ex-purple-light);
+    color: var(--ex-black);
     background-color: var(--ex-purple-dark);
+    border: 2px solid var(--ex-black);
 }
 .ex-heading {
     text-align: center;
@@ -284,9 +288,11 @@ Let's go a little further and build out a jumbotron/call to action and a little 
 ```
 Cool right?
 
-Doing something like this as a CSS beginner would have taken me hours upon hours and a lot of stack overflow perusal!
+Doing something like this as a CSS beginner used to take me hours and many more lines of CSS!
+
+**Note**: If you check this layout on mobile, you'll see it is responsive without any additional work. The `flex-wrap` property makes our children elements wrap to a new line if there's not enough space. Flexbox in general works very well with creating responsive layouts.
 
 ## Parting Thoughts
 
-Hopefully by now you see the power of applying some organizational principles to your CSS!
+Hopefully by now you see the power of applying some organizational principles to your CSS. With a little practice, you can get some amazing things done with only a few lines of code.
 
