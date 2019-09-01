@@ -1,6 +1,6 @@
 ---
 title: Staying Sane while Organizing CSS
-date: 2020-08-20T23:00:00-0400
+date: 2019-09-01T13:00:00-0400
 ---
 
 ![Mug with 'CSS is Awesome' written on it, but 'Awesome' overflows the border of the text](./mugcss.jpg)
@@ -41,7 +41,7 @@ Most CSS frameworks have a normalize built into them already, so you won't need 
 
 ### The Quick and Easy Option
 
-There's a third option here worth mentioning. If you're trying to get things done quickly and not using a framework, you can quickly eliminate most of the funk with something like this:
+There's a third option here worth mentioning. If you're trying to get things done quickly and not using a framework, you can eliminate most of the funk with something like this:
 
 ```css
 * {
@@ -56,7 +56,7 @@ This ends up stripping out all the micro-adjustments you typically have to come 
 
 You can optionally toss in the `box-sizing` bit to make sure that your widths/heights are not additive. This means if you say an element is `500px`, it will be exactly that regardless of padding, margin, or border that you add in later. I don't typically find myself reaching for this, but it can help when you're doing pixel-perfect layouts.
 
-**Note**: The last bit is a little 🔥 **hot-tip** 🔥 for debugging CSS layouts. If you're wondering how big or what shape an element is, adding a border can quickly show you how something is being rendered. This adds a border to all elements, showing you how everything is laid out on the page.
+**Note**: The last bit is a little 🔥 **hot tip** 🔥 for debugging CSS layouts. If you're wondering how big or what shape an element is, adding a border can quickly show you how something is being rendered. This adds a border to all elements, showing you how everything is laid out on the page.
 
 ## Writing Good Markup and 'Going with the Flow'
 
@@ -79,7 +79,7 @@ There's a few tools and tricks that can dramatically reduce the amount of time y
 
 Before we talk about flexbox, let's talk briefly about floats. If you're using floats for layouts, _please stop_. Flexbox is [highly compatible](https://caniuse.com/#feat=flexbox) with older browsers, and it's way easier to use.
 
-Floats are great for wrapping text around an element, but are awful for layouts. They break the flow of HTML and require a clearfix hack to restore that flow for the rest of the elements that come after.
+Floats are great for wrapping text around an element, but are awful for layouts. They break the flow of HTML and require a [clearfix](https://www.w3schools.com/howto/howto_css_clearfix.asp) hack to restore that flow for the rest of the elements that come after.
 
 Here's a quick example:
 
@@ -101,16 +101,16 @@ Here's a quick example:
     margin: 5px;
 }
 
-#float-example + * {
+#float-example::after {
     /* Another gripe about floats is having to use a clearfix! */
-    overflow: auto
+    content: "";
+    display: table;
+    clear: both;
 }
 ```
-If you erase some of the lorem text, and remove that `overflow` property, you'll see how floats destroy a page's flow.
+If you erase some of the lorem text, and remove that clearfix hack, you'll see how floats destroy a page's flow.
 
 Floats are a good tool if you use them correctly. However for layouts, you probably don't want to use a float.
-
-**Note**: If you're a die-hard float-based layout fan (or even table-based 😱) I'm not trying to rain on your parade. However I've seen a lot of students struggle and develop negative opinions of CSS based on trying to build a layout using floats. For those new to CSS, I think there's far better options.
 
 ### Flexbox
 
@@ -126,7 +126,7 @@ You can absolutely use Grid! CSS Grid is very similar to flexbox, just way more 
 
 Why use flexbox then? Honestly, I like it because it's incredibly simple and straightforward. It does one thing and does it very well. Plus you can absolutely nest flex containers and compose them into whatever you need.
 
-## Organizing CSS: Components vs Utility classes
+## Components vs Utility classes
 
 So when it comes to organization of CSS, there's two camps: components, and utility classes.
 
@@ -266,12 +266,8 @@ Let's go a little further and build out a jumbotron/call to action and a little 
 <main>
     <div class="jumbotron__container">
         <div class="jumbotron column center-x center-y">
-            <h2 class="jumbotron__heading">
-                This is a moving message
-            </h2>
-            <p class="jumbotron__subtext">
-                And this is why you should click the button below
-            </p>
+            <h2>This is a moving message</h2>
+            <p>And this is why you should click the button below</p>
             <button class="jumbotron__button">Call to Action</button>
         </div>
     </div>
