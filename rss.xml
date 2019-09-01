@@ -1,4 +1,221 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Mon, 26 Aug 2019 18:22:25 GMT</lastBuildDate><item><title><![CDATA[Finding the Courage to Code]]></title><description><![CDATA[Once I overheard someone describe a kid they met that knew he wanted to be a podiatrist 👣👨‍⚕️ at age 6. This story is not about that…]]></description><link>https://leewarrick.com/blog/the-courage-to-code/</link><guid isPermaLink="false">https://leewarrick.com/blog/the-courage-to-code/</guid><pubDate>Sun, 25 Aug 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Sun, 01 Sep 2019 17:30:19 GMT</lastBuildDate><item><title><![CDATA[Staying Sane while Organizing CSS]]></title><description><![CDATA[In my time as a front-end developer, I’ve seen and heard a lot of gripes about CSS.I often see people reach for a CSS framework like…]]></description><link>https://leewarrick.com/blog/staying-sane-with-css/</link><guid isPermaLink="false">https://leewarrick.com/blog/staying-sane-with-css/</guid><pubDate>Sun, 01 Sep 2019 17:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/2fd06797aa9f09bb57ed8458570b82f3/971c4/mugcss.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+    &lt;span&gt;&lt;/span&gt;
+  &lt;img alt=&quot;Mug with &apos;CSS is Awesome&apos; written on it, but &apos;Awesome&apos; overflows the border of the text&quot; title=&quot;Mug with &apos;CSS is Awesome&apos; written on it, but &apos;Awesome&apos; overflows the border of the text&quot; src=&quot;https://leewarrick.com/blog/static/2fd06797aa9f09bb57ed8458570b82f3/a111b/mugcss.jpg&quot;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;In my time as a front-end developer, I’ve seen and heard a lot of gripes about CSS.&lt;/p&gt;
+&lt;p&gt;I often see people reach for a CSS framework like Bootstrap, Materialize, Bulma, Tailwind, etc. to avoid writing CSS. While CSS frameworks can be great accelerators, they often require solid CSS skills to wield them effectively. That is to say, if you’re not very good at CSS, you’re probably not going to be that great using a CSS framework either.&lt;/p&gt;
+&lt;p&gt;Framework or not, when hitting a snag people tend to throw more and more lines of CSS at the problem until they get a working solution. In essence, they’re following the “can’t tie a knot? Tie a lot!” method of development.&lt;/p&gt;
+&lt;p&gt;Unfortunately a massive, improper knot is unreliable and weakens the rope.&lt;/p&gt;
+&lt;p&gt;So don’t be the “see what sticks” developer. I’m going to show you how you can add a little organization to your stylesheets that will get you up and running quickly without pulling your hair out.&lt;/p&gt;
+&lt;h2&gt;Preparing for Success: Reset vs Normalize&lt;/h2&gt;
+&lt;p&gt;HTML elements come with their own default styling. Unfortunately, much of it is flat-out ugly (Looking at you, form input elements).&lt;/p&gt;
+&lt;p&gt;To make things worse, browsers &lt;em&gt;still&lt;/em&gt; have not reached 100% parity on that default styling. This means certain elements appear differently on different browsers.&lt;/p&gt;
+&lt;p&gt;You may even end up overriding that default styling over and over again in your stylesheet to achieve the look or positioning you want. Don’t fall into this trap. Address the default styles once.&lt;/p&gt;
+&lt;p&gt;That said, there are two powerful, pre-built solutions for taming default styles: Reset and Normalize.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: Don’t forget to add these &lt;strong&gt;before&lt;/strong&gt; all other styles—remember the cascade!&lt;/p&gt;
+&lt;h3&gt;CSS Reset&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://cssreset.com/scripts/eric-meyer-reset-css/&quot;&gt;CSS Reset&lt;/a&gt; is essentially the nuclear option. It wipes out all the styles from all of the elements, more or less making them differ in name only. &lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt;’s look like &lt;code&gt;&amp;lt;p&amp;gt;&lt;/code&gt; tags, for example.&lt;/p&gt;
+&lt;p&gt;This is a valid solution if you need to start from scratch, but you typically don’t need to obliterate the default styles completely. If you do, you’re going to have to go back in and make that &lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt; large and bold again with &lt;em&gt;more&lt;/em&gt; CSS.&lt;/p&gt;
+&lt;h3&gt;Normalize CSS&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://necolas.github.io/normalize.css/&quot;&gt;Normalize CSS&lt;/a&gt; is the more elegant solution than a reset. Its goal is to even out the kinks between browsers and address the most common issues with default styles, while leaving the rest intact.&lt;/p&gt;
+&lt;p&gt;Most CSS frameworks have a normalize built into them already, so you won’t need to add this in if you’re using Bootstrap, Materialize, etc.&lt;/p&gt;
+&lt;h3&gt;The Quick and Easy Option&lt;/h3&gt;
+&lt;p&gt;There’s a third option here worth mentioning. If you’re trying to get things done quickly and not using a framework, you can quickly eliminate most of the funk with something like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;* {
+    margin: 0;
+    padding: 0;
+    /* box-sizing: border-box */
+    /* border: 1px solid black */
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This ends up stripping out all the micro-adjustments you typically have to come in and do later if you roll with the default padding and margin on elements. (The &lt;code&gt;*&lt;/code&gt; is a wildcard selector that selects all elements)&lt;/p&gt;
+&lt;p&gt;You can optionally toss in the &lt;code&gt;box-sizing&lt;/code&gt; bit to make sure that your widths/heights are not additive. This means if you say an element is &lt;code&gt;500px&lt;/code&gt;, it will be exactly that regardless of padding, margin, or border that you add in later. I don’t typically find myself reaching for this, but it can help when you’re doing pixel-perfect layouts.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: The last bit is a little 🔥 &lt;strong&gt;hot-tip&lt;/strong&gt; 🔥 for debugging CSS layouts. If you’re wondering how big or what shape an element is, adding a border can quickly show you how something is being rendered. This adds a border to all elements, showing you how everything is laid out on the page.&lt;/p&gt;
+&lt;h2&gt;Writing Good Markup and ‘Going with the Flow’&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.csszengarden.com/&quot;&gt;CSS Zen Garden&lt;/a&gt; showed us the awesome power of CSS to style HTML regardless of how it is written.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;What’s that quote about power and responsibility…?&lt;/em&gt; 🤔🕷&lt;/p&gt;
+&lt;p&gt;HTML has a certain &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Normal_Flow&quot;&gt;flow&lt;/a&gt; to it. It’s read and rendered top-to-bottom, certain elements are &lt;code&gt;block&lt;/code&gt; or &lt;code&gt;inline&lt;/code&gt;, etc. The greater your knowledge of this default behavior, the better you can use it to your advantage, and the less CSS you’ll have to write to change it.&lt;/p&gt;
+&lt;p&gt;Yes, CSS can do amazing things to change the default behavior of markup. However, if you write your HTML with your end goal in mind, you’ll end up weaponizing CSS less often to make your markup behave appropriately.&lt;/p&gt;
+&lt;h2&gt;Mastering Layouts with Flexbox and Utility Classes&lt;/h2&gt;
+&lt;p&gt;Layouts and positioning of elements is probably the biggest source of strife when learning CSS. You want an element to be in a particular spot, so you write ten lines of CSS that &lt;em&gt;almost&lt;/em&gt; positions it perfectly. Then you write ten more lines of CSS, but now it’s vertically off-center, etc.&lt;/p&gt;
+&lt;p&gt;There’s a few tools and tricks that can dramatically reduce the amount of time you spend attempting to place elements where you want them to go.&lt;/p&gt;
+&lt;h3&gt;Floats&lt;/h3&gt;
+&lt;p&gt;Before we talk about flexbox, let’s talk briefly about floats. If you’re using floats for layouts, &lt;em&gt;please stop&lt;/em&gt;. Flexbox is &lt;a href=&quot;https://caniuse.com/#feat=flexbox&quot;&gt;highly compatible&lt;/a&gt; with older browsers, and it’s way easier to use.&lt;/p&gt;
+&lt;p&gt;Floats are great for wrapping text around an element, but are awful for layouts. They break the flow of HTML and require a clearfix hack to restore that flow for the rest of the elements that come after.&lt;/p&gt;
+&lt;p&gt;Here’s a quick example:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;div id=&quot;float-example&quot;&amp;gt;
+    &amp;lt;img src=&quot;https://picsum.photos/200&quot; id=&quot;floatImage&quot;/&amp;gt;
+    &amp;lt;!-- Let&apos;s say we want this blob of text to wrap around our example image --&amp;gt;
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultricies sem id ante ullamcorper, a commodo eros molestie. Phasellus leo justo, malesuada scelerisque ullamcorper et, finibus ut metus. Integer egestas tellus leo, et consectetur tortor bibendum at. Sed non imperdiet risus. Sed at metus mauris. Donec ullamcorper, nunc sit amet ullamcorper mattis, diam sapien viverra nisi, sit amet pretium ligula mi in est. Nulla finibus imperdiet fringilla. Proin fringilla augue et turpis placerat, sit amet commodo enim dictum. Vivamus viverra mollis augue, in fermentum odio placerat eu. Aenean porta tellus quis urna tristique sagittis.
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#floatImage {
+    /* &apos;float&apos; makes the text wrap around the image, try &apos;right&apos; */
+    float: left;
+    /* the rest of this is to better illustrate the wrapping effect */
+    shape-outside: circle();
+    border-radius: 100px;
+    margin: 5px;
+}
+
+#float-example + * {
+    /* Another gripe about floats is having to use a clearfix! */
+    overflow: auto
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you erase some of the lorem text, and remove that &lt;code&gt;overflow&lt;/code&gt; property, you’ll see how floats destroy a page’s flow.&lt;/p&gt;
+&lt;p&gt;Floats are a good tool if you use them correctly. However for layouts, you probably don’t want to use a float.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: If you’re a die-hard float-based layout fan (or even table-based 😱) I’m not trying to rain on your parade. However I’ve seen a lot of students struggle and develop negative opinions of CSS based on trying to build a layout using floats. For those new to CSS, I think there’s far better options.&lt;/p&gt;
+&lt;h3&gt;Flexbox&lt;/h3&gt;
+&lt;p&gt;Flexbox is a powerful and simple tool to use for creating layouts and positioning elements. If you’ve never heard of it, Wes Bos has a great free series on it called &lt;em&gt;[What the Flexbox?](&lt;a href=&quot;https://www.youtube.com/watch?v=Vj7NZ6FiQvo&amp;amp;list=PLu8EoSxDXHP7xj&quot;&gt;https://www.youtube.com/watch?v=Vj7NZ6FiQvo&amp;amp;list=PLu8EoSxDXHP7xj&lt;/a&gt;&lt;/em&gt;y6NIAhy0wuCd4uVdid)_. If you’re already familiar with flexbox, there’s a great &lt;a href=&quot;http://flexbox.malven.co/&quot;&gt;visual cheat sheet&lt;/a&gt; you can use as well.&lt;/p&gt;
+&lt;p&gt;Conceptually, flexbox is all about creating containers. So you create a flex container with &lt;code&gt;display: flex&lt;/code&gt; and then every direct child element will be aligned a certain way based on that parent container element.&lt;/p&gt;
+&lt;p&gt;It’s also a one-dimensional system of laying things out. Each container runs in one direction, either horizontally with &lt;code&gt;flex-direction: row&lt;/code&gt; (the default) or vertically with &lt;code&gt;flex-direction: column&lt;/code&gt;. Children within can then be centered/aligned very easily from there.&lt;/p&gt;
+&lt;h4&gt;Why not Grid?&lt;/h4&gt;
+&lt;p&gt;You can absolutely use Grid! CSS Grid is very similar to flexbox, just way more powerful. If Flexbox is a one-dimensional layout system, Grid is two-dimensional. You can pretty much set a CSS grid container to do anything your heart desires. (If you want a great free CSS Grid course… yup, &lt;a href=&quot;https://www.youtube.com/watch?v=T-slCsOrLcc&amp;amp;list=PLu8EoSxDXHP5CIFvt9-ze3IngcdAc2xKG&quot;&gt;Wes Bos&lt;/a&gt; has you covered there as well.)&lt;/p&gt;
+&lt;p&gt;Why use flexbox then? Honestly, I like it because it’s incredibly simple and straightforward. It does one thing and does it very well. Plus you can absolutely nest flex containers and compose them into whatever you need.&lt;/p&gt;
+&lt;h2&gt;Organizing CSS: Components vs Utility classes&lt;/h2&gt;
+&lt;p&gt;So when it comes to organization of CSS, there’s two camps: components, and utility classes.&lt;/p&gt;
+&lt;h3&gt;Components&lt;/h3&gt;
+&lt;p&gt;Components could be thought of like how bootstrap organizes their building blocks. A “jumbotron” or “navbar”, etc. might be represented by one class applied to an element, or possibly with a handful of subclasses used on elements within. The approach here is to use fewer class names in your HTML, scope/name them smartly, and generally style larger chunks of markup with a handful of classes.&lt;/p&gt;
+&lt;p&gt;A popular convention for naming such classes is &lt;a href=&quot;http://getbem.com/&quot;&gt;BEM&lt;/a&gt;. BEM stands for “Block, Element, Modifier”, and it’s essentially a system of &lt;code&gt;--&lt;/code&gt; and &lt;code&gt;__&lt;/code&gt; inside your class names to increase the reusability and composability of your CSS.&lt;/p&gt;
+&lt;p&gt;Here’s a &lt;a href=&quot;https://www.youtube.com/watch?v=SLjHSVwXYq4&quot;&gt;BEM in 5-minutes&lt;/a&gt; video to get you up to speed.&lt;/p&gt;
+&lt;p&gt;The catch is that this reduces resuability of your CSS. You can’t very well apply jumbotron styles to a navbar. BEM and smart naming can only take you so far.&lt;/p&gt;
+&lt;h3&gt;Utility Classes&lt;/h3&gt;
+&lt;p&gt;The opposite approach to componentized classes is utility classes. These are small classes that typically do one thing only. For example, &lt;code&gt;mx-auto&lt;/code&gt; would apply &lt;code&gt;margin-left: auto; margin-right: auto&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Bootstrap and Materialize have a set of utility classes, and Tailwind CSS is made up entirely of utility classes if you’d like more examples.&lt;/p&gt;
+&lt;p&gt;The power of utility classes is in rapid development. You almost never have to leave your HTML file when prototyping if you have enough utility classes defined.&lt;/p&gt;
+&lt;p&gt;The con here is that your HTML elements can quickly become bloated with CSS classes, and a combination of ten utility classes used to define a component results in a lot of repeated code.&lt;/p&gt;
+&lt;h3&gt;Finding Balance&lt;/h3&gt;
+&lt;p&gt;In my experience, a combination of both methods is the sane choice. Having a handful of global utility classes in combination with larger presentational classes for blocks of markup makes the most sense. This has the added benefit of making your markup a little more readable as well, because your component class names like &lt;code&gt;card&lt;/code&gt; are listed beside your layout class names like &lt;code&gt;row&lt;/code&gt; or &lt;code&gt;column&lt;/code&gt;. So &lt;code&gt;card row&lt;/code&gt; would tell you this card has a row of children elements.&lt;/p&gt;
+&lt;p&gt;Let’s look at some examples. Let’s build a standard layout, starting with a header and some navigation links.&lt;/p&gt;
+&lt;p&gt;This little bit of CSS is going to let us do a lot of heavy lifting. We’re going to start with a global color palette using &lt;a href=&quot;https://codeburst.io/css-variables-explained-with-5-examples-84adaffaa5bd&quot;&gt;CSS variables&lt;/a&gt;, then define our layout classes.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;:root {
+    --ex-black: #1C0F13;
+    --ex-green-dark: #6E7E85;
+    --ex-green-light: #B7CECE;
+    --ex-purple-dark: #BBBAC6;
+    --ex-purple-light: #E2E2E2
+}
+/* These are going to be our main, bread and butter layout classes */
+.row, .column {
+    display: flex;
+    flex-wrap: wrap;
+}
+.column {
+    flex-direction: column;
+}
+.container {
+    max-width: 500px;
+    margin: auto
+}
+/* These additional classes will be used to space/align content */
+.center-x {
+    justify-content: center;
+}
+.center-y {
+    align-items: center
+}
+.split {
+    justify-content: space-between
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Next we’ll add some styles for our navigation header with BEM.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; /* add some styles to prettify */
+.header {
+    background-color: var(--ex-black);
+    padding: 10px 5px;
+}
+.header__logo {
+    color: var(--ex-purple-light);
+    margin: 0;
+}
+.header__link {
+    color: var(--ex-purple-dark);
+    margin: 0 5px;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;header class=&quot;header&quot;&amp;gt;
+    &amp;lt;div class=&quot;container row split center-y&quot;&amp;gt;
+        &amp;lt;h1 class=&quot;header__logo&quot;&amp;gt;Logo&amp;lt;/h1&amp;gt;
+        &amp;lt;div class=&quot;row&quot;&amp;gt;
+            &amp;lt;p class=&quot;header__link&quot;&amp;gt;Link&amp;lt;/p&amp;gt;
+            &amp;lt;p class=&quot;header__link&quot;&amp;gt;Link&amp;lt;/p&amp;gt;
+            &amp;lt;p class=&quot;header__link&quot;&amp;gt;Link&amp;lt;/p&amp;gt;
+        &amp;lt;/div&amp;gt;
+    &amp;lt;/div&amp;gt;
+&amp;lt;/header&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;That made short work of the header!&lt;/p&gt;
+&lt;p&gt;Let’s go a little further and build out a jumbotron/call to action and a little text thrown in:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;.jumbotron__container {
+    background-color: var(--ex-green-light);
+}
+.jumbotron {
+    height: 300px;
+    color: var(--ex-black);
+}
+.jumbotron__button {
+    background-color: var(--ex-purple-light);
+    border: 2px solid var(--ex-green-dark);
+    border-radius: 4px;
+    color: var(--ex-green-dark);
+    transition: background-color 200ms, color 200ms
+}
+.jumbotron__button:hover {
+    color: var(--ex-black);
+    background-color: var(--ex-purple-dark);
+    border: 2px solid var(--ex-black);
+}
+.ex-heading {
+    text-align: center;
+    margin: 24px 0;
+    color: var(--ex-green-dark);
+}
+.ex-text {
+    color: var(--ex-black);
+    max-width: 200px;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;header class=&quot;header&quot;&amp;gt;
+    &amp;lt;div class=&quot;container row split center-y&quot;&amp;gt;
+        &amp;lt;h1 class=&quot;header__logo&quot;&amp;gt;Logo&amp;lt;/h1&amp;gt;
+        &amp;lt;div class=&quot;row&quot;&amp;gt;
+            &amp;lt;p class=&quot;header__link&quot;&amp;gt;Link&amp;lt;/p&amp;gt;
+            &amp;lt;p class=&quot;header__link&quot;&amp;gt;Link&amp;lt;/p&amp;gt;
+            &amp;lt;p class=&quot;header__link&quot;&amp;gt;Link&amp;lt;/p&amp;gt;
+        &amp;lt;/div&amp;gt;
+    &amp;lt;/div&amp;gt;
+&amp;lt;/header&amp;gt;
+&amp;lt;main&amp;gt;
+    &amp;lt;div class=&quot;jumbotron__container&quot;&amp;gt;
+        &amp;lt;div class=&quot;jumbotron column center-x center-y&quot;&amp;gt;
+            &amp;lt;h2 class=&quot;jumbotron__heading&quot;&amp;gt;
+                This is a moving message
+            &amp;lt;/h2&amp;gt;
+            &amp;lt;p class=&quot;jumbotron__subtext&quot;&amp;gt;
+                And this is why you should click the button below
+            &amp;lt;/p&amp;gt;
+            &amp;lt;button class=&quot;jumbotron__button&quot;&amp;gt;Call to Action&amp;lt;/button&amp;gt;
+        &amp;lt;/div&amp;gt;
+    &amp;lt;/div&amp;gt;
+    &amp;lt;h3 class=&quot;ex-heading&quot;&amp;gt;Read Stuff&amp;lt;/h3&amp;gt;
+    &amp;lt;section class=&quot;container row split&quot;&amp;gt;
+        &amp;lt;p class=&quot;ex-text&quot;&amp;gt;
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultricies sem id ante ullamcorper, a commodo eros molestie. Phasellus leo justo, malesuada scelerisque ullamcorper et, finibus ut metus. Integer egestas tellus leo, et consectetur tortor bibendum at.
+        &amp;lt;/p&amp;gt;
+        &amp;lt;p class=&quot;ex-text&quot;&amp;gt;
+            Sed non imperdiet risus. Sed at metus mauris. Donec ullamcorper, nunc sit amet ullamcorper mattis, diam sapien viverra nisi, sit amet pretium ligula mi in est. Nulla finibus imperdiet fringilla.
+        &amp;lt;/p&amp;gt;
+    &amp;lt;/section&amp;gt;
+&amp;lt;/main&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Cool right?&lt;/p&gt;
+&lt;p&gt;Doing something like this as a CSS beginner used to take me hours and many more lines of CSS!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: If you check this layout on mobile, you’ll see it is responsive without any additional work. The &lt;code&gt;flex-wrap&lt;/code&gt; property makes our children elements wrap to a new line if there’s not enough space. Flexbox in general works very well with creating responsive layouts.&lt;/p&gt;
+&lt;h2&gt;Parting Thoughts&lt;/h2&gt;
+&lt;p&gt;Hopefully by now you see the power of applying some organizational principles to your CSS. With a little practice, you can get some amazing things done with only a few lines of code.&lt;/p&gt;</content:encoded><atom:link rel="self" href="https://leewarrick.com/blog/rss.xml" type="application/rss+xml"/></item><item><title><![CDATA[Finding the Courage to Code]]></title><description><![CDATA[Once I overheard someone describe a kid they met that knew he wanted to be a podiatrist 👣👨‍⚕️ at age 6. This story is not about that…]]></description><link>https://leewarrick.com/blog/the-courage-to-code/</link><guid isPermaLink="false">https://leewarrick.com/blog/the-courage-to-code/</guid><pubDate>Sun, 25 Aug 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
       &lt;a href=&quot;https://leewarrick.com/blog/static/6d10004003ed837c7402cd1283b0d75b/971c4/roadsign.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
   &lt;img alt=&quot;Photo of Lonely Winding Road Sign by Fabien Bazanegue&quot; title=&quot;Photo of Lonely Winding Road Sign by Fabien Bazanegue&quot; src=&quot;https://leewarrick.com/blog/static/6d10004003ed837c7402cd1283b0d75b/a111b/roadsign.jpg&quot;&gt;
