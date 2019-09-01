@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Sun, 01 Sep 2019 17:34:32 GMT</lastBuildDate><item><title><![CDATA[Staying Sane while Organizing CSS]]></title><description><![CDATA[In my time as a front-end developer, I’ve seen and heard a lot of gripes about CSS.I often see people reach for a CSS framework like…]]></description><link>https://leewarrick.com/blog/staying-sane-with-css/</link><guid isPermaLink="false">https://leewarrick.com/blog/staying-sane-with-css/</guid><pubDate>Sun, 01 Sep 2019 17:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Sun, 01 Sep 2019 17:40:24 GMT</lastBuildDate><item><title><![CDATA[Staying Sane while Organizing CSS]]></title><description><![CDATA[In my time as a front-end developer, I’ve seen and heard a lot of gripes about CSS.I often see people reach for a CSS framework like…]]></description><link>https://leewarrick.com/blog/staying-sane-with-css/</link><guid isPermaLink="false">https://leewarrick.com/blog/staying-sane-with-css/</guid><pubDate>Sun, 01 Sep 2019 17:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
       &lt;a href=&quot;https://leewarrick.com/blog/static/2fd06797aa9f09bb57ed8458570b82f3/971c4/mugcss.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
   &lt;img alt=&quot;Mug with &apos;CSS is Awesome&apos; written on it, but &apos;Awesome&apos; overflows the border of the text&quot; title=&quot;Mug with &apos;CSS is Awesome&apos; written on it, but &apos;Awesome&apos; overflows the border of the text&quot; src=&quot;https://leewarrick.com/blog/static/2fd06797aa9f09bb57ed8458570b82f3/a111b/mugcss.jpg&quot;&gt;
@@ -43,7 +43,7 @@
 &lt;p&gt;There’s a few tools and tricks that can dramatically reduce the amount of time you spend attempting to place elements where you want them to go.&lt;/p&gt;
 &lt;h3&gt;Floats&lt;/h3&gt;
 &lt;p&gt;Before we talk about flexbox, let’s talk briefly about floats. If you’re using floats for layouts, &lt;em&gt;please stop&lt;/em&gt;. Flexbox is &lt;a href=&quot;https://caniuse.com/#feat=flexbox&quot;&gt;highly compatible&lt;/a&gt; with older browsers, and it’s way easier to use.&lt;/p&gt;
-&lt;p&gt;Floats are great for wrapping text around an element, but are awful for layouts. They break the flow of HTML and require a clearfix hack to restore that flow for the rest of the elements that come after.&lt;/p&gt;
+&lt;p&gt;Floats are great for wrapping text around an element, but are awful for layouts. They break the flow of HTML and require a &lt;a href=&quot;https://www.w3schools.com/howto/howto_css_clearfix.asp&quot;&gt;clearfix&lt;/a&gt; hack to restore that flow for the rest of the elements that come after.&lt;/p&gt;
 &lt;p&gt;Here’s a quick example:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;&amp;lt;div id=&quot;float-example&quot;&amp;gt;
     &amp;lt;img src=&quot;https://picsum.photos/200&quot; id=&quot;floatImage&quot;/&amp;gt;
@@ -60,14 +60,15 @@
     margin: 5px;
 }
 
-#float-example + * {
+#float-example::after {
     /* Another gripe about floats is having to use a clearfix! */
-    overflow: auto
+    content: &quot;&quot;;
+    display: table;
+    clear: both;
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;If you erase some of the lorem text, and remove that &lt;code&gt;overflow&lt;/code&gt; property, you’ll see how floats destroy a page’s flow.&lt;/p&gt;
+&lt;p&gt;If you erase some of the lorem text, and remove that clearfix hack, you’ll see how floats destroy a page’s flow.&lt;/p&gt;
 &lt;p&gt;Floats are a good tool if you use them correctly. However for layouts, you probably don’t want to use a float.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: If you’re a die-hard float-based layout fan (or even table-based 😱) I’m not trying to rain on your parade. However I’ve seen a lot of students struggle and develop negative opinions of CSS based on trying to build a layout using floats. For those new to CSS, I think there’s far better options.&lt;/p&gt;
 &lt;h3&gt;Flexbox&lt;/h3&gt;
 &lt;p&gt;Flexbox is a powerful and simple tool to use for creating layouts and positioning elements. If you’ve never heard of it, Wes Bos has a great free series on it called &lt;em&gt;[What the Flexbox?](&lt;a href=&quot;https://www.youtube.com/watch?v=Vj7NZ6FiQvo&amp;amp;list=PLu8EoSxDXHP7xj&quot;&gt;https://www.youtube.com/watch?v=Vj7NZ6FiQvo&amp;amp;list=PLu8EoSxDXHP7xj&lt;/a&gt;&lt;/em&gt;y6NIAhy0wuCd4uVdid)_. If you’re already familiar with flexbox, there’s a great &lt;a href=&quot;http://flexbox.malven.co/&quot;&gt;visual cheat sheet&lt;/a&gt; you can use as well.&lt;/p&gt;
 &lt;p&gt;Conceptually, flexbox is all about creating containers. So you create a flex container with &lt;code&gt;display: flex&lt;/code&gt; and then every direct child element will be aligned a certain way based on that parent container element.&lt;/p&gt;
