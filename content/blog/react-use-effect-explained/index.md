@@ -307,23 +307,50 @@ We're able to set new state, but are unable to access current state.
 
 This is a "**stale closure**". I won't get into closures, but just know that because of the implementation of React/hooks, the count variable is always going to be 0 in our interval function. It's an old reference.
 
-I've fallen into this trap many, many times when writing hooks, believe it or not. I didn't even know it had a name until I read it in [this talk](https://docs.google.com/presentation/d/1PUvpXMBEDS45rd0wHu6tF3j_8wmGC6cOLtOw2hzU-mw/edit#slide=id.p) by Rich Harris, the man behind [Svelte](https://svelte.dev/).
+**Update 9/7/19**: It turns out, there's a solution for simple examples like above, as pointed out by John Tucker (thanks John!). Much like `setState` in class-based components, `useState` can also accept a callback function that receives the previous state as an argument. The [React Docs](https://reactjs.org/docs/hooks-reference.html#functional-updates) also make note of this.
 
-Apparently, I'm not the only one tripping over stale closures in hooks:
+Here's an example of the quick fix:
+
+```jsx react-live
+function Timer() {
+    const [count, setCount] = React.useState(0)
+
+    React.useEffect(() => {
+        const intervalId = setInterval(() => {
+            //let's pass a function instead
+            //the argument is the current state
+            setCount(count => count + 1)
+        }, 1000)
+        return () => clearInterval(intervalId)
+    }, [])
+
+    return (
+        <div>The count is: {count}</div>
+    )
+}
+```
+
+This still doesn't solve all of our problems, though. If you need to access to the latest state inside `useEffect`, but _not_ update it, you would have to start wrapping your `useEffect` code in `setState` callbacks, and then returning the unchanged state at the end. This could quickly become an absolute mess, particularly if you're working with multiple state values.
+
+Another possible solution could be to work only with `useReducer`, as that receives previous state, but filling your reducer with side effects also seems very messy, and I wouldn't suggest anyone stop using `useState` entirely.
+
+In any case, I've fallen into the stale closure trap many, many times when writing hooks. I didn't even know it had a name until I read it in [this talk](https://docs.google.com/presentation/d/1PUvpXMBEDS45rd0wHu6tF3j_8wmGC6cOLtOw2hzU-mw/edit#slide=id.p) by Rich Harris, the man behind [Svelte](https://svelte.dev/).
+
+Apparently, I'm not the only one tripping over them in hooks, either:
 
 ![Photo of Tweet by Kent Dodds asking about hooks pitfalls and a snarky response of "stale closures"](./staleclosures.png)
 
-React notes this in their [docs](https://reactjs.org/docs/hooks-faq.html#why-am-i-seeing-stale-props-or-state-inside-my-function):
+React even mentions it in their [docs](https://reactjs.org/docs/hooks-faq.html#why-am-i-seeing-stale-props-or-state-inside-my-function):
 
 >"Any function inside a component, including event handlers and effects, “sees” the props and state from the render it was created in."
 
-That made little sense to me, and maybe you can sympathize.
+I read this prior and it made little sense to me before really digging into the issue. I imagine it could be a bit of a black eye for React, so perhaps they don't wish to call it out too loudly.
 
-Dan Abramov describes it better in his [blog](https://overreacted.io/a-complete-guide-to-useeffect/) and provides a solution:
+Dan Abramov, however, describes the problem better in his [blog](https://overreacted.io/a-complete-guide-to-useeffect/) and even provides a solution:
 
 >"Effects always “see” props and state from the render they were defined in. That helps prevent bugs but in some cases can be annoying. For those cases, you can explicitly maintain some value in a mutable ref."
 
-This was helpful, because it provided a solution in the form of `useRef` (Thanks Dan!), but it left me in the dark as to how all of this works. Mostly because I didn't understand `useRef`.
+This was helpful, because it provided a solution in the form of `useRef` (Thanks Dan!), but it left me in the dark as to how it would help avoid the issue (mostly because I didn't understand `useRef`).
 
 ## What is a "ref", and how do you use one?
 
@@ -378,9 +405,60 @@ function Timer() {
 }
 ```
 
-Now our counter works, but are you wondering if we could ditch state and just use refs?
+If we wanted to stop the timer at say, 10, we could easily do so using the ref:
+
+```jsx react-live
+function Timer() {
+    const [count, setCount] = React.useState(0)
+    const countRef = React.useRef(0)
+
+    React.useEffect(() => {
+        const intervalId = setInterval(() => {
+            if (countRef.current === 10)
+                return clearInterval(intervalId)
+            countRef.current = countRef.current + 1
+            setCount(countRef.current)
+        }, 1000)
+        return () => clearInterval(intervalId)
+    }, [])
+
+    return (
+        <div>The count is: {count}</div>
+    )
+}
+```
+
+Here's the alternative using the `setState` callback approach, for sake of comparison:
+
+```jsx react-live
+function Timer() {
+    const [count, setCount] = React.useState(0)
+
+    React.useEffect(() => {
+        const intervalId = setInterval(() => {
+            setCount(count => {
+                if (count === 10) {
+                    clearInterval(intervalId)
+                    return count
+                }
+                else return count + 1
+            })
+        }, 1000)
+        return () => clearInterval(intervalId)
+    }, [])
+
+    return (
+        <div>The count is: {count}</div>
+    )
+}
+```
+
+I could see this quickly approaching callback hell, so I would caution against using the callback approach if you're doing something more complex.
+
 
 ## State Versus Refs
+
+Is it possible to ditch state entirely and just use refs?
 
 You might be inclined to think you could use refs instead of state for your component and just sidestep all this weird behavior.
 
