@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Fri, 06 Sep 2019 14:54:27 GMT</lastBuildDate><item><title><![CDATA[React's useEffect and useRef Explained for Mortals]]></title><description><![CDATA[If the React docs leave you in the dust, or Dan Abramov’s blog makes you feel like you’re reading a scroll handed down from Mt Olympus…]]></description><link>https://leewarrick.com/blog/react-use-effect-explained/</link><guid isPermaLink="false">https://leewarrick.com/blog/react-use-effect-explained/</guid><pubDate>Fri, 06 Sep 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Sat, 07 Sep 2019 18:33:17 GMT</lastBuildDate><item><title><![CDATA[React's useEffect and useRef Explained for Mortals]]></title><description><![CDATA[If the React docs leave you in the dust, or Dan Abramov’s blog makes you feel like you’re reading a scroll handed down from Mt Olympus…]]></description><link>https://leewarrick.com/blog/react-use-effect-explained/</link><guid isPermaLink="false">https://leewarrick.com/blog/react-use-effect-explained/</guid><pubDate>Fri, 06 Sep 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
       &lt;a href=&quot;https://leewarrick.com/blog/static/fdb92914fc9093dee6a2c20dad8fbd50/c35de/acropolis.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
   &lt;img alt=&quot;Photo of the Acropolis of Athens, Athens, Greece by Cristina Gottardi&quot; title=&quot;Photo of the Acropolis of Athens, Athens, Greece by Cristina Gottardi&quot; src=&quot;https://leewarrick.com/blog/static/fdb92914fc9093dee6a2c20dad8fbd50/a111b/acropolis.jpg&quot;&gt;
@@ -241,24 +241,45 @@ render(&amp;lt;PokemonForm /&amp;gt;)
 &lt;p&gt;Notice we get a new random number every second. Our interval code is fine.&lt;/p&gt;
 &lt;p&gt;We’re able to set new state, but are unable to access current state.&lt;/p&gt;
 &lt;p&gt;This is a ”&lt;strong&gt;stale closure&lt;/strong&gt;”. I won’t get into closures, but just know that because of the implementation of React/hooks, the count variable is always going to be 0 in our interval function. It’s an old reference.&lt;/p&gt;
-&lt;p&gt;I’ve fallen into this trap many, many times when writing hooks, believe it or not. I didn’t even know it had a name until I read it in &lt;a href=&quot;https://docs.google.com/presentation/d/1PUvpXMBEDS45rd0wHu6tF3j_8wmGC6cOLtOw2hzU-mw/edit#slide=id.p&quot;&gt;this talk&lt;/a&gt; by Rich Harris, the man behind &lt;a href=&quot;https://svelte.dev/&quot;&gt;Svelte&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Apparently, I’m not the only one tripping over stale closures in hooks:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Update 9/7/19&lt;/strong&gt;: It turns out, there’s a solution for simple examples like above, as pointed out by John Tucker (thanks John!). Much like &lt;code&gt;setState&lt;/code&gt; in class-based components, &lt;code&gt;useState&lt;/code&gt; can also accept a callback function that receives the previous state as an argument. The &lt;a href=&quot;https://reactjs.org/docs/hooks-reference.html#functional-updates&quot;&gt;React Docs&lt;/a&gt; also make note of this.&lt;/p&gt;
+&lt;p&gt;Here’s an example of the quick fix:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function Timer() {
+    const [count, setCount] = React.useState(0)
+
+    React.useEffect(() =&amp;gt; {
+        const intervalId = setInterval(() =&amp;gt; {
+            //let&apos;s pass a function instead
+            //the argument is the current state
+            setCount(count =&amp;gt; count + 1)
+        }, 1000)
+        return () =&amp;gt; clearInterval(intervalId)
+    }, [])
+
+    return (
+        &amp;lt;div&amp;gt;The count is: {count}&amp;lt;/div&amp;gt;
+    )
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This still doesn’t solve all of our problems, though. If you need to access to the latest state inside &lt;code&gt;useEffect&lt;/code&gt;, but &lt;em&gt;not&lt;/em&gt; update it, you would have to start wrapping your &lt;code&gt;useEffect&lt;/code&gt; code in &lt;code&gt;setState&lt;/code&gt; callbacks, and then returning the unchanged state at the end. This could quickly become an absolute mess, particularly if you’re working with multiple state values.&lt;/p&gt;
+&lt;p&gt;Another possible solution could be to work only with &lt;code&gt;useReducer&lt;/code&gt;, as that receives previous state, but filling your reducer with side effects also seems very messy, and I wouldn’t suggest anyone stop using &lt;code&gt;useState&lt;/code&gt; entirely.&lt;/p&gt;
+&lt;p&gt;In any case, I’ve fallen into the stale closure trap many, many times when writing hooks. I didn’t even know it had a name until I read it in &lt;a href=&quot;https://docs.google.com/presentation/d/1PUvpXMBEDS45rd0wHu6tF3j_8wmGC6cOLtOw2hzU-mw/edit#slide=id.p&quot;&gt;this talk&lt;/a&gt; by Rich Harris, the man behind &lt;a href=&quot;https://svelte.dev/&quot;&gt;Svelte&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Apparently, I’m not the only one tripping over them in hooks, either:&lt;/p&gt;
 &lt;p&gt;&lt;span&gt;
       &lt;a href=&quot;https://leewarrick.com/blog/static/5a5dbcc6667a5da9eeabc5cbe90a1427/ed46b/staleclosures.png&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
   &lt;img alt=&quot;Photo of Tweet by Kent Dodds asking about hooks pitfalls and a snarky response of &amp;quot;stale closures&amp;quot;&quot; title=&quot;Photo of Tweet by Kent Dodds asking about hooks pitfalls and a snarky response of &amp;quot;stale closures&amp;quot;&quot; src=&quot;https://leewarrick.com/blog/static/5a5dbcc6667a5da9eeabc5cbe90a1427/dbb61/staleclosures.png&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;React notes this in their &lt;a href=&quot;https://reactjs.org/docs/hooks-faq.html#why-am-i-seeing-stale-props-or-state-inside-my-function&quot;&gt;docs&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;React even mentions it in their &lt;a href=&quot;https://reactjs.org/docs/hooks-faq.html#why-am-i-seeing-stale-props-or-state-inside-my-function&quot;&gt;docs&lt;/a&gt;:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;“Any function inside a component, including event handlers and effects, “sees” the props and state from the render it was created in.”&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;That made little sense to me, and maybe you can sympathize.&lt;/p&gt;
-&lt;p&gt;Dan Abramov describes it better in his &lt;a href=&quot;https://overreacted.io/a-complete-guide-to-useeffect/&quot;&gt;blog&lt;/a&gt; and provides a solution:&lt;/p&gt;
+&lt;p&gt;I read this prior and it made little sense to me before really digging into the issue. I imagine it could be a bit of a black eye for React, so perhaps they don’t wish to call it out too loudly.&lt;/p&gt;
+&lt;p&gt;Dan Abramov, however, describes the problem better in his &lt;a href=&quot;https://overreacted.io/a-complete-guide-to-useeffect/&quot;&gt;blog&lt;/a&gt; and even provides a solution:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;“Effects always “see” props and state from the render they were defined in. That helps prevent bugs but in some cases can be annoying. For those cases, you can explicitly maintain some value in a mutable ref.”&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;This was helpful, because it provided a solution in the form of &lt;code&gt;useRef&lt;/code&gt; (Thanks Dan!), but it left me in the dark as to how all of this works. Mostly because I didn’t understand &lt;code&gt;useRef&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;This was helpful, because it provided a solution in the form of &lt;code&gt;useRef&lt;/code&gt; (Thanks Dan!), but it left me in the dark as to how it would help avoid the issue (mostly because I didn’t understand &lt;code&gt;useRef&lt;/code&gt;).&lt;/p&gt;
 &lt;h2&gt;What is a “ref”, and how do you use one?&lt;/h2&gt;
 &lt;p&gt;So traditionally, refs were meant to let you directly access an html element. For instance, let’s say you needed to focus an input field. You have to bail out of React and use regular JavaScript to call &lt;code&gt;.focus()&lt;/code&gt;. Hooks actually make this fairly simple:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;function InputField() {
@@ -298,8 +319,51 @@ render(&amp;lt;PokemonForm /&amp;gt;)
     )
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now our counter works, but are you wondering if we could ditch state and just use refs?&lt;/p&gt;
+&lt;p&gt;If we wanted to stop the timer at say, 10, we could easily do so using the ref:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function Timer() {
+    const [count, setCount] = React.useState(0)
+    const countRef = React.useRef(0)
+
+    React.useEffect(() =&amp;gt; {
+        const intervalId = setInterval(() =&amp;gt; {
+            if (countRef.current === 10)
+                return clearInterval(intervalId)
+            countRef.current = countRef.current + 1
+            setCount(countRef.current)
+        }, 1000)
+        return () =&amp;gt; clearInterval(intervalId)
+    }, [])
+
+    return (
+        &amp;lt;div&amp;gt;The count is: {count}&amp;lt;/div&amp;gt;
+    )
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here’s the alternative using the &lt;code&gt;setState&lt;/code&gt; callback approach, for sake of comparison:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function Timer() {
+    const [count, setCount] = React.useState(0)
+
+    React.useEffect(() =&amp;gt; {
+        const intervalId = setInterval(() =&amp;gt; {
+            setCount(count =&amp;gt; {
+                if (count === 10) {
+                    clearInterval(intervalId)
+                    return count
+                }
+                else return count + 1
+            })
+        }, 1000)
+        return () =&amp;gt; clearInterval(intervalId)
+    }, [])
+
+    return (
+        &amp;lt;div&amp;gt;The count is: {count}&amp;lt;/div&amp;gt;
+    )
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I could see this quickly approaching callback hell, so I would caution against using the callback approach if you’re doing something more complex.&lt;/p&gt;
 &lt;h2&gt;State Versus Refs&lt;/h2&gt;
+&lt;p&gt;Is it possible to ditch state entirely and just use refs?&lt;/p&gt;
 &lt;p&gt;You might be inclined to think you could use refs instead of state for your component and just sidestep all this weird behavior.&lt;/p&gt;
 &lt;p&gt;You can’t. &lt;strong&gt;Refs aren’t reactive.&lt;/strong&gt; When you change a ref, it doesn’t cause a re-render. (Remember, they exist outside of the re-render cycle).&lt;/p&gt;
 &lt;p&gt;This won’t work:&lt;/p&gt;
