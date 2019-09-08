@@ -6,7 +6,7 @@ function PlainCodeHighlight({code, language, theme}) {
     // whiteSpace: 'pre-wrap',
     // wordBreak: 'keep-all',
     // overflowWrap: 'break-word',
-    overflowX: 'scroll',
+    overflowX: 'auto',
     padding: '10px'
   }
   return (
