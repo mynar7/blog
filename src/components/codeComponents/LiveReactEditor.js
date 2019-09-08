@@ -20,7 +20,7 @@ function ResetButton({initialCode, update}) {
 
 function LiveReactEditor({code, theme, scripts, useRender, editingDisabled}) {
   const [updater, forceUpdate] = useState(1);
-  const { globalScripts } = useCodeContext()
+  const { globalScripts, shouldShowEditor } = useCodeContext()
   const [scriptsReady, setScriptsReady] = useState(false)
   const failedScripts = useRef([])
 
@@ -44,28 +44,22 @@ function LiveReactEditor({code, theme, scripts, useRender, editingDisabled}) {
     return (
       <LiveProvider code={updater ? code : code.split(/\r\n|\r|\n/).map(() => `🔥\n`).join("")}
         noInline={useRender ? true : false} disabled={editingDisabled} theme={theme}>
-        <SnippetInfo language={'jsx'} scripts={scripts} live={true} editable={!editingDisabled} />
-        <LiveEditor />
+        <SnippetInfo language={'jsx'} scripts={scripts} live={true} editable={!editingDisabled && shouldShowEditor} />
+        {
+          editingDisabled || !shouldShowEditor
+          ? <PlainCodeHighlight language={'jsx'} code={code} theme={theme}/>
+          : <LiveEditor />
+        }
         <OutputLabel>Rendered Output:</OutputLabel>
         <LiveError />
         <LivePreview />
-        {
-          !editingDisabled &&
-          <ResetButton initialCode={code} update={forceUpdate} />
-        }
+        <ResetButton initialCode={code} update={forceUpdate} />
       </LiveProvider>
-    )
-  } else if (failedScripts.current.length === 0) {
-    return (
-      <>
-        <SnippetInfo language={'jsx'} scripts={scripts} live={true} editable={!editingDisabled} />
-        <PlainCodeHighlight code={code} language={'jsx'} theme={theme} />
-      </>
     )
   } else {
     return (
       <>
-        <SnippetInfo language={'jsx'} scripts={scripts} live={true} editable={!editingDisabled} />
+        <SnippetInfo language={'jsx'} scripts={scripts} live={true} editable={!editingDisabled && shouldShowEditor} />
         <PlainCodeHighlight code={code} language={'jsx'} theme={theme} />
       </>
     )

@@ -3,9 +3,10 @@ import Highlight, { defaultProps } from 'prism-react-renderer'
 
 function PlainCodeHighlight({code, language, theme}) {
   const styles = {
-    whiteSpace: 'pre-wrap',
-    wordBreak: 'keep-all',
-    overflowWrap: 'break-word',
+    // whiteSpace: 'pre-wrap',
+    // wordBreak: 'keep-all',
+    // overflowWrap: 'break-word',
+    overflowX: 'scroll',
     padding: '10px'
   }
   return (

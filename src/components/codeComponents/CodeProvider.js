@@ -20,12 +20,28 @@ function CodeProvider(props) {
   const refLogs = React.useRef([])
   const loggerId = useRef() //which code snippet is currently firing logs
   const [ linkedSnippets, setLinkedSnippets ] = useState({})
+  const [shouldShowEditor, setShouldShowEditor] = useState(true)
 
   const setCurrentLogger = (id) => loggerId.current = id //used by code components to set themselves as the current logger
   const clearLogs = (id) => {
     refLogs.current = refLogs.current.filter(logObj => logObj.uniqueIdentifier !== id)
     setLogs(refLogs.current)
   }
+  useEffect(() => {
+    const checkWindow = () => window.innerWidth < 980 ? setShouldShowEditor(false) : setShouldShowEditor(true)
+    checkWindow()
+    const determineWindowSize = (() => {
+      let timeoutId
+      return () => {
+        clearInterval(timeoutId)
+        timeoutId = setTimeout(() => {
+          checkWindow()
+        }, 500)
+      }
+    })()
+    window.addEventListener("resize", determineWindowSize)
+    return () => window.removeEventListener("resize", determineWindowSize)
+  }, [])
 
   // this effect overrides the default function for console.log so each component can hook in
   // individually and receive updates only on the code it runs
@@ -132,6 +148,7 @@ function CodeProvider(props) {
     linkedSnippets,
     addLinkedSnippet,
     updateLinkedSnippets,
+    shouldShowEditor
   }
 
   return (

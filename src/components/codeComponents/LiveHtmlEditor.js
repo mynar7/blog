@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Editor from 'react-simple-code-editor';
 import CodeHighlight from './CodeHighlight'
+import PlainCodeHighlight from './PlainCodeHighlight'
 import SnippetInfo from './SnippetInfo'
 import OutputLabel from './OutputLabel'
 import { useCodeContext } from './CodeProvider'
@@ -20,14 +21,14 @@ function HtmlControls({reset, language}) {
 function LiveHtmlEditor({code: initialCode, language, theme, editingDisabled, linkId}) {
   const [code, setCode] = useState(initialCode)
   const [updater, forceUpdate] = useState(1)
-  const { linkedSnippets, updateLinkedSnippets } = useCodeContext()
+  const { linkedSnippets, updateLinkedSnippets, shouldShowEditor } = useCodeContext()
   const timeOutId = useRef()
   const themePlain = theme.plain
   async function reset() {
     setCode(initialCode)
-    if (language === 'css' || !linkId) return
+    if (language === 'css') return
     await reRender()
-    updateLinkedSnippets(linkId, 'renderedHTML')
+    if (linkId) updateLinkedSnippets(linkId, 'renderedHTML')
   }
 
   function reRender() {
@@ -60,18 +61,22 @@ function LiveHtmlEditor({code: initialCode, language, theme, editingDisabled, li
 
   return(
     <>
-    <SnippetInfo language={language} editable={!editingDisabled} live={true} />
-      <Editor
+    <SnippetInfo language={language} editable={!editingDisabled && shouldShowEditor} live={true} />
+      {
+        editingDisabled || !shouldShowEditor
+        ? <PlainCodeHighlight language={language} code={code} theme={theme}/>
+        : <Editor
         value={code}
         padding={10}
         highlight={code => CodeHighlight({code, language, theme})}
-        onValueChange={editingDisabled ? () => {} : setCodeWrapper}
+        onValueChange={setCodeWrapper}
         style={{
           whiteSpace: 'pre',
           fontFamily: 'monospace',
           ...themePlain
         }}
-      />
+        />
+      }
       <OutputLabel>
         {
           language === 'html'
