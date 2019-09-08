@@ -1,27 +1,33 @@
 import React, { useState, useRef, useEffect } from 'react'
 import Editor from 'react-simple-code-editor';
 import CodeHighlight from './CodeHighlight'
+import PlainCodeHighlight from './PlainCodeHighlight'
 import { useCodeContext } from './CodeProvider'
 import SnippetInfo from './SnippetInfo'
 import OutputLabel from './OutputLabel'
 
 function LiveJsEditor({code: initialCode, language, theme, scripts, autorun, editingDisabled, linkId}) {
   const [code, setCode] = useState(initialCode)
+  const { shouldShowEditor } = useCodeContext()
   const themePlain = theme.plain
   return(
     <>
-      <SnippetInfo language={language} editable={!editingDisabled} scripts={scripts} live={true} />
-      <Editor
-        value={code}
-        padding={10}
-        highlight={code => CodeHighlight({code, language, theme})}
-        onValueChange={editingDisabled ? () => {} : setCode}
-        style={{
-          whiteSpace: 'pre',
-          fontFamily: 'monospace',
-          ...themePlain
-        }}
-      />
+      <SnippetInfo language={language} editable={!editingDisabled && shouldShowEditor} scripts={scripts} live={true} />
+      {
+        editingDisabled || !shouldShowEditor
+        ? <PlainCodeHighlight language={language} code={code} theme={theme}/>
+        : <Editor
+          value={code}
+          padding={10}
+          highlight={code => CodeHighlight({code, language, theme})}
+          onValueChange={setCode}
+          style={{
+            whiteSpace: 'pre',
+            fontFamily: 'monospace',
+            ...themePlain
+          }}
+        />
+      }
       <JsComponent code={code}
         reset={() => setCode(initialCode)}
         scripts={scripts}
