@@ -7,7 +7,9 @@ function PlainCodeHighlight({code, language, theme}) {
     // wordBreak: 'keep-all',
     // overflowWrap: 'break-word',
     overflowX: 'auto',
-    padding: '10px'
+    padding: '10px',
+    fontSize: '0.8rem',
+    lineHeight: 'inherit'
   }
   return (
     <Highlight {...defaultProps} code={code} language={language} theme={theme}>
