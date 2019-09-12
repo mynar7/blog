@@ -1,4 +1,716 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Sun, 08 Sep 2019 15:35:26 GMT</lastBuildDate><item><title><![CDATA[React's useEffect and useRef Explained for Mortals]]></title><description><![CDATA[If the React docs leave you in the dust, or Dan Abramov’s blog makes you feel like you’re reading a scroll handed down from Mt Olympus…]]></description><link>https://leewarrick.com/blog/react-use-effect-explained/</link><guid isPermaLink="false">https://leewarrick.com/blog/react-use-effect-explained/</guid><pubDate>Fri, 06 Sep 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Thu, 12 Sep 2019 22:56:48 GMT</lastBuildDate><item><title><![CDATA[Bridging the Gap between React's useState, useReducer, and Redux]]></title><description><![CDATA[Redux is one of those technologies that I consider a “personal Everest”. Everytime I look at it, I feel like there’s no end to the…]]></description><link>https://leewarrick.com/blog/a-guide-to-usestate-and-usereducer/</link><guid isPermaLink="false">https://leewarrick.com/blog/a-guide-to-usestate-and-usereducer/</guid><pubDate>Thu, 12 Sep 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/ba29f3c8bad89c521880863a2ddfe9a2/c35de/mindthegap.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+    &lt;span&gt;&lt;/span&gt;
+  &lt;img alt=&quot;Photo of a man carelessly leaping over a very deep chasm by Alex Radelich&quot; title=&quot;Photo of a man carelessly leaping over a very deep chasm by Alex Radelich&quot; src=&quot;https://leewarrick.com/blog/static/ba29f3c8bad89c521880863a2ddfe9a2/a111b/mindthegap.jpg&quot;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Redux is one of those technologies that I consider a “personal Everest”. Everytime I look at it, I feel like there’s no end to the boilerplate and patterns to memorize.&lt;/p&gt;
+&lt;p&gt;At my first job and the first codebase I worked on, we had to use NGRX (Angular’s version of Redux). It was incredibly challenging; I spent hours reading docs and watching tutorials trying to understand NGRX. I even tried learning Redux in a desperate attempt to understand NGRX. I constantly complained to my boss about all the boilerplate, files, and patterns to memorize.&lt;/p&gt;
+&lt;p&gt;He told me, &lt;em&gt;“If you were to use your own solution instead, you’d probably end up repeating those same patterns anyway”.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;I finally concede. After managing React state with everything &lt;em&gt;except&lt;/em&gt; Redux, I’ve found myself appreciating why it works the way it does and requires so much boilerplate. After learning React’s Context API, &lt;code&gt;useReducer&lt;/code&gt; and a lot more about managing state, I finally appreciate Redux.&lt;/p&gt;
+&lt;p&gt;It’s not easy getting from A to B though. There’s a lot of ground to cover between learning &lt;code&gt;useState&lt;/code&gt; and &lt;code&gt;useReducer&lt;/code&gt;, and even more when you get into Redux and managing complicated states.&lt;/p&gt;
+&lt;h2&gt;The ‘useState’ Hook&lt;/h2&gt;
+&lt;p&gt;React’s &lt;code&gt;useState&lt;/code&gt; is a pleasure to use. Give it an initial value, and it gives you a reference to the reactive value and a setter function to update that value.&lt;/p&gt;
+&lt;p&gt;Here’s the classic counter example with &lt;code&gt;useState&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function Counter() {
+    const [count, setCount] = React.useState(0)
+    return (
+        &amp;lt;div&amp;gt;
+            &amp;lt;p&amp;gt;Count: {count}&amp;lt;/p&amp;gt;
+            &amp;lt;button onClick={() =&amp;gt; setCount(count + 1)}&amp;gt;
+                Increment
+            &amp;lt;/button&amp;gt;
+        &amp;lt;/div&amp;gt;
+    )
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Simple enough! There’s only two quirks:&lt;/p&gt;
+&lt;p&gt;The first is that you must provide a new state value to the &lt;code&gt;setCount&lt;/code&gt; function (&lt;code&gt;setCount(count++)&lt;/code&gt; and &lt;code&gt;count++&lt;/code&gt; won’t work). React is steeped in immutability, meaning you should always return a new value instead of changing the current value.&lt;/p&gt;
+&lt;p&gt;The other quirk is the returned array, but almost all hooks follow this pattern. It’s a small price to pay considering how easy it is to write functional hook components compared to class components.&lt;/p&gt;
+&lt;p&gt;So while &lt;code&gt;useState&lt;/code&gt; seems simple enough, what happens when you need more than a single state value? What if you have a form with multiple fields?&lt;/p&gt;
+&lt;p&gt;Luckily, with hooks we can use &lt;code&gt;useState&lt;/code&gt; multiple times:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function FormExample() {
+  const [email, setEmail] = React.useState(&apos;&apos;)
+  const [name, setName] = React.useState(&apos;&apos;)
+
+  const columnStyle = {
+    display: &apos;flex&apos;,
+    flexDirection: &apos;column&apos;,
+  }
+  return (
+    &amp;lt;form style={{ ...columnStyle, width: &apos;300px&apos; }}&amp;gt;
+      &amp;lt;label style={columnStyle}&amp;gt;
+        &amp;lt;span&amp;gt;Name:&amp;lt;/span&amp;gt;
+        &amp;lt;input
+          onChange={e =&amp;gt; setName(e.target.value)}
+          value={name}
+          type=&quot;text&quot;
+        /&amp;gt;
+      &amp;lt;/label&amp;gt;
+      &amp;lt;label style={columnStyle}&amp;gt;
+        &amp;lt;span&amp;gt;Email:&amp;lt;/span&amp;gt;
+        &amp;lt;input
+          onChange={e =&amp;gt; setEmail(e.target.value)}
+          value={email}
+          type=&quot;text&quot;
+        /&amp;gt;
+      &amp;lt;/label&amp;gt;
+      &amp;lt;pre&amp;gt;{JSON.stringify({name, email}, null, 2)}&amp;lt;/pre&amp;gt;
+    &amp;lt;/form&amp;gt;
+  )
+}
+render(FormExample)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Great! But how much is too much with &lt;code&gt;useState&lt;/code&gt;? Is there a sensible limit? Should we keep it to 5 or less?&lt;/p&gt;
+&lt;p&gt;And what if you need to manage more complicated data structures or perform side effects?&lt;/p&gt;
+&lt;h2&gt;The ‘useReducer’ Hook&lt;/h2&gt;
+&lt;p&gt;&lt;span&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/1a1acb148e3f2c1505bb60e360fc0d10/c35de/cooking.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+    &lt;span&gt;&lt;/span&gt;
+  &lt;img alt=&quot;Photo of a man stirring a campfire cooking pot by Gary Sandoz&quot; title=&quot;Photo of a man stirring a campfire cooking pot by Gary Sandoz&quot; src=&quot;https://leewarrick.com/blog/static/1a1acb148e3f2c1505bb60e360fc0d10/a111b/cooking.jpg&quot;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Now we’ve entered &lt;code&gt;useReducer&lt;/code&gt; territory. The reducer in ‘useReducer’ comes from Redux, which in turn borrowed it from JavaScript’s &lt;code&gt;Array.reduce()&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;So what does it mean to “reduce” something? Think of simmering balsamic vinegar so the vinegar evaporates and you’re left with a sweet, delicious glaze. That’s called a “balsamic reduction”. Think of reducers as taking arguments and cooking them down until they’re more pallatable.&lt;/p&gt;
+&lt;p&gt;In the context of React, here’s the typical pattern used with &lt;code&gt;useReducer&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const reducer = function (currentState, action) {
+  // Make a new state based on the current state and action
+  // Note: There&apos;s usually a big switch statement here
+  return newState
+}
+const [state, dispatch] = useReducer(reducer, initialValue)
+
+// example usage:
+dispatch({type: &quot;THING_HAPPENED&quot;})
+// Or with an optional &quot;payload&quot;:
+dispatch({type: &quot;THING_HAPPENED&quot;, payload: newData})
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Before we dig into the classic reducer pattern, I want to boil &lt;code&gt;useReducer&lt;/code&gt; down to its basic functionality. Simply put: &lt;code&gt;useReducer&lt;/code&gt; is almost identical to &lt;code&gt;useState&lt;/code&gt;, except &lt;code&gt;useReducer&lt;/code&gt; lets you define exactly how to update it’s state value by passing it a function.&lt;/p&gt;
+&lt;p&gt;Let’s look at our counter example from before. Here we’ll implement our own &lt;code&gt;useState&lt;/code&gt; with &lt;code&gt;useReducer&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function Counter() {
+    const [count, setCount] = React.useReducer((currentCount, newCount) =&amp;gt; newCount, 0)
+    return (
+        &amp;lt;div&amp;gt;
+            &amp;lt;p&amp;gt;Count: {count}&amp;lt;/p&amp;gt;
+            &amp;lt;button onClick={() =&amp;gt; setCount(count + 1)}&amp;gt;
+                Increment
+            &amp;lt;/button&amp;gt;
+        &amp;lt;/div&amp;gt;
+    )
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This is extra work with no benefit, though. Why pass a function to &lt;code&gt;useReducer&lt;/code&gt;, only to pass another to &lt;code&gt;onClick&lt;/code&gt;? Also, our counter logic is living in our JSX button element, which isn’t great.&lt;/p&gt;
+&lt;p&gt;Let’s cut out the extra function and move our logic out of the JSX:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function Counter() {
+    const [count, increment] = React.useReducer(currentCount =&amp;gt; currentCount + 1, 0)
+    return (
+        &amp;lt;div&amp;gt;
+            &amp;lt;p&amp;gt;Count: {count}&amp;lt;/p&amp;gt;
+            &amp;lt;button onClick={increment}&amp;gt;
+                Increment
+            &amp;lt;/button&amp;gt;
+        &amp;lt;/div&amp;gt;
+    )
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you take nothing else away from this article, remember this:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The power of &lt;code&gt;useReducer&lt;/code&gt; is that it allows us to define how we update our state value.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;That said, before we dive further into reducers and patterns, I want to take a minute to define “state”.&lt;/p&gt;
+&lt;h2&gt;The Problem with “State” in React&lt;/h2&gt;
+&lt;p&gt;There are some major misconceptions about “state” in React. I think when Vue named it’s version of state “data”, they made it easier to think about Vue code.&lt;/p&gt;
+&lt;p&gt;What React defines as state is really just data that we would normally store in variables. However, React needs to, well, &lt;em&gt;react&lt;/em&gt; to changes in that data. So under the hood, when you store things in state, React attaches methods and properties to that object so it knows when to trigger re-renders.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;React “state” is just an object that React watches for updates.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;So if React’s “state” isn’t really state, what is? The concept of “state” actually pre-dates React by &lt;a href=&quot;https://en.wikipedia.org/wiki/State_(computer_science)&quot;&gt;decades&lt;/a&gt;. In computer science terms, &lt;strong&gt;the state of an application describes its current status and the previous events and user interactions that resulted in that status.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;This type of state is notoriously difficult to deal with in programming. This is why every technical support agent defaults to “turn it off and on again” when you call for help. Your device entered a bad state somehow, and sometimes the easiest way to get out of a bad state is to reboot the system into a new state.&lt;/p&gt;
+&lt;p&gt;When we write React code, the problem is that we have a tendency to conflate the state of the program with the data React is watching for renders. For example, you might have data in your component that describes what the user typed in an input field, but also data that tells you if the form is valid or not. The combination of that current data and how it changed in response to the user is the actual state of your component.&lt;/p&gt;
+&lt;p&gt;We typically only worry about storing and updating data in our components, and avoid thinking about it’s actual state until we start to find bugs.&lt;/p&gt;
+&lt;h2&gt;Reducers and Redux&lt;/h2&gt;
+&lt;p&gt;The reducer pattern is an attempt to tame the flow of updating complex state. While not foolproof or easy, it can help us define and manages state changes in our application and components.&lt;/p&gt;
+&lt;p&gt;Let’s look at a simple version of the reducer pattern in the context of a form:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const reducer = function (currentState, action) {
+    switch(action.type) {
+        case &apos;NAME_CHANGED&apos;:
+            return {...currentState, name: action.payload}
+        case &apos;EMAIL_CHANGED&apos;:
+            return {...currentState, email: action.payload}
+        default:
+            return state
+    }
+}
+const [state, dispatch] = useReducer(reducer, {name: &apos;&apos;, email:&apos;&apos;})
+
+// example usage:
+dispatch({type: &apos;NAME_CHANGED&apos;})
+// or with a payload:
+dispatch({type: &apos;NAME_CHANGED&apos;, payload: &apos;Suzy&apos;})
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Think about this as an event signaling system. When we call &lt;code&gt;dispatch&lt;/code&gt;, we pass in an object that tells us what happened, and then our reducer takes that information and processes it to create a new state.&lt;/p&gt;
+&lt;p&gt;So why call it dispatch and action? Why the switch statement?&lt;/p&gt;
+&lt;h3&gt;Dispatchers&lt;/h3&gt;
+&lt;p&gt;I like to picture &lt;code&gt;dispatch&lt;/code&gt; as a dispatcher of an old switchboard telephone system. The dispatcher packages the info with the main message (type) and any additional info (payload) and plugs it into the switchboard, our reducer (which coincidentally contains a &lt;code&gt;switch&lt;/code&gt;).&lt;/p&gt;
+&lt;h3&gt;Actions&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://medium.com/magnetis-backstage/why-action-is-a-bad-name-for-a-redux-action-68bec375539e&quot;&gt;They really should have called them “events” instead of “actions”.&lt;/a&gt; Actions describe events that have happened in your application. So when naming action types, it’s better to use the past tense ie &lt;code&gt;&quot;NAME_CHANGED&quot;&lt;/code&gt;, than the present, ie &lt;code&gt;&quot;CHANGE_NAME&quot;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;While this may seem like irrelevant semantics, it makes a big difference in understanding the redux pattern. It’s important to remember that your reducer is responding to events to decide on a new state. When you say &lt;code&gt;&quot;CHANGE_NAME&quot;&lt;/code&gt;, you’re implying that your reducer &lt;em&gt;will&lt;/em&gt; change the name, as opposed to letting it decide &lt;em&gt;if&lt;/em&gt; it will change it.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; While I would much rather refer to these as events, we’ll stick with “action” for sake of convention. Just remember to use the past tense in your action types.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Another Note:&lt;/strong&gt; We also use &lt;a href=&quot;https://en.wikipedia.org/wiki/Snake_case&quot;&gt;SCREAMING&lt;em&gt;SNAKE&lt;/em&gt;CASE&lt;/a&gt; for our action types. This is to denote that the strings are a constant value and to also implore you not to mutate or change them. (“Screaming Snake Case” is an excellent name for a metal band, btw.)&lt;/p&gt;
+&lt;h3&gt;The Switch Statement&lt;/h3&gt;
+&lt;p&gt;The choice of a switch statement over a long &lt;code&gt;if&lt;/code&gt;/&lt;code&gt;else if&lt;/code&gt; chain is mainly about readability.&lt;/p&gt;
+&lt;p&gt;You may also notice that there’s no &lt;code&gt;break&lt;/code&gt; statements and lots of spread operators in our switch statement. We’re using &lt;code&gt;return&lt;/code&gt; in lieu of break, which prevents the switch waterfall effect (more on that later). As for the spread operators, remember that React is built on immutability, so the creation of new objects is necessary. By spreading first and passing in our changes second, we can overwrite only the properties in state that we need to without affecting the rest:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const state = {
+  name: &quot;Robert&quot;,
+  email: &quot;SuperBobby74@aol.com&quot;
+}
+const newState = {...state, name: &quot;Bobby&quot;}
+console.log(newState)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s apply the reducer pattern and &lt;code&gt;useReducer&lt;/code&gt; to our form from earlier:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function FormExample() {
+  function formReducer(state, action) {
+    switch (action.type) {
+      case &apos;NAME_CHANGED&apos;:
+        return { ...state, name: action.payload }
+      case &apos;EMAIL_CHANGED&apos;:
+        return { ...state, email: action.payload }
+      default:
+        return state
+    }
+  }
+
+  const [state, dispatch] = React.useReducer(formReducer, {
+    name: &apos;&apos;,
+    email: &apos;&apos;,
+  })
+
+  const columnStyle = {
+    display: &apos;flex&apos;,
+    flexDirection: &apos;column&apos;,
+  }
+
+  return (
+    &amp;lt;form style={{ ...columnStyle, width: &apos;300px&apos; }}&amp;gt;
+      &amp;lt;label style={columnStyle}&amp;gt;
+        &amp;lt;span&amp;gt;Name:&amp;lt;/span&amp;gt;
+        &amp;lt;input
+          onChange={e =&amp;gt;
+            dispatch({ type: &apos;NAME_CHANGED&apos;, payload: e.target.value })
+          }
+          value={state.name}
+          type=&quot;text&quot;
+        /&amp;gt;
+      &amp;lt;/label&amp;gt;
+      &amp;lt;label style={columnStyle}&amp;gt;
+        &amp;lt;span&amp;gt;Email:&amp;lt;/span&amp;gt;
+        &amp;lt;input
+          onChange={e =&amp;gt;
+            dispatch({ type: &apos;EMAIL_CHANGED&apos;, payload: e.target.value })
+          }
+          value={state.email}
+          type=&quot;text&quot;
+        /&amp;gt;
+      &amp;lt;/label&amp;gt;
+      &amp;lt;pre&amp;gt;{JSON.stringify(state, null, 2)}&amp;lt;/pre&amp;gt;
+    &amp;lt;/form&amp;gt;
+  )
+}
+
+render(FormExample)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This works great, but we can make some improvements.&lt;/p&gt;
+&lt;p&gt;First let’s pull our action types out and make them into an object like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const actions = {
+  nameChanged: &apos;NAME_CHANGED&apos;,
+  emailChanged: &apos;EMAIL_CHANGED&apos;,
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This will save you from errors down the line. If you use &lt;code&gt;actions.nameChanged&lt;/code&gt; in your switch and dispatch, your IDE may help prevent errors from typos in your action types. (You might see this same pattern with enums if the codebase is using TypeScript.)&lt;/p&gt;
+&lt;p&gt;We can also pull out our initial state into it’s own object, and move it outside of our component along with our reducer and our actions.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const actions = {
+  nameChanged: &apos;NAME_CHANGED&apos;,
+  emailChanged: &apos;EMAIL_CHANGED&apos;,
+}
+
+const initialState = {
+  name: &apos;&apos;,
+  email: &apos;&apos;,
+}
+
+function formReducer(state, action) {
+  switch (action.type) {
+    case actions.nameChanged:
+      return { ...state, name: action.payload }
+    case actions.emailChanged:
+      return { ...state, email: action.payload }
+    default:
+      return state
+  }
+}
+
+function FormExample() {
+  const [state, dispatch] = React.useReducer(formReducer, initialState)
+
+  const columnStyle = {
+    display: &apos;flex&apos;,
+    flexDirection: &apos;column&apos;,
+  }
+  return (
+    &amp;lt;form style={{ ...columnStyle, width: &apos;300px&apos; }}&amp;gt;
+      &amp;lt;label style={columnStyle}&amp;gt;
+        &amp;lt;span&amp;gt;Name:&amp;lt;/span&amp;gt;
+        &amp;lt;input
+          onChange={e =&amp;gt;
+            dispatch({ type: actions.nameChanged, payload: e.target.value })
+          }
+          value={state.name}
+          type=&quot;text&quot;
+        /&amp;gt;
+      &amp;lt;/label&amp;gt;
+      &amp;lt;label style={columnStyle}&amp;gt;
+        &amp;lt;span&amp;gt;Email:&amp;lt;/span&amp;gt;
+        &amp;lt;input
+          onChange={e =&amp;gt;
+            dispatch({ type: actions.emailChanged, payload: e.target.value })
+          }
+          value={state.email}
+          type=&quot;text&quot;
+        /&amp;gt;
+      &amp;lt;/label&amp;gt;
+      &amp;lt;pre&amp;gt;{JSON.stringify(state, null, 2)}&amp;lt;/pre&amp;gt;
+    &amp;lt;/form&amp;gt;
+  )
+}
+render(FormExample)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Handling Business Logic using Reducers&lt;/h3&gt;
+&lt;p&gt;You might be wondering why exactly we’ve taken our &lt;code&gt;useState&lt;/code&gt; example and made it so complicated. It seems like all we’ve done is add code to duplicate the same functionality we had before.&lt;/p&gt;
+&lt;p&gt;Reducers really start to shine when we add a submit button to the form. Forms are devilishly complex things to reason about (lots of state to manage), which is why there are so many form libraries out there. You need to account for validation, plus keep track of what fields are filled out, what happens when the form is submitted, etc.&lt;/p&gt;
+&lt;p&gt;If you were going to manage that logic with &lt;code&gt;useState&lt;/code&gt;, you’d find yourself wrapping your submit in a lot of code, adding more &lt;code&gt;useState&lt;/code&gt; hooks, and possibly wrapping your setter functions in validation functions that might update &lt;em&gt;other&lt;/em&gt; state values. This would get messy quickly.&lt;/p&gt;
+&lt;p&gt;Unlike &lt;code&gt;useState&lt;/code&gt;, &lt;code&gt;useReducer&lt;/code&gt; provides a great infrastructure to handle all of the logic that surrounds validation and submission:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const actions = {
+  nameChanged: &apos;NAME_CHANGED&apos;,
+  emailChanged: &apos;EMAIL_CHANGED&apos;,
+  formSubmitted: &apos;FORM_SUBMITTED&apos;,
+}
+
+const initialState = {
+  name: &apos;&apos;,
+  email: &apos;&apos;,
+  nameError: null,
+  emailError: null,
+  formCompleted: false,
+  formSubmitted: false,
+}
+
+function formReducer(state, action) {
+  let error
+  switch (action.type) {
+    case actions.nameChanged:
+      error = validate(&apos;name&apos;, action.payload)
+      return { ...state, name: action.payload, nameError: error }
+    case actions.emailChanged:
+      error = validate(&apos;email&apos;, action.payload)
+      return { ...state, email: action.payload, emailError: error }
+    case actions.formSubmitted:
+      // if the form has been successfully submitted,
+      // stop here to prevent rage clicks and re-submissions
+      if (state.formCompleted) return state
+      let formValid = true
+      // invalidate the form if values are missing or in error
+      if (state.nameError || !state.name || state.emailError || !state.email) {
+        formValid = false
+      }
+      // if the user has attempted to submit before, stop here
+      if (state.formSubmitted) return { ...state, formCompleted: formValid }
+      // if this is the first submit, we need to validate in case the user
+      // clicked submit without typing anything
+      let nameError = validate(&apos;name&apos;, state.name)
+      let emailError = validate(&apos;email&apos;, state.email)
+      return {
+        ...state,
+        nameError,
+        emailError,
+        formSubmitted: true,
+        formCompleted: formValid,
+      }
+    default:
+      return state
+  }
+}
+
+// this helper function validates the name and email inputs
+// if there&apos;s an error, it returns an error message describing the problem
+// if there are no errors, it returns null
+// it&apos;s outside our reducer to make things more readable and DRY
+function validate(name, value) {
+  if (typeof value === &apos;string&apos;) value = value.trim()
+  switch (name) {
+    case &apos;name&apos;:
+      if (value.length === 0) {
+        return &apos;Must enter name&apos;
+      } else if (value.split(&apos; &apos;).length &amp;lt; 2) {
+        return &apos;Must enter first and last name&apos;
+      } else {
+        return null
+      }
+      break
+    case &apos;email&apos;:
+      if (value.length === 0) {
+        return &apos;Must enter email&apos;
+      } else if (
+        !value.includes(&apos;@&apos;) ||
+        !value.includes(&apos;.&apos;) ||
+        value.split(&apos;.&apos;)[1].length &amp;lt; 2
+      ) {
+        return &apos;Must enter valid email&apos;
+      } else {
+        return null
+      }
+      break
+  }
+}
+
+function FormExample() {
+  const [state, dispatch] = React.useReducer(formReducer, initialState)
+
+  // extract our dispatch to a change handler to DRY the code up
+  function handleChange(e) {
+    dispatch({ type: actions[e.target.name + &apos;Changed&apos;], payload: e.target.value })
+  }
+
+  // this is attached to the form, not the submit button so that
+  // the user can click OR press &apos;enter&apos; to submit
+  // we don&apos;t need a payload, the input values are already in state
+  function handleSubmit(e) {
+    e.preventDefault()
+    dispatch({ type: actions.formSubmitted })
+  }
+
+  const columnStyle = {
+    display: &apos;flex&apos;,
+    flexDirection: &apos;column&apos;,
+  }
+  // this adds a red outline to the input if the field isn&apos;t filled out correctly,
+  // but only if the user has attempted to submit
+  const inputStyle = hasError =&amp;gt; {
+    return {
+      outline: hasError &amp;amp;&amp;amp; state.formSubmitted ? &apos;2px solid red&apos; : &apos;none&apos;,
+    }
+  }
+  return (
+    &amp;lt;form style={{ ...columnStyle, width: &apos;300px&apos; }} onSubmit={handleSubmit}&amp;gt;
+      &amp;lt;label style={columnStyle}&amp;gt;
+        &amp;lt;span&amp;gt;Name:&amp;lt;/span&amp;gt;
+        &amp;lt;input
+          style={inputStyle(state.nameError)}
+          onChange={handleChange}
+          name=&quot;name&quot;
+          value={state.name}
+          type=&quot;text&quot;
+        /&amp;gt;
+        &amp;lt;span&amp;gt;{state.formSubmitted &amp;amp;&amp;amp; state.nameError}&amp;lt;/span&amp;gt;
+      &amp;lt;/label&amp;gt;
+      &amp;lt;label style={columnStyle}&amp;gt;
+        &amp;lt;span&amp;gt;email:&amp;lt;/span&amp;gt;
+        &amp;lt;input
+          style={inputStyle(state.emailError)}
+          onChange={handleChange}
+          name=&quot;email&quot;
+          value={state.email}
+          type=&quot;text&quot;
+        /&amp;gt;
+        &amp;lt;span&amp;gt;{state.formSubmitted &amp;amp;&amp;amp; state.emailError}&amp;lt;/span&amp;gt;
+      &amp;lt;/label&amp;gt;
+      &amp;lt;p&amp;gt;{state.formCompleted &amp;amp;&amp;amp; &apos;Form Submitted Successfully!&apos;}&amp;lt;/p&amp;gt;
+      &amp;lt;button type=&quot;submit&quot;&amp;gt;Submit&amp;lt;/button&amp;gt;
+      &amp;lt;pre&amp;gt;{JSON.stringify(state, null, 2)}&amp;lt;/pre&amp;gt;
+    &amp;lt;/form&amp;gt;
+  )
+}
+
+render(FormExample)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Notice how our reducer function swelled with business logic. That’s OK! In fact, it’s a good rule of thumb to keep your reducers fat and event handlers skinny.&lt;/p&gt;
+&lt;p&gt;The functionality has changed as well. As our values change, the reducer handles validation and adds error messages to our state if necessary. If the form hasn’t been submitted, we can hold off on annoying the user with red boxes and error messages until they submit. If errors are present on submission, we can change the messages as they type to guide them to enter the correct information. Lastly, we can prevent rage clicks and repeat submissions with a &lt;code&gt;formCompleted&lt;/code&gt; flag in our submission case.&lt;/p&gt;
+&lt;p&gt;This provides a great experience for the user, and a good organizational model for all these complex UI interactions.&lt;/p&gt;
+&lt;h2&gt;Welcome to Redux&lt;/h2&gt;
+&lt;p&gt;Believe it or not, &lt;strong&gt;We’ve now implemented all the major components of Redux&lt;/strong&gt;. Redux itself is really just a helper library to assist in doing the same things we’ve done in this article.&lt;/p&gt;
+&lt;p&gt;In a typical Redux application, we lift the &lt;strong&gt;actions&lt;/strong&gt;, &lt;strong&gt;reducers&lt;/strong&gt;, and &lt;strong&gt;state&lt;/strong&gt; into their own files in the project. To manage multiple state objects, we can group sets of actions/reducers/state into different &lt;strong&gt;stores&lt;/strong&gt; that then become part of a &lt;strong&gt;global store&lt;/strong&gt; with a &lt;strong&gt;root reducer&lt;/strong&gt;. The root reducer’s job is to compose the state of each store into a single, global state object.&lt;/p&gt;
+&lt;p&gt;Then we import whatever store, dispatcher, and actions we need into our components to access state and signal events to the global store. Redux provides some utility to assist in composing this global state management system, but for the most part, you’re going to write all the actions, reducers, and states yourself, just like we did in this article.&lt;/p&gt;
+&lt;p&gt;So if you made it this far, you’re ready to use Redux! The real question is, should you?&lt;/p&gt;
+&lt;h3&gt;Is Redux Dead ☠?&lt;/h3&gt;
+&lt;p&gt;You can certainly do a lot without Redux nowadays with the Context API and the information learned here. Think of a Context as a Redux Store that you can position anywhere in your app. Any components that are wrapped in a Context Provider get access to the values you share from it. Context can be at the top level in your application, providing state to everything, or further down and only sharing its state with a handful of components.&lt;/p&gt;
+&lt;p&gt;Kent C Dodds has an &lt;strong&gt;excellent&lt;/strong&gt; &lt;a href=&quot;https://kentcdodds.com/blog/application-state-management-with-react&quot;&gt;article&lt;/a&gt; on using Context for state management in React.&lt;/p&gt;
+&lt;p&gt;That said, &lt;strong&gt;Redux is not dead&lt;/strong&gt;. There are plenty of codebases out there using it, and if you’re going to write React professionally, it’s not a bad idea to learn it.&lt;/p&gt;
+&lt;h2&gt;Beyond Redux 😵&lt;/h2&gt;
+&lt;p&gt;We’re going to get into some slightly advanced topics now, so buckle up.&lt;/p&gt;
+&lt;p&gt;The most astute tester might have noticed the &lt;strong&gt;bug in the last example.&lt;/strong&gt; Scroll up and see if you can’t find the edge case we missed.&lt;/p&gt;
+&lt;p&gt;Give up?&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;You can edit the form after a successful submit!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;How can we fix this? Your first instinct might be to start sprinkling the &lt;code&gt;formSubmitted&lt;/code&gt; flag throughout our reducer to prevent further changes to the form, sort of how we did at the beginning of our submit case.&lt;/p&gt;
+&lt;p&gt;This would work, but it’s hard to read and reason about. I’d argue that the submission case is already a bit of a mess, and adding more logic to the other cases is only going to make things worse.&lt;/p&gt;
+&lt;p&gt;More importantly, how did we miss this in the first place? We learned all of this complicated JavaScript to prevent bugs, but we found some anyway!&lt;/p&gt;
+&lt;h2&gt;Implicit vs Explicit States&lt;/h2&gt;
+&lt;p&gt;In my tangent on state, I mentioned that we sometimes end up describing state with booleans or flags in our code. We’ve done that in our form with &lt;code&gt;formCompleted&lt;/code&gt; and &lt;code&gt;formSubmitted&lt;/code&gt;. The problem is that we’ve implicitly described the state of our form instead of explicitly.&lt;/p&gt;
+&lt;p&gt;That means that we’re relying on some combination of those booleans to describe the state of our form. For example, if the user hasn’t entered anything and hasn’t pressed submit, we might write:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;if (!formSubmitted &amp;amp;&amp;amp; !name &amp;amp;&amp;amp; !email &amp;amp;&amp;amp; !emailError &amp;amp;&amp;amp; !nameError) {
+  // behave as if user hasn&apos;t done anything yet
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This is messy and hard to understand. When you come back to this code later you might even forget how it works and be hesitant to change it. It’s much better to explicitly describe the state of the form, and then ensure that the form can only exist in one of those states at any point in time.&lt;/p&gt;
+&lt;p&gt;We could describe our form states as:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Clean&lt;/strong&gt; - User hasn’t entered anything or pressed submit&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Dirty&lt;/strong&gt; - User has started to enter info, but hasn’t successfully finished and submitted&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Completed&lt;/strong&gt; - Form has been filled out correctly and submitted&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We also want to handle the transitions between these states as well as the possible actions that can happen in each state:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Clean&lt;/strong&gt; - User hasn’t entered anything or pressed submit&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Possible Transitions: Dirty&lt;/li&gt;
+&lt;li&gt;Allowed Actions: editing and submitting, but submitting does not trigger errors, just a message&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Dirty&lt;/strong&gt; - User has started to enter info, but hasn’t successfully finished and submitted&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Possible Transitions: Completed&lt;/li&gt;
+&lt;li&gt;Allowed Actions: editing and submitting, but submitting triggers error messages&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Completed&lt;/strong&gt; - Form has been filled out correctly and submitted&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Possible Transitions: None!&lt;/li&gt;
+&lt;li&gt;Allowed Actions: None!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Finite State Machines&lt;/h2&gt;
+&lt;p&gt;The mental model we just created is a state machine or finite state machine (FSM). &lt;strong&gt;Finite&lt;/strong&gt; meaning there’s a limited amount of states that the form can exist in, &lt;strong&gt;state&lt;/strong&gt; describing the status of the form, and &lt;strong&gt;machine&lt;/strong&gt; referring to the mechanism of how we transition to and from different states.&lt;/p&gt;
+&lt;p&gt;I’m not a state machine expert, so I highly recommend reading &lt;a href=&quot;https://medium.com/@DavidKPiano/the-facetime-bug-and-the-dangers-of-implicit-state-machines-a5f0f61bdaa2&quot;&gt;these&lt;/a&gt; &lt;a href=&quot;https://24ways.org/2018/state-machines-in-user-interfaces/&quot;&gt;articles&lt;/a&gt; by David Khourshid for a deeper dive into FSMs.&lt;/p&gt;
+&lt;p&gt;There are two options for applying this model to our code.&lt;/p&gt;
+&lt;p&gt;First, there’s library that’s tailor-made for FSMs called &lt;a href=&quot;https://xstate.js.org/docs/&quot;&gt;XState&lt;/a&gt;, written by the same David mentioned above. Here’s a great &lt;a href=&quot;https://gedd.ski/post/state-machines-in-react/&quot;&gt;tutorial&lt;/a&gt; by Dave Geddes on using xstate in React if you’re interested.&lt;/p&gt;
+&lt;p&gt;The other option is to implement the logic ourselves in our reducer. This is a bit of a tall order, but if you read the FSM articles I linked, you might have seen an example of a FSM implemented with a &lt;strong&gt;nested switch&lt;/strong&gt; statement. Let’s apply that to our form.&lt;/p&gt;
+&lt;h3&gt;Advanced Switch Statements&lt;/h3&gt;
+&lt;p&gt;Before we get to our final example, let’s briefly review JavaScript’s &lt;code&gt;switch&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;What we’re about to use is the “fall-through” or “waterfall” switch usage. What this means is we will deliberately &lt;em&gt;not&lt;/em&gt; use &lt;code&gt;break&lt;/code&gt; in every case so that we can match multiple cases.&lt;/p&gt;
+&lt;p&gt;Let’s see an example where we ignore Mom’s advice and skip breakfast, but still eat lunch and dinner:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const actionType = &quot;LUNCH_ORDERED&quot;
+
+switch(actionType) {
+  case &quot;BREAKFAST_ORDERED&quot;:
+    console.log(&quot;breakfast&quot;)
+    // no break!
+  case &quot;LUNCH_ORDERED&quot;:
+    console.log(&quot;lunch&quot;)
+    // no break!
+  case &quot;DINNER_ORDERED&quot;:
+    console.log(&quot;dinner&quot;)
+    break
+  default:
+    console.log(&quot;fasting 😵&quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Once you match a case, you match all cases until you break or return.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;What about nested switches 😵?&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function dailyLife(status, actionType) {
+  switch(status) {
+    case &quot;work&quot;:
+      switch(actionType) {
+        case &quot;WORK_REQUESTED&quot;:
+          console.log(&quot;DOING WORK&quot;)
+          break
+      }
+    //no break after &quot;work&quot;
+    case &quot;holiday&quot;:
+      switch(actionType) {
+        case &quot;CAKE_EATEN&quot;:
+          console.log(&quot;FEELING FAT&quot;)
+          break
+        case &quot;NAP_REQUESTED&quot;:
+          console.log(&quot;NAPPING&quot;)
+          break
+      }
+  }
+}
+console.log(&quot;ooooh, who&apos;s birthday is it?&quot;)
+dailyLife(&quot;work&quot;, &quot;CAKE_EATEN&quot;) // feeling fat
+
+console.log(&quot;Taking a break, afk&quot;)
+dailyLife(&quot;work&quot;, &quot;NAP_REQUESTED&quot;) // napping
+
+console.log(&quot;Hey, I know it&apos;s Saturday, but can you get us that TPS report?&quot;)
+dailyLife(&quot;holiday&quot;, &quot;WORK_REQUESTED&quot;) // not happening, sorry boss
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here we can see that you can take a nap at work and on holiday, but you can’t work on a holiday. (At least you shouldn’t).&lt;/p&gt;
+&lt;p&gt;The idea is that if you have to share actions between states, &lt;strong&gt;put the state with unshared actions at the top&lt;/strong&gt;. If we can only work at work, then the work status should be at the top. If you can eat cake at work and on holiday, then holidays/cake-eating should be below.&lt;/p&gt;
+&lt;p&gt;This is definitely an advanced technique, so be careful and test often when you’re writing a complicated switch that’s nesting and waterfalling through cases.&lt;/p&gt;
+&lt;p&gt;In the case of our form, we want the user to be able to edit the form regardless if it’s “clean” or “dirty”. To share the input change actions, we don’t &lt;code&gt;break&lt;/code&gt; between the clean and dirty cases so that those actions are available to both. Also, you can submit in both states, but submit behaves differently in each.&lt;/p&gt;
+&lt;p&gt;Alright, here we go! Let’s take a look at our final form example with FSMs and &lt;code&gt;useReducer&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const actions = {
+  nameChanged: &apos;NAME_CHANGED&apos;,
+  emailChanged: &apos;EMAIL_CHANGED&apos;,
+  formSubmitted: &apos;FORM_SUBMITTED&apos;,
+}
+
+const initialState = {
+  name: &apos;&apos;,
+  email: &apos;&apos;,
+  nameError: null,
+  emailError: null,
+  submitAttempted: false,
+  submitMessage: &apos;&apos;,
+  status: &apos;clean&apos;,
+}
+
+function formReducer(state, action) {
+  let error
+  switch (state.status) {
+    case &apos;dirty&apos;:
+      switch (action.type) {
+        case actions.formSubmitted:
+          let formValid = true
+          let nameError = validate(&apos;name&apos;, state.name)
+          let emailError = validate(&apos;email&apos;, state.email)
+          if (nameError || !state.name || emailError || !state.email) {
+            formValid = false
+          }
+          return {
+            ...state,
+            nameError,
+            emailError,
+            submitAttempted: true,
+            status: formValid ? &apos;completed&apos; : &apos;dirty&apos;,
+            submitMessage: formValid
+              ? &apos;Form Submitted Successfully&apos;
+              : &apos;Form Has Errors&apos;,
+          }
+      }
+    // no &apos;break&apos; or &apos;return&apos;, case &apos;dirty&apos; continues!
+    case &apos;clean&apos;:
+      switch (action.type) {
+        case actions.nameChanged:
+          error = validate(&apos;name&apos;, action.payload)
+          return {
+            ...state,
+            name: action.payload,
+            nameError: error,
+            submitMessage: &apos;&apos;,
+            status: &apos;dirty&apos;,
+          }
+        case actions.emailChanged:
+          error = validate(&apos;email&apos;, action.payload)
+          return {
+            ...state,
+            email: action.payload,
+            emailError: error,
+            submitMessage: &apos;&apos;,
+            status: &apos;dirty&apos;,
+          }
+        case actions.formSubmitted:
+          return {
+            ...state,
+            submitMessage: &apos;Please fill out the form&apos;,
+          }
+        default:
+          return state
+      }
+    case &apos;completed&apos;:
+    // no &apos;break&apos; or &apos;return&apos;, case &apos;completed&apos; continues!
+    default:
+      return state
+  }
+}
+
+function validate(name, value) {
+  if (typeof value === &apos;string&apos;) value = value.trim()
+  switch (name) {
+    case &apos;name&apos;:
+      if (value.length === 0) {
+        return &apos;Must enter name&apos;
+      } else if (value.split(&apos; &apos;).length &amp;lt; 2) {
+        return &apos;Must enter first and last name&apos;
+      } else {
+        return null
+      }
+      break
+    case &apos;email&apos;:
+      if (value.length === 0) {
+        return &apos;Must enter email&apos;
+      } else if (
+        !value.includes(&apos;@&apos;) ||
+        !value.includes(&apos;.&apos;) ||
+        value.split(&apos;.&apos;)[1].length &amp;lt; 2
+      ) {
+        return &apos;Must enter valid email&apos;
+      } else {
+        return null
+      }
+      break
+  }
+}
+
+function FormExample() {
+  const [state, dispatch] = React.useReducer(formReducer, initialState)
+
+  function handleChange({ target: { name, value } }) {
+    dispatch({ type: actions[name + &apos;Changed&apos;], payload: value })
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    dispatch({ type: actions.formSubmitted })
+  }
+
+  const columnStyle = {
+    display: &apos;flex&apos;,
+    flexDirection: &apos;column&apos;,
+  }
+  const inputStyle = hasError =&amp;gt; {
+    return {
+      outline: hasError &amp;amp;&amp;amp; state.submitAttempted ? &apos;2px solid red&apos; : &apos;none&apos;,
+    }
+  }
+  return (
+    &amp;lt;form style={{ ...columnStyle, width: &apos;300px&apos; }} onSubmit={handleSubmit}&amp;gt;
+      &amp;lt;label style={columnStyle}&amp;gt;
+        &amp;lt;span&amp;gt;Name:&amp;lt;/span&amp;gt;
+        &amp;lt;input
+          style={inputStyle(state.nameError)}
+          onChange={handleChange}
+          name=&quot;name&quot;
+          value={state.name}
+          type=&quot;text&quot;
+        /&amp;gt;
+        &amp;lt;span&amp;gt;{state.submitAttempted &amp;amp;&amp;amp; state.nameError}&amp;lt;/span&amp;gt;
+      &amp;lt;/label&amp;gt;
+      &amp;lt;label style={columnStyle}&amp;gt;
+        &amp;lt;span&amp;gt;email:&amp;lt;/span&amp;gt;
+        &amp;lt;input
+          style={inputStyle(state.emailError)}
+          onChange={handleChange}
+          name=&quot;email&quot;
+          value={state.email}
+          type=&quot;text&quot;
+        /&amp;gt;
+        &amp;lt;span&amp;gt;{state.submitAttempted &amp;amp;&amp;amp; state.emailError}&amp;lt;/span&amp;gt;
+      &amp;lt;/label&amp;gt;
+      &amp;lt;p&amp;gt;{state.submitMessage}&amp;lt;/p&amp;gt;
+      &amp;lt;button type=&quot;submit&quot;&amp;gt;Submit&amp;lt;/button&amp;gt;
+      &amp;lt;pre&amp;gt;{JSON.stringify(state, null, 2)}&amp;lt;/pre&amp;gt;
+    &amp;lt;/form&amp;gt;
+  )
+}
+
+render(FormExample)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now our form is bug free!&lt;/p&gt;
+&lt;p&gt;We’ve explicitly modeled and accounted for all the possible states it can exist in, and defined the possible actions in those states.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; You may notice we still have a &lt;code&gt;submitAttempted&lt;/code&gt; boolean in the code. This is OK because it is only used to show or hide the error messages in our form. Most importantly, &lt;strong&gt;We don’t check &lt;code&gt;submitAttempted&lt;/code&gt; to determine what state we’re in.&lt;/strong&gt;&lt;/p&gt;
+&lt;h2&gt;Parting Thoughts&lt;/h2&gt;
+&lt;p&gt;This post is full of advanced concepts and I hope that you were able to learn some of them even if you didn’t make it all the way to the end. &lt;strong&gt;Don’t fret if you didn’t understand every concept and example.&lt;/strong&gt; Start at the easy stuff, and start applying and practicing those concepts first in your own code before moving on to the more difficult concepts. That’s how I learned them.&lt;/p&gt;
+&lt;p&gt;Thanks for reading this huge article, cheers!&lt;/p&gt;</content:encoded><atom:link rel="self" href="https://leewarrick.com/blog/rss.xml" type="application/rss+xml"/></item><item><title><![CDATA[React's useEffect and useRef Explained for Mortals]]></title><description><![CDATA[If the React docs leave you in the dust, or Dan Abramov’s blog makes you feel like you’re reading a scroll handed down from Mt Olympus…]]></description><link>https://leewarrick.com/blog/react-use-effect-explained/</link><guid isPermaLink="false">https://leewarrick.com/blog/react-use-effect-explained/</guid><pubDate>Fri, 06 Sep 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
       &lt;a href=&quot;https://leewarrick.com/blog/static/fdb92914fc9093dee6a2c20dad8fbd50/c35de/acropolis.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
   &lt;img alt=&quot;Photo of the Acropolis of Athens, Athens, Greece by Cristina Gottardi&quot; title=&quot;Photo of the Acropolis of Athens, Athens, Greece by Cristina Gottardi&quot; src=&quot;https://leewarrick.com/blog/static/fdb92914fc9093dee6a2c20dad8fbd50/a111b/acropolis.jpg&quot;&gt;
