@@ -30,6 +30,7 @@ export const Code = ({ codeString, language, ...props }) => {
           code={codeString}
           theme={theme}
           editingDisabled={props['no-edit']}
+          hideCode={props['no-code']}
           scripts={scripts.current}/>
       </div>
     )
@@ -42,6 +43,7 @@ export const Code = ({ codeString, language, ...props }) => {
           theme={theme}
           autorun={props.autorun}
           editingDisabled={props['no-edit']}
+          // hideCode={props['no-code']}
           scripts={scripts.current}
           linkId={props.linkId}/>
       </div>
@@ -53,6 +55,7 @@ export const Code = ({ codeString, language, ...props }) => {
         <LiveHtmlEditor code={codeString}
           language={language}
           editingDisabled={props['no-edit']}
+          hideCode={props['no-code']}
           theme={theme}
           linkId={props.linkId}/>
       </div>

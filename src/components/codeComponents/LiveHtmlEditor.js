@@ -18,7 +18,7 @@ function HtmlControls({reset, language}) {
   return <button onClick={reset}>Reset {language.toUpperCase()}</button>
 }
 
-function LiveHtmlEditor({code: initialCode, language, theme, editingDisabled, linkId}) {
+function LiveHtmlEditor({code: initialCode, language, theme, editingDisabled, linkId, hideCode}) {
   const [code, setCode] = useState(initialCode)
   const [updater, forceUpdate] = useState(1)
   const { linkedSnippets, updateLinkedSnippets, shouldShowEditor } = useCodeContext()
@@ -61,36 +61,41 @@ function LiveHtmlEditor({code: initialCode, language, theme, editingDisabled, li
 
   return(
     <>
-    <SnippetInfo language={language} editable={!editingDisabled && shouldShowEditor} live={true} />
       {
-        editingDisabled || !shouldShowEditor
-        ? <PlainCodeHighlight language={language} code={code} theme={theme}/>
-        : <Editor
-        value={code}
-        padding={10}
-        highlight={code => CodeHighlight({code, language, theme})}
-        onValueChange={setCodeWrapper}
-        style={{
-          whiteSpace: 'pre',
-          fontFamily: 'monospace',
-          ...themePlain
-        }}
-        />
+        !hideCode &&
+        <>
+          <SnippetInfo language={language} editable={!editingDisabled && shouldShowEditor} live={true} />
+          {
+            editingDisabled || !shouldShowEditor
+            ? <PlainCodeHighlight language={language} code={code} theme={theme}/>
+            : <Editor
+            value={code}
+            padding={10}
+            highlight={code => CodeHighlight({code, language, theme})}
+            onValueChange={setCodeWrapper}
+            style={{
+              whiteSpace: 'pre',
+              fontFamily: 'monospace',
+              ...themePlain
+            }}
+            />
+          }
+          <OutputLabel>
+            {
+              language === 'html'
+              ? 'Rendered HTML:'
+              : 'CSS Applied to page!'
+            }
+          </OutputLabel>
+        </>
       }
-      <OutputLabel>
-        {
-          language === 'html'
-          ? 'Rendered HTML:'
-          : 'CSS Applied to page!'
-        }
-      </OutputLabel>
       {
         updater
         ? <HtmlComponent code={code} language={language}/>
         : <pre style={{textAlign: 'center'}}>🔥🔥🔥Loading!🔥🔥🔥</pre>
       }
       {
-        !editingDisabled &&
+        !editingDisabled && !hideCode &&
         <HtmlControls reset={reset} language={language} />
       }
     </>

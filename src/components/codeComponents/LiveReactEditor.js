@@ -18,7 +18,7 @@ function ResetButton({initialCode, update}) {
   )
 }
 
-function LiveReactEditor({code, theme, scripts, useRender, editingDisabled}) {
+function LiveReactEditor({code, theme, scripts, useRender, editingDisabled, hideCode}) {
   const [updater, forceUpdate] = useState(1);
   const { globalScripts, shouldShowEditor } = useCodeContext()
   const [scriptsReady, setScriptsReady] = useState(false)
@@ -44,13 +44,18 @@ function LiveReactEditor({code, theme, scripts, useRender, editingDisabled}) {
     return (
       <LiveProvider code={updater ? code : code.split(/\r\n|\r|\n/).map(() => `🔥\n`).join("")}
         noInline={useRender ? true : false} disabled={editingDisabled} theme={theme}>
-        <SnippetInfo language={'jsx'} scripts={scripts} live={true} editable={!editingDisabled && shouldShowEditor} />
         {
-          editingDisabled || !shouldShowEditor
-          ? <PlainCodeHighlight language={'jsx'} code={code} theme={theme}/>
-          : <LiveEditor />
+          !hideCode &&
+          <>
+            <SnippetInfo language={'jsx'} scripts={scripts} live={true} editable={!editingDisabled && shouldShowEditor} />
+            {
+              editingDisabled || !shouldShowEditor
+              ? <PlainCodeHighlight language={'jsx'} code={code} theme={theme}/>
+              : <LiveEditor />
+            }
+            <OutputLabel>Rendered Output:</OutputLabel>
+          </>
         }
-        <OutputLabel>Rendered Output:</OutputLabel>
         <LiveError />
         <LivePreview />
         <ResetButton initialCode={code} update={forceUpdate} />
