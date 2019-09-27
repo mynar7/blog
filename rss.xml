@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Fri, 27 Sep 2019 15:33:18 GMT</lastBuildDate><item><title><![CDATA[How to make menus with CSS—no JavaScript or Bootstrap required!]]></title><description><![CDATA[I think a lot of new developers, myself included, are really excited about CSS until it comes time to start building more modern website…]]></description><link>https://leewarrick.com/blog/css-only-menus/</link><guid isPermaLink="false">https://leewarrick.com/blog/css-only-menus/</guid><pubDate>Mon, 23 Sep 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;I think a lot of new developers, myself included, are really excited about CSS until it comes time to start building more modern website features like menus.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Fri, 27 Sep 2019 15:47:48 GMT</lastBuildDate><item><title><![CDATA[How to make menus with CSS—no JavaScript or Bootstrap required!]]></title><description><![CDATA[I think a lot of new developers, myself included, are really excited about CSS until it comes time to start building more modern website…]]></description><link>https://leewarrick.com/blog/css-only-menus/</link><guid isPermaLink="false">https://leewarrick.com/blog/css-only-menus/</guid><pubDate>Fri, 27 Sep 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;I think a lot of new developers, myself included, are really excited about CSS until it comes time to start building more modern website features like menus.&lt;/p&gt;
 &lt;p&gt;I remember building my first site, feeling empowered by CSS to do my own styles, and feeling really proud of myself …until I needed a navigation menu.&lt;/p&gt;
 &lt;p&gt;&lt;span&gt;
       &lt;a href=&quot;https://leewarrick.com/blog/static/c0e4e4ede21d6cb9df4bc9393be8e428/c35de/ugh.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
@@ -8,7 +8,7 @@
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;As soon as I added a few links to my header, I began to run out of room on smaller screens. My site had to look good on mobile, so I was left with a choice:&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;Use Bootstrap and include a bunch of JavaScript/jQuery, or&lt;/li&gt;
+&lt;li&gt;Use Bootstrap menus and include a bunch of JavaScript/jQuery on the page, or&lt;/li&gt;
 &lt;li&gt;Use fewer links&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;I’ve made that choice many times since then, assuming that those were the only options when building navigation menus.&lt;/p&gt;
@@ -17,7 +17,8 @@
 &lt;p&gt;I was presented a set of mock-ups of a modern website and told to create the website as close to the provided assets as possible. That’s a pretty typical request, except there was one catch: &lt;strong&gt;no JavaScript allowed&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;I thought, &lt;em&gt;“No way! There’s menus everywhere! How can I pull that off without JS?”&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;There were &lt;strong&gt;dropdown menus&lt;/strong&gt;, &lt;strong&gt;drawers&lt;/strong&gt;, and even a Bootstrap-esque &lt;strong&gt;mobile hamburger menu&lt;/strong&gt; on one of the mocks.&lt;/p&gt;
-&lt;p&gt;I hopped on codepen and searched for CSS-only versions of these common UI components. After a little digging, I found examples for all of them! While there were some tricks involved that I would have never thought of, the tricks themselves were simple.&lt;/p&gt;
+&lt;p&gt;Being the intrepid developer that I am, I saw this as a fun challenge. I hopped on Codepen and began searching for CSS-only versions of these common UI components.&lt;/p&gt;
+&lt;p&gt;After a little digging, I found examples for all of them! While there were some tricks involved that I would have never thought of, the tricks themselves were simple.&lt;/p&gt;
 &lt;p&gt;I took those new tricks and used them to finish the coding challenge. And yes, I got the job!&lt;/p&gt;
 &lt;p&gt;I had always been told that CSS was super powerful, but I don’t think I believed it until that point.&lt;/p&gt;
 &lt;p&gt;So without further adieu, here’s how I managed to recreate all of those menus with CSS alone.&lt;/p&gt;
@@ -94,7 +95,7 @@
   &amp;lt;/ul&amp;gt;
 &amp;lt;/header&amp;gt;
 &amp;lt;br&amp;gt;
-&amp;lt;h2&amp;gt;CSS Only Dropdown!&amp;lt;/h2&amp;gt;
+&amp;lt;h3&amp;gt;CSS Only Dropdown!&amp;lt;/h3&amp;gt;
 &amp;lt;p&amp;gt;Hover over the Categories above&amp;lt;/p&amp;gt;
 &amp;lt;p&amp;gt;Pretty cool, right?&amp;lt;/p&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
@@ -233,13 +234,13 @@
   &amp;lt;/ul&amp;gt;
 &amp;lt;/header&amp;gt;
 &amp;lt;br&amp;gt;
-&amp;lt;h2&amp;gt;CSS Only NESTED Dropdown!&amp;lt;/h2&amp;gt;
+&amp;lt;h3&amp;gt;CSS Only NESTED Dropdown!&amp;lt;/h3&amp;gt;
 &amp;lt;p&amp;gt;Hover over &apos;Cat 1&apos; above,&amp;lt;/p&amp;gt;
 &amp;lt;p&amp;gt;Then check out the Sub Categories!&amp;lt;/p&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;There’s only two caveats to this nested menu.&lt;/p&gt;
 &lt;p&gt;The first is that it doesn’t work well on mobile devices. This type of menu requires a lot of real-estate and hovers don’t translate to touchscreens very well. This isn’t a fault of CSS, though. Most sites will switch to a different style of menu on smaller devices, regardless of CSS vs JS.&lt;/p&gt;
-&lt;p&gt;The second is that if your user wants to jump from a menu to a nested menu, they may take the shortest path and unintentionally move their mouse cursor out of the current element. Deeply nested menus are a little perilous for the user, so use with caution.&lt;/p&gt;
+&lt;p&gt;The second is that if your user wants to jump from a menu to a nested menu, she may take the shortest path and unintentionally move her mouse cursor out of the current element. Deeply nested menus are a little perilous for the user, so use with caution.&lt;/p&gt;
 &lt;h2&gt;Content Drawers&lt;/h2&gt;
 &lt;p&gt;Creating drawers with CSS alone seemed impossible. Hover effects don’t work, because when you open a drawer, you expect it to stay open. However, I learned that it &lt;em&gt;is&lt;/em&gt; possible with some very clever uses of HTML input elements and CSS selectors.&lt;/p&gt;
 &lt;p&gt;This example has quite a bit of CSS, but don’t fret, I promise to explain the important bits:&lt;/p&gt;
@@ -642,7 +643,7 @@ details li {
 &lt;p&gt;Take &lt;strong&gt;&lt;em&gt;that&lt;/em&gt;&lt;/strong&gt; bootstrap. 🤠&lt;/p&gt;
 &lt;h3&gt;What makes it work?&lt;/h3&gt;
 &lt;p&gt;A lot of the CSS above is for creating that silly hamburger style button. I literally stacked dashes and put a border around them, but you can use an icon if you like.&lt;/p&gt;
-&lt;p&gt;As for the menu, it uses &lt;strong&gt;absolute positioning&lt;/strong&gt;, the &lt;strong&gt;input checkbox trick&lt;/strong&gt;. as well as a new trick, which is using &lt;strong&gt;transform&lt;/strong&gt; to slide the drawer in and out.&lt;/p&gt;
+&lt;p&gt;As for the menu, it uses &lt;strong&gt;absolute positioning&lt;/strong&gt;, the &lt;strong&gt;input checkbox trick&lt;/strong&gt;, as well as a new trick, which is using &lt;strong&gt;transform&lt;/strong&gt; to slide the drawer in and out.&lt;/p&gt;
 &lt;p&gt;Here’s the code that makes the menu slide:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;.hamburger-menu__wrapper {
   position: relative;
