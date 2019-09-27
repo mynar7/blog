@@ -726,7 +726,7 @@ You may have some ideas on how to pull this off in your head after seeing the pr
 </div>
 ```
 
-Take ***that*** bootstrap. 🤠
+Take ***that***, bootstrap. 🤠
 
 ### What makes it work?
 
