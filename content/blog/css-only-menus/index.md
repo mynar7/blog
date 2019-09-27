@@ -1,6 +1,6 @@
 ---
 title: How to make menus with CSS—no JavaScript or Bootstrap required!
-date: 2019-09-23T12:00:00-0400
+date: 2019-09-27T12:00:00-0400
 ---
 
 I think a lot of new developers, myself included, are really excited about CSS until it comes time to start building more modern website features like menus.
@@ -11,7 +11,7 @@ I remember building my first site, feeling empowered by CSS to do my own styles,
 
 As soon as I added a few links to my header, I began to run out of room on smaller screens. My site had to look good on mobile, so I was left with a choice:
 
-1. Use Bootstrap and include a bunch of JavaScript/jQuery, or
+1. Use Bootstrap menus and include a bunch of JavaScript/jQuery on the page, or
 1. Use fewer links
 
 I've made that choice many times since then, assuming that those were the only options when building navigation menus.
@@ -26,7 +26,9 @@ I thought, _"No way! There's menus everywhere! How can I pull that off without J
 
 There were **dropdown menus**, **drawers**, and even a Bootstrap-esque **mobile hamburger menu** on one of the mocks.
 
-I hopped on codepen and searched for CSS-only versions of these common UI components. After a little digging, I found examples for all of them! While there were some tricks involved that I would have never thought of, the tricks themselves were simple.
+Being the intrepid developer that I am, I saw this as a fun challenge. I hopped on Codepen and began searching for CSS-only versions of these common UI components.
+
+After a little digging, I found examples for all of them! While there were some tricks involved that I would have never thought of, the tricks themselves were simple.
 
 I took those new tricks and used them to finish the coding challenge. And yes, I got the job!
 
@@ -112,7 +114,7 @@ Here's an example:
   </ul>
 </header>
 <br>
-<h2>CSS Only Dropdown!</h2>
+<h3>CSS Only Dropdown!</h3>
 <p>Hover over the Categories above</p>
 <p>Pretty cool, right?</p>
 ```
@@ -279,7 +281,7 @@ Using the same techniques, we can create a more complicated dropdown menu:
   </ul>
 </header>
 <br>
-<h2>CSS Only NESTED Dropdown!</h2>
+<h3>CSS Only NESTED Dropdown!</h3>
 <p>Hover over 'Cat 1' above,</p>
 <p>Then check out the Sub Categories!</p>
 ```
@@ -288,7 +290,7 @@ There's only two caveats to this nested menu.
 
 The first is that it doesn't work well on mobile devices. This type of menu requires a lot of real-estate and hovers don't translate to touchscreens very well. This isn't a fault of CSS, though. Most sites will switch to a different style of menu on smaller devices, regardless of CSS vs JS.
 
-The second is that if your user wants to jump from a menu to a nested menu, they may take the shortest path and unintentionally move their mouse cursor out of the current element. Deeply nested menus are a little perilous for the user, so use with caution.
+The second is that if your user wants to jump from a menu to a nested menu, she may take the shortest path and unintentionally move her mouse cursor out of the current element. Deeply nested menus are a little perilous for the user, so use with caution.
 
 ## Content Drawers
 
@@ -730,7 +732,7 @@ Take ***that*** bootstrap. 🤠
 
 A lot of the CSS above is for creating that silly hamburger style button. I literally stacked dashes and put a border around them, but you can use an icon if you like.
 
-As for the menu, it uses **absolute positioning**, the **input checkbox trick**. as well as a new trick, which is using **transform** to slide the drawer in and out.
+As for the menu, it uses **absolute positioning**, the **input checkbox trick**, as well as a new trick, which is using **transform** to slide the drawer in and out.
 
 Here's the code that makes the menu slide:
 ```css
