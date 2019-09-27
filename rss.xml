@@ -1,4 +1,683 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Thu, 12 Sep 2019 22:56:48 GMT</lastBuildDate><item><title><![CDATA[Bridging the Gap between React's useState, useReducer, and Redux]]></title><description><![CDATA[Redux is one of those technologies that I consider a “personal Everest”. Everytime I look at it, I feel like there’s no end to the…]]></description><link>https://leewarrick.com/blog/a-guide-to-usestate-and-usereducer/</link><guid isPermaLink="false">https://leewarrick.com/blog/a-guide-to-usestate-and-usereducer/</guid><pubDate>Thu, 12 Sep 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Fri, 27 Sep 2019 15:33:18 GMT</lastBuildDate><item><title><![CDATA[How to make menus with CSS—no JavaScript or Bootstrap required!]]></title><description><![CDATA[I think a lot of new developers, myself included, are really excited about CSS until it comes time to start building more modern website…]]></description><link>https://leewarrick.com/blog/css-only-menus/</link><guid isPermaLink="false">https://leewarrick.com/blog/css-only-menus/</guid><pubDate>Mon, 23 Sep 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;I think a lot of new developers, myself included, are really excited about CSS until it comes time to start building more modern website features like menus.&lt;/p&gt;
+&lt;p&gt;I remember building my first site, feeling empowered by CSS to do my own styles, and feeling really proud of myself …until I needed a navigation menu.&lt;/p&gt;
+&lt;p&gt;&lt;span&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/c0e4e4ede21d6cb9df4bc9393be8e428/c35de/ugh.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+    &lt;span&gt;&lt;/span&gt;
+  &lt;img alt=&quot;Pouring coffee into a mug marked &amp;quot;UGH&amp;quot;. Photo by Nathan Dumlao&quot; title=&quot;Pouring coffee into a mug marked &amp;quot;UGH&amp;quot;. Photo by Nathan Dumlao&quot; src=&quot;https://leewarrick.com/blog/static/c0e4e4ede21d6cb9df4bc9393be8e428/a111b/ugh.jpg&quot;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;As soon as I added a few links to my header, I began to run out of room on smaller screens. My site had to look good on mobile, so I was left with a choice:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Use Bootstrap and include a bunch of JavaScript/jQuery, or&lt;/li&gt;
+&lt;li&gt;Use fewer links&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;I’ve made that choice many times since then, assuming that those were the only options when building navigation menus.&lt;/p&gt;
+&lt;h2&gt;Creativity through Constraint&lt;/h2&gt;
+&lt;p&gt;It wasn’t until I had to do a coding challenge for a developer job that I had to reckon with the real power of CSS.&lt;/p&gt;
+&lt;p&gt;I was presented a set of mock-ups of a modern website and told to create the website as close to the provided assets as possible. That’s a pretty typical request, except there was one catch: &lt;strong&gt;no JavaScript allowed&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;I thought, &lt;em&gt;“No way! There’s menus everywhere! How can I pull that off without JS?”&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;There were &lt;strong&gt;dropdown menus&lt;/strong&gt;, &lt;strong&gt;drawers&lt;/strong&gt;, and even a Bootstrap-esque &lt;strong&gt;mobile hamburger menu&lt;/strong&gt; on one of the mocks.&lt;/p&gt;
+&lt;p&gt;I hopped on codepen and searched for CSS-only versions of these common UI components. After a little digging, I found examples for all of them! While there were some tricks involved that I would have never thought of, the tricks themselves were simple.&lt;/p&gt;
+&lt;p&gt;I took those new tricks and used them to finish the coding challenge. And yes, I got the job!&lt;/p&gt;
+&lt;p&gt;I had always been told that CSS was super powerful, but I don’t think I believed it until that point.&lt;/p&gt;
+&lt;p&gt;So without further adieu, here’s how I managed to recreate all of those menus with CSS alone.&lt;/p&gt;
+&lt;h2&gt;The Classic Dropdown Menu&lt;/h2&gt;
+&lt;p&gt;The first menu I want to talk about is the dropdown menu. You’ve probably seen this on any e-commerce site or anything with lots of categories and navigation. There’s a header up top with a list of categories, and when you mouse over one, a new menu appears with more related items.&lt;/p&gt;
+&lt;p&gt;Here’s an example:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;.dropdown__header * {
+  padding: 0;
+  margin: 0;
+}
+.dropdown__header {
+  display: flex;
+  align-items: center;
+  background: lightblue;
+}
+
+.dropdown__header strong {
+  margin-left: 5px;
+  margin-right: auto;
+  font-size: 1.6rem;
+}
+
+.dropdown__header .dropdown__categories,
+.dropdown__header .dropdown__menu {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown__header li {
+  padding: 10px;
+  position: relative;
+}
+
+.dropdown__header li:hover {
+  background: #d2f2fc;
+}
+
+.dropdown__header .dropdown__category .dropdown__menu {
+  display: none;
+  position: absolute;
+  background: #ebfaff;
+  width: 200px;
+  top: 50px;
+  right: 0;
+}
+
+.dropdown__header .dropdown__category:hover .dropdown__menu {
+  display: block;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;header class=&quot;dropdown__header&quot;&amp;gt;
+  &amp;lt;strong&amp;gt;Logo&amp;lt;/strong&amp;gt;
+  &amp;lt;ul class=&quot;dropdown__categories&quot;&amp;gt;
+    &amp;lt;li class=&quot;dropdown__category&quot;&amp;gt;
+      &amp;lt;span&amp;gt;Cat 1&amp;lt;/span&amp;gt;
+      &amp;lt;ul class=&quot;dropdown__menu&quot;&amp;gt;
+        &amp;lt;li&amp;gt;Cat 1 Thing&amp;lt;/li&amp;gt;
+        &amp;lt;li&amp;gt;Cat 1 Thing&amp;lt;/li&amp;gt;
+        &amp;lt;li&amp;gt;Cat 1 Thing&amp;lt;/li&amp;gt;
+        &amp;lt;li&amp;gt;Cat 1 Thing&amp;lt;/li&amp;gt;
+      &amp;lt;/ul&amp;gt;
+    &amp;lt;/li&amp;gt;
+    &amp;lt;li class=&quot;dropdown__category&quot;&amp;gt;
+      &amp;lt;span&amp;gt;Cat 2&amp;lt;/span&amp;gt;
+      &amp;lt;ul class=&quot;dropdown__menu&quot;&amp;gt;
+        &amp;lt;li&amp;gt;Cat 2 Thing&amp;lt;/li&amp;gt;
+        &amp;lt;li&amp;gt;Cat 2 Thing&amp;lt;/li&amp;gt;
+        &amp;lt;li&amp;gt;Cat 2 Thing&amp;lt;/li&amp;gt;
+        &amp;lt;li&amp;gt;Cat 2 Thing&amp;lt;/li&amp;gt;
+      &amp;lt;/ul&amp;gt;
+    &amp;lt;/li&amp;gt;
+  &amp;lt;/ul&amp;gt;
+&amp;lt;/header&amp;gt;
+&amp;lt;br&amp;gt;
+&amp;lt;h2&amp;gt;CSS Only Dropdown!&amp;lt;/h2&amp;gt;
+&amp;lt;p&amp;gt;Hover over the Categories above&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;Pretty cool, right?&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;What makes this work?&lt;/h3&gt;
+&lt;p&gt;There’s three main concepts here that make this possible: &lt;strong&gt;Showing/Hiding with Psuedoselectors&lt;/strong&gt;, &lt;strong&gt;absolute positioning&lt;/strong&gt;, and &lt;strong&gt;mindful HTML structure&lt;/strong&gt;.&lt;/p&gt;
+&lt;h4&gt;Showing/Hiding with Pseudoselectors&lt;/h4&gt;
+&lt;p&gt;I think most people are comfortable showing/hiding things with &lt;code&gt;display: none&lt;/code&gt; and &lt;code&gt;display: block&lt;/code&gt;. The real trick here is the selectors.&lt;/p&gt;
+&lt;p&gt;We’re targetting &lt;code&gt;.dropdown__menu&lt;/code&gt;, but notice the nesting structure. We’re looking for a &lt;code&gt;.dropdown__menu&lt;/code&gt; class that’s within a &lt;code&gt;.dropdown__category&lt;/code&gt; class. Then we can apply the &lt;code&gt;:hover&lt;/code&gt; pseudoselector to the parent, which means we’re targetting the menu based on a hover over the parent.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;.dropdown__header .dropdown__category .dropdown__menu {
+  display: none;
+}
+
+.dropdown__header .dropdown__category:hover .dropdown__menu {
+  display: block;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;Mindful HTML Structure&lt;/h4&gt;
+&lt;p&gt;Are you wondering why our menu stays open even when you move your mouse into the menu?&lt;/p&gt;
+&lt;p&gt;Going along with our nesting explanation above, note that our &lt;code&gt;.dropdown__menu&lt;/code&gt; is contained within &lt;code&gt;.dropdown__category&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;li class=&quot;dropdown__category&quot;&amp;gt;
+  &amp;lt;span&amp;gt;Cat 1&amp;lt;/span&amp;gt;
+  &amp;lt;ul class=&quot;dropdown__menu&quot;&amp;gt;
+    &amp;lt;li&amp;gt;Cat 1 Thing&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Cat 1 Thing&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Cat 1 Thing&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Cat 1 Thing&amp;lt;/li&amp;gt;
+  &amp;lt;/ul&amp;gt;
+&amp;lt;/li&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This means that although we’re no longer over the words “Cat 1”, the mouse is still within the &lt;code&gt;.dropdown__category&lt;/code&gt; list item, keeping the &lt;code&gt;:hover&lt;/code&gt; selector trigger active.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: The menu and category elements must be adjacent to each other so that your mouse stays within one or the other—you can’t position the menu off by itself somewhere and be able to mouse into it. More on that when we get to positioning.&lt;/p&gt;
+&lt;h4&gt;Absolute Positioning&lt;/h4&gt;
+&lt;p&gt;We position the hovered menu next to the category in the header using &lt;code&gt;position: absolute;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;W3 Schools has a &lt;a href=&quot;https://www.w3schools.com/css/css_positioning.asp&quot;&gt;great breakdown&lt;/a&gt; of CSS positioning, but here’s the short version:&lt;/p&gt;
+&lt;p&gt;When you set positioning, items can be moved around with &lt;code&gt;top&lt;/code&gt;, &lt;code&gt;bottom&lt;/code&gt;, &lt;code&gt;left&lt;/code&gt;, and &lt;code&gt;right&lt;/code&gt; options.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Static&lt;/strong&gt;: The default. The element behaves normally, and is unaffected by top/bottom/left/right.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Fixed&lt;/strong&gt;: The element is positioned relative to the viewport. Eg: &lt;code&gt;top: 0;&lt;/code&gt; would be the top of the viewer’s screen.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Relative&lt;/strong&gt;: The element is positioned based on where it would be normally. So &lt;code&gt;top: 0&lt;/code&gt; wouldn’t move it at all, and &lt;code&gt;top: 10px&lt;/code&gt; would push it down 10 pixels.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sticky&lt;/strong&gt;: This is a newer, trickier positioning. The element stays where it is, but when the user scrolls the page, before the element moves out of view, it will still stick to whatever top/bottom/left/right position is set.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;And lastly, there’s &lt;strong&gt;Absolute&lt;/strong&gt; positioning. This is the most complicated. The behavior depends on whether this element is within an element that has some kind of positioning set. &lt;strong&gt;If it has a positioned ancestor, it positions relative to that ancestor element. If not, it is positioned relative to the whole page.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;In the case of our dropdown menus, we make the &lt;code&gt;li&lt;/code&gt; tag that contains the menu &lt;code&gt;relative&lt;/code&gt;. Then within it we can use &lt;code&gt;position: absolute;&lt;/code&gt; to position the expanded menu around our category title.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;.dropdown__header li {
+  position: relative;
+}
+
+.dropdown__header .dropdown__category .dropdown__menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here we right-align the menu, and bump it down just far enough so that it’s at the bottom of “Cat 1” under our mouse.&lt;/p&gt;
+&lt;h2&gt;Nested Dropdown Menus&lt;/h2&gt;
+&lt;p&gt;Using the same techniques, we can create a more complicated dropdown menu:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;.nested-dropdown__header * {
+  padding: 0;
+  margin: 0;
+}
+.nested-dropdown__header {
+  display: flex;
+  align-items: center;
+  background: lightblue;
+}
+
+.nested-dropdown__header strong {
+  margin-left: 5px;
+  margin-right: auto;
+  font-size: 1.6rem;
+}
+
+.nested-dropdown__header ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nested-dropdown__header li {
+  padding: 10px;
+  position: relative;
+}
+
+.nested-dropdown__header li:hover {
+  background: #d2f2fc;
+}
+
+.nested-dropdown__header .nested-dropdown__menu,
+.nested-dropdown__header .nested-dropdown__submenu {
+  display: none;
+  position: absolute;
+  background: #ebfaff;
+  width: 150px;
+  top: 50px;
+  right: 0;
+}
+
+.nested-dropdown__header .nested-dropdown__category:hover .nested-dropdown__menu,
+.nested-dropdown__header .nested-dropdown__subcategory:hover .nested-dropdown__submenu {
+  display: block;
+}
+
+.nested-dropdown__header .nested-dropdown__submenu {
+  top: 0;
+  right: 100%;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;header class=&quot;nested-dropdown__header&quot;&amp;gt;
+  &amp;lt;strong&amp;gt;Logo&amp;lt;/strong&amp;gt;
+  &amp;lt;ul class=&quot;nested-dropdown__categories&quot;&amp;gt;
+    &amp;lt;li class=&quot;nested-dropdown__category&quot;&amp;gt;
+      &amp;lt;span&amp;gt;Cat 1&amp;lt;/span&amp;gt;
+      &amp;lt;ul class=&quot;nested-dropdown__menu&quot;&amp;gt;
+        &amp;lt;li class=&quot;nested-dropdown__subcategory&quot;&amp;gt;
+          &amp;lt;span&amp;gt;Sub Cat 1&amp;lt;/span&amp;gt;
+          &amp;lt;ul class=&quot;nested-dropdown__submenu&quot;&amp;gt;
+            &amp;lt;li&amp;gt;Sub Cat 1 Thing&amp;lt;/li&amp;gt;
+            &amp;lt;li&amp;gt;Sub Cat 1 Thing&amp;lt;/li&amp;gt;
+            &amp;lt;li&amp;gt;Sub Cat 1 Thing&amp;lt;/li&amp;gt;
+            &amp;lt;li&amp;gt;Sub Cat 1 Thing&amp;lt;/li&amp;gt;
+          &amp;lt;/ul&amp;gt;
+        &amp;lt;/li&amp;gt;
+        &amp;lt;li class=&quot;nested-dropdown__subcategory&quot;&amp;gt;
+          &amp;lt;span&amp;gt;Sub Cat 2&amp;lt;/span&amp;gt;
+          &amp;lt;ul class=&quot;nested-dropdown__submenu&quot;&amp;gt;
+            &amp;lt;li&amp;gt;Sub Cat 2 Thing&amp;lt;/li&amp;gt;
+            &amp;lt;li&amp;gt;Sub Cat 2 Thing&amp;lt;/li&amp;gt;
+            &amp;lt;li&amp;gt;Sub Cat 2 Thing&amp;lt;/li&amp;gt;
+          &amp;lt;/ul&amp;gt;
+        &amp;lt;/li&amp;gt;
+        &amp;lt;li&amp;gt;Cat 1 Thing&amp;lt;/li&amp;gt;
+        &amp;lt;li&amp;gt;Cat 1 Thing&amp;lt;/li&amp;gt;
+      &amp;lt;/ul&amp;gt;
+    &amp;lt;/li&amp;gt;
+  &amp;lt;/ul&amp;gt;
+&amp;lt;/header&amp;gt;
+&amp;lt;br&amp;gt;
+&amp;lt;h2&amp;gt;CSS Only NESTED Dropdown!&amp;lt;/h2&amp;gt;
+&amp;lt;p&amp;gt;Hover over &apos;Cat 1&apos; above,&amp;lt;/p&amp;gt;
+&amp;lt;p&amp;gt;Then check out the Sub Categories!&amp;lt;/p&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There’s only two caveats to this nested menu.&lt;/p&gt;
+&lt;p&gt;The first is that it doesn’t work well on mobile devices. This type of menu requires a lot of real-estate and hovers don’t translate to touchscreens very well. This isn’t a fault of CSS, though. Most sites will switch to a different style of menu on smaller devices, regardless of CSS vs JS.&lt;/p&gt;
+&lt;p&gt;The second is that if your user wants to jump from a menu to a nested menu, they may take the shortest path and unintentionally move their mouse cursor out of the current element. Deeply nested menus are a little perilous for the user, so use with caution.&lt;/p&gt;
+&lt;h2&gt;Content Drawers&lt;/h2&gt;
+&lt;p&gt;Creating drawers with CSS alone seemed impossible. Hover effects don’t work, because when you open a drawer, you expect it to stay open. However, I learned that it &lt;em&gt;is&lt;/em&gt; possible with some very clever uses of HTML input elements and CSS selectors.&lt;/p&gt;
+&lt;p&gt;This example has quite a bit of CSS, but don’t fret, I promise to explain the important bits:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;.drawer {
+  position: relative;
+  box-sizing: border-box;
+  width: 300px;
+}
+.drawer input {
+  width: 100%;
+  height: 60px;
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  margin: 0;
+  z-index: 3;
+  cursor: pointer;
+}
+.drawer__name {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+  padding: 10px;
+  background: lightblue;
+}
+.drawer__content {
+  border: 1px solid black;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+  list-style: none;
+  transition: padding 0.2s;
+}
+.drawer input:checked ~ .drawer__content {
+  height: 100%;
+  opacity: 1;
+  pointer-events: initial;
+  padding: 10px 0;
+}
+.drawer__arrow {
+  font-weight: 900;
+  font-size: 1.2rem;
+  transition: transform 0.2s;
+}
+.drawer input:checked ~ .drawer__name &amp;gt; .drawer__arrow {
+  transform: rotateZ(90deg);
+}
+.drawer__content li {
+  padding: 10px;
+  cursor: pointer;
+}
+.drawer__content li:hover {
+  color: rebeccapurple;
+  text-decoration: underline;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;div class=&quot;drawer&quot;&amp;gt;
+  &amp;lt;input type=&quot;checkbox&quot;&amp;gt;
+  &amp;lt;span class=&quot;drawer__name&quot;&amp;gt;
+    &amp;lt;span&amp;gt;&amp;lt;strong&amp;gt;Bananas&amp;lt;/strong&amp;gt;&amp;lt;/span&amp;gt;
+    &amp;lt;span class=&quot;drawer__arrow&quot;&amp;gt;&amp;gt;&amp;lt;/span&amp;gt;
+  &amp;lt;/span&amp;gt;
+  &amp;lt;ul class=&quot;drawer__content&quot;&amp;gt;
+    &amp;lt;li&amp;gt;Bruised&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Green&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Perfect&amp;lt;/li&amp;gt;
+  &amp;lt;/ul&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;div class=&quot;drawer&quot;&amp;gt;
+  &amp;lt;input type=&quot;checkbox&quot;&amp;gt;
+  &amp;lt;span class=&quot;drawer__name&quot;&amp;gt;
+    &amp;lt;span&amp;gt;&amp;lt;strong&amp;gt;Apples&amp;lt;/strong&amp;gt;&amp;lt;/span&amp;gt;
+    &amp;lt;span class=&quot;drawer__arrow&quot;&amp;gt;&amp;gt;&amp;lt;/span&amp;gt;
+  &amp;lt;/span&amp;gt;
+  &amp;lt;ul class=&quot;drawer__content&quot;&amp;gt;
+    &amp;lt;li&amp;gt;Mealy&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Crisp&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Green&amp;lt;/li&amp;gt;
+  &amp;lt;/ul&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;div class=&quot;drawer&quot;&amp;gt;
+  &amp;lt;input type=&quot;checkbox&quot;&amp;gt;
+  &amp;lt;span class=&quot;drawer__name&quot;&amp;gt;
+    &amp;lt;span&amp;gt;&amp;lt;strong&amp;gt;Oranges&amp;lt;/strong&amp;gt;&amp;lt;/span&amp;gt;
+    &amp;lt;span class=&quot;drawer__arrow&quot;&amp;gt;&amp;gt;&amp;lt;/span&amp;gt;
+  &amp;lt;/span&amp;gt;
+  &amp;lt;ul class=&quot;drawer__content&quot;&amp;gt;
+    &amp;lt;li&amp;gt;Bitter&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Sour&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Sweet&amp;lt;/li&amp;gt;
+  &amp;lt;/ul&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ta-da! ✨ Pure CSS drawers!&lt;/p&gt;
+&lt;p&gt;It seems like a lot of code is required to make this happen, but there’s just a few key pieces to this puzzle that make it possible.&lt;/p&gt;
+&lt;h3&gt;What makes this work?&lt;/h3&gt;
+&lt;p&gt;The main trick here really did blow my mind. The secret is &lt;strong&gt;HTML checkbox elements&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; I would have never thought of this in a million years. When I saw an example of this on Codepen I experienced the same feelings I had when seeing an awesome magic trick explained; I felt amazement of the ingenuity involved, and also anger at being duped by such a simple trick that I should have been able to figure out for myself.&lt;/p&gt;
+&lt;p&gt;If we position the checkbox over the drawer and stretch it to the same size as the drawer, then target siblings on a &lt;code&gt;:checked&lt;/code&gt; state, we can eliminate the need for JavaScript to trigger the open/close events. The CSS sibling selector is &lt;code&gt;~&lt;/code&gt;, meaning target any neighbor elements coming after this element.&lt;/p&gt;
+&lt;p&gt;It’s important to note that the &lt;strong&gt;checkbox must come first in the HTML&lt;/strong&gt;. You can select sibling/neighbor elements that come after, but not before. We also use &lt;code&gt;~&lt;/code&gt; and not &lt;code&gt;+&lt;/code&gt; because &lt;code&gt;+&lt;/code&gt; targets only the first adjacent sibling element, whereas &lt;code&gt;~&lt;/code&gt; will give you any following sibling.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;.ex2-drawer {
+  position: relative;
+  box-sizing: border-box;
+  width: 300px;
+}
+.ex2-drawer input {
+  width: 100%;
+  height: 60px;
+  outline: 2px solid red;
+  position: absolute;
+  /* opacity: 0; */
+  top: 0;
+  left: 0;
+  margin: 0;
+  z-index: 3;
+  cursor: pointer;
+}
+.ex2-drawer__name {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+  padding: 10px;
+  background: lightblue;
+}
+.ex2-drawer__content {
+  border: 1px solid black;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+  list-style: none;
+  transition: padding 0.2s;
+}
+.ex2-drawer input:checked ~ .ex2-drawer__content {
+  height: 100%;
+  opacity: 1;
+  pointer-events: initial;
+  padding: 10px 0;
+}
+.ex2-drawer__arrow {
+  font-weight: 900;
+  font-size: 1.2rem;
+  transition: transform 0.2s;
+}
+.ex2-drawer input:checked ~ .ex2-drawer__name &amp;gt; .ex2-drawer__arrow {
+  transform: rotateZ(90deg);
+}
+.ex2-drawer__content li {
+  padding: 10px;
+  cursor: pointer;
+}
+.ex2-drawer__content li:hover {
+  color: rebeccapurple;
+  text-decoration: underline;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;div class=&quot;ex2-drawer&quot;&amp;gt;
+  &amp;lt;input type=&quot;checkbox&quot;&amp;gt;
+  &amp;lt;span class=&quot;ex2-drawer__name&quot;&amp;gt;
+    &amp;lt;span&amp;gt;&amp;lt;strong&amp;gt;Bananas&amp;lt;/strong&amp;gt;&amp;lt;/span&amp;gt;
+    &amp;lt;span class=&quot;ex2-drawer__arrow&quot;&amp;gt;&amp;gt;&amp;lt;/span&amp;gt;
+  &amp;lt;/span&amp;gt;
+  &amp;lt;ul class=&quot;ex2-drawer__content&quot;&amp;gt;
+    &amp;lt;li&amp;gt;Bruised&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Green&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Perfect&amp;lt;/li&amp;gt;
+  &amp;lt;/ul&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;div class=&quot;ex2-drawer&quot;&amp;gt;
+  &amp;lt;input type=&quot;checkbox&quot;&amp;gt;
+  &amp;lt;span class=&quot;ex2-drawer__name&quot;&amp;gt;
+    &amp;lt;span&amp;gt;&amp;lt;strong&amp;gt;Apples&amp;lt;/strong&amp;gt;&amp;lt;/span&amp;gt;
+    &amp;lt;span class=&quot;ex2-drawer__arrow&quot;&amp;gt;&amp;gt;&amp;lt;/span&amp;gt;
+  &amp;lt;/span&amp;gt;
+  &amp;lt;ul class=&quot;ex2-drawer__content&quot;&amp;gt;
+    &amp;lt;li&amp;gt;Mealy&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Crisp&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Green&amp;lt;/li&amp;gt;
+  &amp;lt;/ul&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;div class=&quot;ex2-drawer&quot;&amp;gt;
+  &amp;lt;input type=&quot;checkbox&quot;&amp;gt;
+  &amp;lt;span class=&quot;ex2-drawer__name&quot;&amp;gt;
+    &amp;lt;span&amp;gt;&amp;lt;strong&amp;gt;Oranges&amp;lt;/strong&amp;gt;&amp;lt;/span&amp;gt;
+    &amp;lt;span class=&quot;ex2-drawer__arrow&quot;&amp;gt;&amp;gt;&amp;lt;/span&amp;gt;
+  &amp;lt;/span&amp;gt;
+  &amp;lt;ul class=&quot;ex2-drawer__content&quot;&amp;gt;
+    &amp;lt;li&amp;gt;Bitter&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Sour&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Sweet&amp;lt;/li&amp;gt;
+  &amp;lt;/ul&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The other important piece to this puzzle is the transition. Notice we didn’t use &lt;code&gt;display&lt;/code&gt; here to show and hide the drawer. If you do, you won’t be able to use CSS transitions to animate. &lt;strong&gt;You can’t animate an element that’s hidden with &lt;code&gt;display: none&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Instead, we use a combo of &lt;code&gt;height&lt;/code&gt;, &lt;code&gt;padding&lt;/code&gt;, &lt;code&gt;opacity&lt;/code&gt;, and &lt;code&gt;pointer-events&lt;/code&gt;. (That seems like a lot, but hear me out).&lt;/p&gt;
+&lt;p&gt;Here’s the main code that makes this possible for reference:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;.drawer {
+  position: relative;
+}
+.drawer input {
+  width: 100%;
+  height: 60px;
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  cursor: pointer;
+}
+.drawer__content {
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: padding 0.2s;
+}
+.drawer input:checked ~ .drawer__content {
+  height: 100%;
+  opacity: 1;
+  pointer-events: initial;
+  padding: 10px 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;div class=&quot;drawer&quot;&amp;gt;
+  &amp;lt;input type=&quot;checkbox&quot;&amp;gt;
+  &amp;lt;span class=&quot;drawer__name&quot;&amp;gt;
+    &amp;lt;span&amp;gt;&amp;lt;strong&amp;gt;Oranges&amp;lt;/strong&amp;gt;&amp;lt;/span&amp;gt;
+    &amp;lt;span class=&quot;drawer__arrow&quot;&amp;gt;&amp;gt;&amp;lt;/span&amp;gt;
+  &amp;lt;/span&amp;gt;
+  &amp;lt;ul class=&quot;drawer__content&quot;&amp;gt;
+    &amp;lt;li&amp;gt;Bitter&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Sour&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Sweet&amp;lt;/li&amp;gt;
+  &amp;lt;/ul&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;First we squash the &lt;code&gt;.drawer__content&lt;/code&gt; with &lt;code&gt;height: 0&lt;/code&gt;, and hide it with &lt;code&gt;opacity: 0&lt;/code&gt;. However, because it’s still on the page, the user would be able to click the things within, even though the content isn’t visible. The solution is to disable mouse interaction with &lt;code&gt;pointer-events: none&lt;/code&gt;. This allows us to animate the content while not letting the use see or interact with it.&lt;/p&gt;
+&lt;p&gt;Finally, we use &lt;code&gt;padding&lt;/code&gt; as our animation. Animating the &lt;code&gt;height&lt;/code&gt; causes some weird behavior, but animating the padding allows some for some subtle animation while keeping the drawer itself very responsive.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; It’s possible to make drawers with just HTML alone using the &lt;code&gt;details&lt;/code&gt; element. You lose out on the ability to animate with CSS, though.&lt;/p&gt;
+&lt;p&gt;Here’s a quick example. None of the CSS is necessary for the drawer behavior:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;details {
+  background: rebeccapurple;
+  color: #ddd;
+  width: 300px;
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
+summary {
+  padding: 10px;
+}
+summary:focus {
+  outline: none;
+}
+details ul {
+  background: #ddd;
+  margin: 0;
+  color: black;
+  padding: 10px;
+  border-radius: 0 0 4px 4px;
+}
+
+details li {
+  margin-left: 30px;
+  margin-top: 10px;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;details open&amp;gt;
+  &amp;lt;summary&amp;gt;Drawer 1&amp;lt;/summary&amp;gt;
+  &amp;lt;ul&amp;gt;
+    &amp;lt;li&amp;gt;Thing 1&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Thing 2&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Thing 3&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Thing 4&amp;lt;/li&amp;gt;
+  &amp;lt;/ul&amp;gt;
+&amp;lt;/details&amp;gt;
+&amp;lt;details&amp;gt;
+  &amp;lt;summary&amp;gt;Drawer 2&amp;lt;/summary&amp;gt;
+  &amp;lt;ul&amp;gt;
+    &amp;lt;li&amp;gt;Thing 1&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Thing 2&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Thing 3&amp;lt;/li&amp;gt;
+    &amp;lt;li&amp;gt;Thing 4&amp;lt;/li&amp;gt;
+  &amp;lt;/ul&amp;gt;
+&amp;lt;/details&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;CSS Only Hamburger Menus&lt;/h2&gt;
+&lt;p&gt;Now for the coup de grâce, CSS-only Hamburger menus!&lt;/p&gt;
+&lt;p&gt;What’s a hamburger menu? It gets its name from the three stacked dashes that indicate “hey this is a menu”. I guess someone was awful hungry for three lines to look like a hamburger, but I digress.&lt;/p&gt;
+&lt;p&gt;You may have some ideas on how to pull this off in your head after seeing the previous examples. Let’s take a look (Warning, incoming a ton of CSS):&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;.hamburger-menu__wrapper {
+  min-height: 400px;
+  position: relative;
+  text-align: center;
+}
+.hamburger-menu {
+  height: 100%;
+  width: 300px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.hamburger-menu__button {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #777;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 3;
+}
+
+.hamburger-menu__button span {
+  line-height: 8px;
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+
+.hamburger-menu__button span:last-child {
+  padding-bottom: 5px;
+}
+.hamburger-menu__wrapper {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+.hamburger-menu__wrapper input[type=&apos;checkbox&apos;] {
+  width: 40px;
+  height: 40px;
+  outline: 3px solid red;
+  opacity: 0;
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 4;
+  cursor: pointer;
+}
+
+.hamburger-menu__wrapper input:checked ~ .hamburger-menu__button {
+  background: #d2f2fc;
+}
+
+.hamburger-menu__wrapper input:checked ~ .hamburger-menu__slider {
+  transform: none;
+}
+
+.hamburger-menu__slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 100%;
+  background-color: lightblue;
+  z-index: 2;
+  transform: translateX(-310px);
+  transition: transform 0.3s;
+  text-align: left;
+}
+
+.hamburger-menu__item {
+  padding: 10px 0 10px 10px;
+}
+
+.hamburger-menu__item:hover {
+  background-color: #d2f2fc;
+}
+
+.hamburger-menu__item:first-of-type {
+  margin-top: 60px;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;div class=&quot;hamburger-menu__wrapper&quot;&amp;gt;
+  &amp;lt;div class=&quot;hamburger-menu&quot;&amp;gt;
+    &amp;lt;div class=&quot;hamburger-menu__wrapper&quot;&amp;gt;
+      &amp;lt;input type=&quot;checkbox&quot; /&amp;gt;
+      &amp;lt;div class=&quot;hamburger-menu__button&quot;&amp;gt;
+        &amp;lt;span&amp;gt;&amp;amp;mdash;&amp;lt;/span&amp;gt;
+        &amp;lt;span&amp;gt;&amp;amp;mdash;&amp;lt;/span&amp;gt;
+        &amp;lt;span&amp;gt;&amp;amp;mdash;&amp;lt;/span&amp;gt;
+      &amp;lt;/div&amp;gt;
+      &amp;lt;div class=&quot;hamburger-menu__slider&quot;&amp;gt;
+        &amp;lt;div class=&quot;hamburger-menu__item&quot;&amp;gt;Thing 1&amp;lt;/div&amp;gt;
+        &amp;lt;div class=&quot;hamburger-menu__item&quot;&amp;gt;Thing 2&amp;lt;/div&amp;gt;
+        &amp;lt;div class=&quot;hamburger-menu__item&quot;&amp;gt;Thing 3&amp;lt;/div&amp;gt;
+        &amp;lt;div class=&quot;hamburger-menu__item&quot;&amp;gt;Thing 4&amp;lt;/div&amp;gt;
+      &amp;lt;/div&amp;gt;
+    &amp;lt;/div&amp;gt;
+  &amp;lt;/div&amp;gt;
+  &amp;lt;h2&amp;gt;Hamburger!!&amp;lt;/h2&amp;gt;
+  &amp;lt;p&amp;gt;Click the Button to toggle the menu&amp;lt;/p&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Take &lt;strong&gt;&lt;em&gt;that&lt;/em&gt;&lt;/strong&gt; bootstrap. 🤠&lt;/p&gt;
+&lt;h3&gt;What makes it work?&lt;/h3&gt;
+&lt;p&gt;A lot of the CSS above is for creating that silly hamburger style button. I literally stacked dashes and put a border around them, but you can use an icon if you like.&lt;/p&gt;
+&lt;p&gt;As for the menu, it uses &lt;strong&gt;absolute positioning&lt;/strong&gt;, the &lt;strong&gt;input checkbox trick&lt;/strong&gt;. as well as a new trick, which is using &lt;strong&gt;transform&lt;/strong&gt; to slide the drawer in and out.&lt;/p&gt;
+&lt;p&gt;Here’s the code that makes the menu slide:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;.hamburger-menu__wrapper {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.hamburger-menu__wrapper input:checked ~ .hamburger-menu__slider {
+  transform: none;
+}
+
+.hamburger-menu__slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 100%;
+  z-index: 2;
+  transform: translateX(-310px);
+  transition: transform 0.3s;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We style the menu to sit on top of the page, then add in &lt;code&gt;transform: translateX(-310px)&lt;/code&gt; to pull the menu to the left so it’s no longer visible. When the &lt;code&gt;input&lt;/code&gt; is checked, we remove that &lt;code&gt;transform&lt;/code&gt; and the transition animates the drawer sliding into view.&lt;/p&gt;
+&lt;p&gt;There’s a ton of other neat things you can do with the &lt;code&gt;transform&lt;/code&gt; property. We used it above on our drawers to turn our arrow to point downward when the drawer is open, for example.&lt;/p&gt;
+&lt;p&gt;We also use &lt;code&gt;overflow: hidden&lt;/code&gt; on the wrapper to make sure our menu isn’t visible when the menu is closed.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; We also use &lt;code&gt;z-index&lt;/code&gt; here to make sure things stack on top of each other. Absolute positioning breaks items out of normal HTML flow, so making sure the menu is on top is crucial. Even more critical, we apply a higher z-index to the checkbox to make sure the user can always open and close the menu. We applied &lt;code&gt;z-index&lt;/code&gt; to our drawer checkboxes as well above.&lt;/p&gt;
+&lt;h2&gt;But about JavaScript?&lt;/h2&gt;
+&lt;p&gt;So yes, the point of this click-baity article title was that these things are possible &lt;em&gt;without&lt;/em&gt; JavaScript. But does that make sense?&lt;/p&gt;
+&lt;p&gt;CSS is incredibly performant in general compared to using JavaScript. So it’s a good rule of thumb to use CSS instead of JS for most things.&lt;/p&gt;
+&lt;p&gt;That said, some of these examples could be improved with JavaScript. Our hamburger example could benefit from being able to click outside of the menu to close the drawer. For the drawers, you might want to only have one of the drawers open above at a time. And for the dropdown menus you might want to slow the closing of the menus when the mouse cursor moves outside of the menu.&lt;/p&gt;
+&lt;p&gt;If you’re already using an SPA like React, you may as well use a touch of JavaScript with your CSS to build the menus.&lt;/p&gt;
+&lt;p&gt;The point here is that &lt;strong&gt;for a simple site, you don’t need to reach for CSS frameworks or JS frameworks.&lt;/strong&gt;&lt;/p&gt;
+&lt;h2&gt;Parting Thoughts&lt;/h2&gt;
+&lt;p&gt;CSS is powerful, and we could all use more excuses to practice and learn more and do more with it. HTML deserves a shout-out here as well. You can build a lot with HTML and CSS alone. Certainly more than I thought was possible when I started out.&lt;/p&gt;
+&lt;p&gt;JavaScript may rule the world, but CSS and HTML deserve your attention as a front-end developer as well.&lt;/p&gt;</content:encoded><atom:link rel="self" href="https://leewarrick.com/blog/rss.xml" type="application/rss+xml"/></item><item><title><![CDATA[Bridging the Gap between React's useState, useReducer, and Redux]]></title><description><![CDATA[Redux is one of those technologies that I consider a “personal Everest”. Everytime I look at it, I feel like there’s no end to the…]]></description><link>https://leewarrick.com/blog/a-guide-to-usestate-and-usereducer/</link><guid isPermaLink="false">https://leewarrick.com/blog/a-guide-to-usestate-and-usereducer/</guid><pubDate>Thu, 12 Sep 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
       &lt;a href=&quot;https://leewarrick.com/blog/static/ba29f3c8bad89c521880863a2ddfe9a2/c35de/mindthegap.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
   &lt;img alt=&quot;Photo of a man carelessly leaping over a very deep chasm by Alex Radelich&quot; title=&quot;Photo of a man carelessly leaping over a very deep chasm by Alex Radelich&quot; src=&quot;https://leewarrick.com/blog/static/ba29f3c8bad89c521880863a2ddfe9a2/a111b/mindthegap.jpg&quot;&gt;
