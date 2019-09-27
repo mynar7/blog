@@ -772,7 +772,7 @@ So yes, the point of this click-baity article title was that these things are po
 
 CSS is incredibly performant in general compared to using JavaScript. So it's a good rule of thumb to use CSS instead of JS for most things.
 
-That said, some of these examples could be improved with JavaScript. Our hamburger example could benefit from being able to click outside of the menu to close the drawer. For the drawers, you might want to only have one of the drawers open above at a time. And for the dropdown menus you might want to slow the closing of the menus when the mouse cursor moves outside of the menu.
+That said, some of these examples could be improved with JavaScript. Certainly toggling open/closed states would be much simpler using JS. Also, our hamburger example could benefit from being able to click outside of the menu to close the drawer. For the drawers, you might want to only have one of the drawers open above at a time. And for the dropdown menus you might want to slow the closing of the menus when the mouse cursor moves outside of the menu.
 
 If you're already using an SPA like React, you may as well use a touch of JavaScript with your CSS to build the menus.
 

@@ -73,7 +73,7 @@ Mental notes are the enemy. Don't take mental notes. We work in a field that dem
 
 ##### Side Note:
 
-Don't go down a rabbit hole of making your own productivity tool. I mean it's good to code and learn, but sometimes it's better to just use an existing app and call it a day. I'm [guilty](https://leewarrick.com/Goaler) of this.
+Don't go down a rabbit hole of making your own productivity tool. I mean it's good to code and learn, but sometimes it's better to just use an existing app and call it a day. I'm [guilty](https://leewarrick.com/goaler) of this.
 
 ## 7. Learning too many things
 
