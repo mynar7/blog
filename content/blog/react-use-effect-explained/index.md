@@ -110,7 +110,7 @@ The answer is to add more lifecycle methods like `componentDidUpdate` and `compo
 
 The React team realized that the class API is a little unwieldy and hard to reason about. People were making [lifecycle flowcharts](https://levelup.gitconnected.com/componentdidmakesense-react-lifecycle-explanation-393dcb19e459) trying to understand the inner workings of React ...it was a mess.
 
-So at ReactConf in October of 2018, after Sophie Alpert outlined just how bad classes are to use, Dan Ambramov got on stage and introduced hooks (You can watch the video [here](https://youtu.be/dpw9EHDh2bM?t=643)).
+So at ReactConf in October of 2018, after Sophie Alpert outlined just how bad classes are to use, Dan Abramov got on stage and introduced hooks (You can watch the video [here](https://youtu.be/dpw9EHDh2bM?t=643)).
 
 Hooks introduced statefulness in functional components, as well as a new way to handle side effects. Hooks made React code more reusable with less code--a huge win!
 
