@@ -1,4 +1,269 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Sat, 05 Oct 2019 18:58:30 GMT</lastBuildDate><item><title><![CDATA[Front-end Fisticuffs: Angular vs React vs Vue in 2019]]></title><description><![CDATA[Being a front-end developer is a bit like being a cowboy in a rodeo. As a developer, you’ll find yourself wrangling a new framework over and…]]></description><link>https://leewarrick.com/blog/angular-vs-react-vs-vue/</link><guid isPermaLink="false">https://leewarrick.com/blog/angular-vs-react-vs-vue/</guid><pubDate>Sat, 05 Oct 2019 14:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Thu, 17 Oct 2019 17:35:14 GMT</lastBuildDate><item><title><![CDATA[What is a debounce function and how do you write one?]]></title><description><![CDATA[Have you ever heard the story of the QWERTY layout on a keyboard? The popular legend is that it was too easy to type if the letters were…]]></description><link>https://leewarrick.com/blog/how-to-debounce/</link><guid isPermaLink="false">https://leewarrick.com/blog/how-to-debounce/</guid><pubDate>Thu, 17 Oct 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/91985b102e11e1a9b8ac2de71cb5733e/c35de/typewriter.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+    &lt;span&gt;&lt;/span&gt;
+  &lt;img alt=&quot;Photo of Typewriter by Pereanu Sebastian&quot; title=&quot;Photo of Typewriter by Pereanu Sebastian&quot; src=&quot;https://leewarrick.com/blog/static/91985b102e11e1a9b8ac2de71cb5733e/a111b/typewriter.jpg&quot;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Have you ever heard the story of the QWERTY layout on a keyboard? The &lt;a href=&quot;https://en.wikipedia.org/wiki/Typewriter#QWERTY&quot;&gt;popular legend&lt;/a&gt; is that it was too easy to type if the letters were arranged alphabetically, and this caused mechanical typewriters to jam. The most common letters were too close together, supposedly. So to fix this, the QWERTY layout was invented, to &lt;em&gt;slow down the typist&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;This Dilbertian engineering idea is eerily similar to what a debounce function does.&lt;/p&gt;
+&lt;h2&gt;What is a debounce?&lt;/h2&gt;
+&lt;p&gt;A debounce function is meant to slow down something in your application, typically a function call. The best way to wrap your head around this is by example.&lt;/p&gt;
+&lt;p&gt;Consider this: you have a search input on your site somewhere, and &lt;em&gt;as the user types&lt;/em&gt;, you want to go fetch some search results to try and match what the user is looking for before they finish typing.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Piece of cake!&lt;/em&gt;, you think. With React, you can attach your API call to your input’s &lt;code&gt;onChange&lt;/code&gt; event like so:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function SearchForm() {
+  const [inputVal, setInputVal] = React.useState(&quot;&quot;)
+  const [callCount, setCallCount] = React.useState(0)
+
+  function handleChange(e) {
+    setInputVal(e.target.value)
+    // let&apos;s say this was an API call
+    // to add auto-complete data
+    setCallCount(callCount + 1)
+  }
+
+  return (
+    &amp;lt;div&amp;gt;
+      &amp;lt;h2&amp;gt;Type in this Box ⬇️&amp;lt;/h2&amp;gt;
+      &amp;lt;input onChange={handleChange} value={inputVal}/&amp;gt;
+      &amp;lt;p&amp;gt;Current Data: {inputVal}&amp;lt;/p&amp;gt;
+      &amp;lt;p&amp;gt;Calls Done: {callCount}&amp;lt;/p&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Notice that as you type in the search box, if your API function is attached to your input’s &lt;code&gt;onChange&lt;/code&gt; event, you’ll make an API call &lt;em&gt;every time the user presses a key&lt;/em&gt; 😱. If you couple this with the small delay it takes to make an API call, you can imagine the traffic jam that this would cause as you have multiple API calls being made and flooding back in.&lt;/p&gt;
+&lt;p&gt;This isn’t what we imagined when we first cooked up this auto-populating search box scheme. What we &lt;em&gt;really&lt;/em&gt; want to do is to make our API call when the user pauses or stops typing.&lt;/p&gt;
+&lt;p&gt;This is the purpose of a &lt;strong&gt;debounce&lt;/strong&gt; function, to limit the amount of calls that can happen in a given amount of time.&lt;/p&gt;
+&lt;h2&gt;How to debounce a function in JavaScript&lt;/h2&gt;
+&lt;p&gt;So we need to fire fewer API calls, but how do we do it?&lt;/p&gt;
+&lt;p&gt;Before we jump into React, let’s give this a shot with regular JavaScript. Let’s put our fake API call in its own function, then wrap it in our debounce function.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;let callCount = 0
+
+// this is just a promise that resolves after 300ms
+// and console logs a counter
+function fakeAPICall() {
+  return new Promise(resolve =&amp;gt; {
+    setTimeout(() =&amp;gt; {
+      callCount++
+      console.log(&quot;Calls Made:&quot; + callCount)
+      resolve()
+    }, 300)
+  })
+}
+
+fakeAPICall() // 1
+fakeAPICall() // 2
+fakeAPICall() // 3
+
+function debounce(callback) {
+    // each call to debounce creates a new timeoutId
+    let timeoutId
+    return function() {
+      // this inner function keeps a reference to
+      // timeoutId from the function outside of it
+      clearTimeout(timeoutId)
+      timeoutId = setTimeout(callback, 800)
+    }
+}
+
+// wraps the fakeAPICall function and returns
+// a function that calls fakeAPICall
+const debouncedFakeApiCall = debounce(fakeAPICall)
+
+// all these calls cancel each other
+// Until the last call finally happens after 800 ms
+debouncedFakeApiCall()
+debouncedFakeApiCall()
+debouncedFakeApiCall()
+debouncedFakeApiCall()
+debouncedFakeApiCall()
+debouncedFakeApiCall()
+debouncedFakeApiCall() // 4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Success!&lt;/p&gt;
+&lt;p&gt;Without a debounce, we get 3 calls, but with a debounce, we only fire an API call &lt;strong&gt;on the last function call&lt;/strong&gt;.&lt;/p&gt;
+&lt;h3&gt;How it works&lt;/h3&gt;
+&lt;p&gt;The most basic, critical piece of this debounce function is to delay the actual API call, then as more calls come in, cancel and reset the delay for the API call. We do this with &lt;code&gt;setTimeout&lt;/code&gt; and &lt;code&gt;clearTimeout&lt;/code&gt; in the JavaScript above.&lt;/p&gt;
+&lt;p&gt;If you noticed the debounce function taking a function and returning a another function, that is an example of a closure in JavaScript. When we debounce a function, we pass our original function in, and wrap it in another function that delays calls to the original. In this way our debounce function is reusable throughout our program. We could debounce as many different functions as we want, &lt;strong&gt;because each one has its own &lt;code&gt;timeoutId&lt;/code&gt; variable&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2&gt;How to write a debounce function in React&lt;/h2&gt;
+&lt;p&gt;React allows us to encapsulate logic in components, so we can skip the fancy JavaScript closures and just use our component to write a debounce function.&lt;/p&gt;
+&lt;p&gt;Let’s take a look:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// just an async helper
+function fakeAPICall() {
+  return new Promise(resolve =&amp;gt; {
+    setTimeout(resolve, 300)
+  })
+}
+
+function SearchForm() {
+  const [inputVal, setInputVal] = React.useState(&quot;&quot;)
+  const [query, setQuery] = React.useState(&quot;&quot;)
+  const inputRef = React.useRef(&quot;&quot;)
+  const [callCount, setCallCount] = React.useState(0)
+  const timeoutId = React.useRef()
+
+  function handleChange(e) {
+    setInputVal(e.target.value)
+    // mimic the value so we can access
+    // the latest value in our API call
+    inputRef.current = e.target.value
+  }
+
+  React.useEffect(() =&amp;gt; {
+    // if the user keeps typing, stop the API call!
+    clearTimeout(timeoutId.current)
+    // don&apos;t make an API call with no data
+    if (!inputVal.trim()) return
+    // capture the timeoutId so we can
+    // stop the call if the user keeps typing
+    timeoutId.current = setTimeout(() =&amp;gt; {
+      // grab our query, but store it in state so
+      // I can show it to you below in the example 😄
+      setQuery(inputRef.current)
+      fakeAPICall()
+      // here we pass a callback so we get the current callCount value
+      // from the useState hook&apos;s setter function
+      // we use a Ref for timeoutId to avoid this same problem
+      .then(() =&amp;gt; setCallCount(callCount =&amp;gt; callCount + 1))
+    }, 800)
+  }, [inputVal])
+
+  return (
+    &amp;lt;div&amp;gt;
+      &amp;lt;h2&amp;gt;Type in this Box ⬇️&amp;lt;/h2&amp;gt;
+      &amp;lt;input onChange={handleChange} value={inputVal}/&amp;gt;
+      &amp;lt;p&amp;gt;Current Data: {inputVal}&amp;lt;/p&amp;gt;
+      &amp;lt;p&amp;gt;Query Sent: {query}&amp;lt;/p&amp;gt;
+      &amp;lt;p&amp;gt;Calls Done: {callCount}&amp;lt;/p&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}
+
+render(SearchForm)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now as we type, the component won’t actually make any API calls until the typing stops.&lt;/p&gt;
+&lt;p&gt;The only difference here is that instead of writing a closure, we’re using a React Ref for our &lt;code&gt;timeoutId&lt;/code&gt;. Refs are React’s version of instance variables, so each SearchForm component that we make should get its own &lt;code&gt;timeoutId&lt;/code&gt;. If you want to learn more about Refs and &lt;code&gt;useEffect&lt;/code&gt;, &lt;a href=&quot;https://leewarrick.com/blog/react-use-effect-explained/&quot;&gt;I wrote another post on that topic&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;But wait, there’s more&lt;/h3&gt;
+&lt;p&gt;This might not be exactly what you imagined when you envisioned this functionality. For example, as you type into Google search, you still get autocomplete suggestions as you type, even if you haven’t stopped typing.&lt;/p&gt;
+&lt;p&gt;So while our previous examples will ensure we do the &lt;em&gt;fewest&lt;/em&gt; API calls possible, we may want to tweak our solution to &lt;strong&gt;make an API call every so often as the user types&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2&gt;How to write a debounce in JavaScript: Round 2&lt;/h2&gt;
+&lt;p&gt;Let’s tweak our JavaScript debounce implementation so that we only make our API call every 800ms.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;let callCount = 0
+
+function fakeAPICall() {
+  return new Promise(resolve =&amp;gt; {
+    setTimeout(() =&amp;gt; {
+      callCount++
+      console.log(&quot;Calls Made:&quot; + callCount)
+      resolve()
+    }, 300)
+  })
+}
+
+function debounce(cb) {
+    let makingCall
+    return function() {
+      // if I&apos;m in progress of making an API call,
+      // don&apos;t trigger another one
+      if (makingCall) return
+      // set up API call to fire
+      makingCall = true
+      // give the user some time to type by delaying the actual call
+      setTimeout(() =&amp;gt; {
+        makingCall = false
+        cb()
+      }, 1000)
+    }
+}
+
+const debouncedFakeApiCall = debounce(fakeAPICall)
+
+// imagine the user starting and stopping typing
+// we&apos;ll only make a call every 800ms
+debouncedFakeApiCall() // 1
+debouncedFakeApiCall()
+debouncedFakeApiCall()
+setTimeout(() =&amp;gt; {
+  debouncedFakeApiCall()
+  debouncedFakeApiCall()
+}, 600)
+setTimeout(() =&amp;gt; {
+  debouncedFakeApiCall() // 2
+  debouncedFakeApiCall()
+}, 1200)
+setTimeout(() =&amp;gt; {
+  debouncedFakeApiCall()
+  debouncedFakeApiCall()
+}, 1800)
+setTimeout(() =&amp;gt; {
+  debouncedFakeApiCall() // 3
+  debouncedFakeApiCall()
+}, 2400)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now as our debounce function fires, we are limiting our calls to happen every 800ms.&lt;/p&gt;
+&lt;h3&gt;How it works&lt;/h3&gt;
+&lt;p&gt;This new version uses a simple &lt;code&gt;true&lt;/code&gt;/&lt;code&gt;false&lt;/code&gt; value to determine if we should trigger more calls instead of clearing the timeout and cancelling previous calls. Now the first call to the debounced function fires the call, and the subsequent calls are ignored until the API call is complete.&lt;/p&gt;
+&lt;h2&gt;How to write a debounce in React: Round 2&lt;/h2&gt;
+&lt;p&gt;Let’s apply this same functionality to our previous React example.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// just an async helper
+function fakeAPICall() {
+  return new Promise(resolve =&amp;gt; {
+    setTimeout(resolve, 300)
+  })
+}
+
+function SearchForm() {
+  const [inputVal, setInputVal] = React.useState(&quot;&quot;)
+  const [query, setQuery] = React.useState(&quot;&quot;)
+  const inputRef = React.useRef(&quot;&quot;)
+  const [callCount, setCallCount] = React.useState(0)
+  const makingCall = React.useRef(false)
+
+  function handleChange(e) {
+    setInputVal(e.target.value)
+    // mimic the value so we can access
+    // the latest value in our API call
+    inputRef.current = e.target.value
+  }
+
+  React.useEffect(() =&amp;gt; {
+    // if there&apos;s no value or we&apos;ve already triggered a call
+    // prevent further calls
+    if (!inputVal.trim() || makingCall.current) return
+    makingCall.current = true
+    setTimeout(() =&amp;gt; {
+      // again, this setQuery is just so I can
+      // render the query below.
+      // if this API call were real, we&apos;d probably
+      // pass the query into the API call function
+      setQuery(inputRef.current)
+      fakeAPICall()
+      .then(() =&amp;gt; {
+        setCallCount(callCount =&amp;gt; callCount + 1)
+        makingCall.current = false
+      })
+    }, 1000)
+  }, [inputVal])
+
+  return (
+    &amp;lt;div&amp;gt;
+      &amp;lt;h2&amp;gt;Type in this Box ⬇️&amp;lt;/h2&amp;gt;
+      &amp;lt;input onChange={handleChange} value={inputVal}/&amp;gt;
+      &amp;lt;p&amp;gt;Current Data: {inputVal}&amp;lt;/p&amp;gt;
+      &amp;lt;p&amp;gt;Query Sent: {query}&amp;lt;/p&amp;gt;
+      &amp;lt;p&amp;gt;Calls Done: {callCount}&amp;lt;/p&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}
+
+render(SearchForm)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Great Success! Now as the user types, every 800ms we make a call for an autocomplete suggestion. This means &lt;strong&gt;more API calls, but better user experience&lt;/strong&gt;, at least in the case of our search autocomplete example.&lt;/p&gt;
+&lt;h2&gt;Parting Thoughts&lt;/h2&gt;
+&lt;p&gt;So there you have it: two different ways to implement debounce functions in JS and React.&lt;/p&gt;
+&lt;p&gt;But would you ever implement this yourself in real life?&lt;/p&gt;
+&lt;p&gt;Sure! If you just needed simple functionality like this, you could absolutely manage your own debounce logic/helpers in your app. However, you can absolutely pull in a solution like &lt;a href=&quot;https://lodash.com/docs/4.17.15#debounce&quot;&gt;Lodash&lt;/a&gt; and just use the debounce function that they’ve implemented.&lt;/p&gt;
+&lt;p&gt;I find it fun to try and implement my own solutions, and I think it’s worth the mental gymnastics to give this stuff a shot in your own code every once in a while. But don’t be fooled, nobody will judge you if you reach for a third-party solution!&lt;/p&gt;</content:encoded><atom:link rel="self" href="https://leewarrick.com/blog/rss.xml" type="application/rss+xml"/></item><item><title><![CDATA[Front-end Fisticuffs: Angular vs React vs Vue in 2019]]></title><description><![CDATA[Being a front-end developer is a bit like being a cowboy in a rodeo. As a developer, you’ll find yourself wrangling a new framework over and…]]></description><link>https://leewarrick.com/blog/angular-vs-react-vs-vue/</link><guid isPermaLink="false">https://leewarrick.com/blog/angular-vs-react-vs-vue/</guid><pubDate>Sat, 05 Oct 2019 14:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
       &lt;a href=&quot;https://leewarrick.com/blog/static/5aca234f740d624418ae46972aae98c7/c35de/cowboy.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
   &lt;img alt=&quot;Cowboy riding horse and kicking up dirt by Lee Pigott&quot; title=&quot;Cowboy riding horse and kicking up dirt by Lee Pigott&quot; src=&quot;https://leewarrick.com/blog/static/5aca234f740d624418ae46972aae98c7/a111b/cowboy.jpg&quot;&gt;
