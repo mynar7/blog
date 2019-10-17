@@ -300,7 +300,7 @@ function SearchForm() {
 render(SearchForm)
 ```
 
-Great Success! Now as the user types, every 800ms we make a call for an autocomplete suggestion. This means **more API calls, but better user experience**, at least in the case of our search autocomplete example.
+Success! Now as the user types, every 800ms we make a call for an autocomplete suggestion. This means **more API calls, but better user experience**, at least in the case of our search autocomplete example.
 
 ## Parting Thoughts
 
