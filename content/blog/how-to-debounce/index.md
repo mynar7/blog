@@ -1,5 +1,5 @@
 ---
-title: How do you write debounce and throttle functions in JavaScript?
+title: What are debounce and throttle functions, and how do you write them in JavaScript and React?
 date: 2019-10-17T12:00:00-0400
 ---
 ![Photo of Typewriter by Pereanu Sebastian](./typewriter.jpg)
@@ -170,7 +170,7 @@ Now as we type, the component won't actually make any API calls until the typing
 
 The only difference here is that instead of writing a closure, we're using a React Ref for our `timeoutId`. Refs are React's version of instance variables, so each SearchForm component that we make should get its own `timeoutId`. If you want to learn more about Refs and `useEffect`, [I wrote another post on that topic](https://leewarrick.com/blog/react-use-effect-explained/).
 
-### But wait, there's more
+## What is a throttle?
 
 This might not be exactly what you imagined when you envisioned this functionality. For example, as you type into Google search, you still get autocomplete suggestions as you type, even if you haven't stopped typing.
 
@@ -304,7 +304,7 @@ Great Success! Now as the user types, every 800ms we make a call for an autocomp
 
 ## Parting Thoughts
 
-So there you have it throttling and debounce functions in JS and React.
+So there you have it: throttling and debounce functions in JS and React.
 
 But would you ever implement this yourself in real life?
 
