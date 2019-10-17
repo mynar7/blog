@@ -1,5 +1,5 @@
 ---
-title: What is a debounce function and how do you write one?
+title: How do you write debounce and throttle functions in JavaScript?
 date: 2019-10-17T12:00:00-0400
 ---
 ![Photo of Typewriter by Pereanu Sebastian](./typewriter.jpg)
@@ -174,9 +174,9 @@ The only difference here is that instead of writing a closure, we're using a Rea
 
 This might not be exactly what you imagined when you envisioned this functionality. For example, as you type into Google search, you still get autocomplete suggestions as you type, even if you haven't stopped typing.
 
-So while our previous examples will ensure we do the _fewest_ API calls possible, we may want to tweak our solution to **make an API call every so often as the user types**.
+So while our previous examples will ensure we do the _fewest_ API calls possible, we may want to tweak our solution to **make an API call every so often as the user types**. This would be a **throttle** function.
 
-## How to write a debounce in JavaScript: Round 2
+## How to write a throttle in JavaScript
 
 Let's tweak our JavaScript debounce implementation so that we only make our API call every 800ms.
 
@@ -193,7 +193,7 @@ function fakeAPICall() {
   })
 }
 
-function debounce(cb) {
+function throttle(cb) {
     let makingCall
     return function() {
       // if I'm in progress of making an API call,
@@ -209,39 +209,39 @@ function debounce(cb) {
     }
 }
 
-const debouncedFakeApiCall = debounce(fakeAPICall)
+const throttledFakeApiCall = throttle(fakeAPICall)
 
 // imagine the user starting and stopping typing
 // we'll only make a call every 800ms
-debouncedFakeApiCall() // 1
-debouncedFakeApiCall()
-debouncedFakeApiCall()
+throttledFakeApiCall() // 1
+throttledFakeApiCall()
+throttledFakeApiCall()
 setTimeout(() => {
-  debouncedFakeApiCall()
-  debouncedFakeApiCall()
+  throttledFakeApiCall()
+  throttledFakeApiCall()
 }, 600)
 setTimeout(() => {
-  debouncedFakeApiCall() // 2
-  debouncedFakeApiCall()
+  throttledFakeApiCall() // 2
+  throttledFakeApiCall()
 }, 1200)
 setTimeout(() => {
-  debouncedFakeApiCall()
-  debouncedFakeApiCall()
+  throttledFakeApiCall()
+  throttledFakeApiCall()
 }, 1800)
 setTimeout(() => {
-  debouncedFakeApiCall() // 3
-  debouncedFakeApiCall()
+  throttledFakeApiCall() // 3
+  throttledFakeApiCall()
 }, 2400)
 
 ```
 
-Now as our debounce function fires, we are limiting our calls to happen every 800ms.
+Now as our throttle function fires, we are limiting our calls to happen every 800ms.
 
 ### How it works
 
-This new version uses a simple `true`/`false` value to determine if we should trigger more calls instead of clearing the timeout and cancelling previous calls. Now the first call to the debounced function fires the call, and the subsequent calls are ignored until the API call is complete.
+This new version uses a simple `true`/`false` value to determine if we should trigger more calls instead of clearing the timeout and cancelling previous calls. Now the first call to the throttled function tees up the call, and the subsequent calls are ignored until the API call is complete.
 
-## How to write a debounce in React: Round 2
+## How to write a throttle in React
 
 Let's apply this same functionality to our previous React example.
 
@@ -304,10 +304,10 @@ Great Success! Now as the user types, every 800ms we make a call for an autocomp
 
 ## Parting Thoughts
 
-So there you have it: two different ways to implement debounce functions in JS and React.
+So there you have it throttling and debounce functions in JS and React.
 
 But would you ever implement this yourself in real life?
 
-Sure! If you just needed simple functionality like this, you could absolutely manage your own debounce logic/helpers in your app. However, you can absolutely pull in a solution like [Lodash](https://lodash.com/docs/4.17.15#debounce) and just use the debounce function that they've implemented.
+Sure! If you just needed simple functionality like this, you could absolutely manage your own debounce logic/helpers in your app. However, you can absolutely pull in a solution like Lodash and just use the [debounce](https://lodash.com/docs/4.17.15#debounce) or [throttle](https://lodash.com/docs/4.17.15#throttle) functions that they've implemented.
 
 I find it fun to try and implement my own solutions, and I think it's worth the mental gymnastics to give this stuff a shot in your own code every once in a while. But don't be fooled, nobody will judge you if you reach for a third-party solution!
