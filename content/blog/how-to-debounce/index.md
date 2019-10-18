@@ -308,6 +308,6 @@ So there you have it: throttling and debounce functions in JS and React.
 
 But would you ever implement this yourself in real life?
 
-Sure! If you just needed simple functionality like this, you could absolutely manage your own debounce logic/helpers in your app. However, you can absolutely pull in a solution like Lodash and just use the [debounce](https://lodash.com/docs/4.17.15#debounce) or [throttle](https://lodash.com/docs/4.17.15#throttle) functions that they've implemented.
+Sure! If you just needed simple functionality like this, you could absolutely manage your own debounce logic/helpers in your app. However, there's no shame in pulling in Lodash and using the [debounce](https://lodash.com/docs/4.17.15#debounce) or [throttle](https://lodash.com/docs/4.17.15#throttle) functions that they've implemented.
 
 I find it fun to try and implement my own solutions, and I think it's worth the mental gymnastics to give this stuff a shot in your own code every once in a while. But don't be fooled, nobody will judge you if you reach for a third-party solution!
