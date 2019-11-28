@@ -1,4 +1,476 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Fri, 18 Oct 2019 11:49:59 GMT</lastBuildDate><item><title><![CDATA[What are debounce and throttle functions, and how do you write them in JavaScript and React?]]></title><description><![CDATA[Have you ever heard the story of the QWERTY layout on a keyboard? The popular legend is that it was too easy to type if the letters were…]]></description><link>https://leewarrick.com/blog/how-to-debounce/</link><guid isPermaLink="false">https://leewarrick.com/blog/how-to-debounce/</guid><pubDate>Thu, 17 Oct 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Thu, 28 Nov 2019 23:33:27 GMT</lastBuildDate><item><title><![CDATA[The Problem with React's Context API]]></title><description><![CDATA[React’s context API is awesome. As someone that looked at Redux as a junior developer and instantly felt defeated, learning about context…]]></description><link>https://leewarrick.com/blog/the-problem-with-context/</link><guid isPermaLink="false">https://leewarrick.com/blog/the-problem-with-context/</guid><pubDate>Thu, 28 Nov 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/e32a85ecdd68cc08c7896513261f347b/c35de/gorilla.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+    &lt;span&gt;&lt;/span&gt;
+  &lt;img alt=&quot;A Gorilla looking thoughtful by Rob Schreckhise&quot; title=&quot;A Gorilla looking thoughtful by Rob Schreckhise&quot; src=&quot;https://leewarrick.com/blog/static/e32a85ecdd68cc08c7896513261f347b/a111b/gorilla.jpg&quot;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;React’s context API is awesome. As someone that looked at Redux as a junior developer and instantly felt defeated, learning about context was a relief. I used it in my apps, quickly forgot about Redux, and never looked back.&lt;/p&gt;
+&lt;p&gt;That is, until I heard about the supposed preformance problems with the Context API. Now, the big names in the React community will tell you not to worry about performance unless you start seeing issues. And yet, I keep hearing about context problems from other developers. One fellow even mentioned his boss banning the use of Context on their project.&lt;/p&gt;
+&lt;p&gt;Let’s review the Context API in case you’re unfamiliar before we talk about its problems.&lt;/p&gt;
+&lt;h2&gt;Why use the context API?&lt;/h2&gt;
+&lt;p&gt;The Context API is useful for sharing state between components that you can’t easily share with props. Here’s an example of a button component that needs to set the state of a distant ancestor:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const { useState } = React
+
+function CountDisplay({ count }) {
+  return &amp;lt;h2&amp;gt;The Count is: {count}&amp;lt;/h2&amp;gt;
+}
+
+function CountButton({ setCount }) {
+  return (
+    &amp;lt;button onClick={() =&amp;gt; setCount(count =&amp;gt; count + 1)}&amp;gt;
+      Increment
+    &amp;lt;/button&amp;gt;
+  )
+}
+
+const OuterWrapper = ({setCount}) =&amp;gt; &amp;lt;InnerWrapper setCount={setCount}/&amp;gt;
+const InnerWrapper = ({setCount}) =&amp;gt; &amp;lt;CountButton setCount={setCount}/&amp;gt;
+
+function App() {
+  const [count, setCount] = useState(0)
+  return (
+    &amp;lt;div&amp;gt;
+      &amp;lt;CountDisplay count={count} /&amp;gt;
+      &amp;lt;OuterWrapper setCount={setCount}/&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}
+
+render(App)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The button component is within a few other components further down the tree, but still needs to access state from higher up in the app. So we have to pass &lt;code&gt;setCount&lt;/code&gt; down to each component to finally get it to our &lt;code&gt;CountButton&lt;/code&gt; component. This is affectionately known as “prop-drilling”, and used to be a huge pain point in React.&lt;/p&gt;
+&lt;p&gt;The Context API makes short work of situations like this, thankfully.&lt;/p&gt;
+&lt;h2&gt;How to use the Context API&lt;/h2&gt;
+&lt;p&gt;Kent C. Dodds has a fantastic &lt;a href=&quot;https://kentcdodds.com/blog/application-state-management-with-react&quot;&gt;blog post&lt;/a&gt; that I refer to whenever I implement the Context API. If you don’t have time to read that, here’s the short version: Context is a way to share state between unrelated or distant components. All you have to do is wrap your components in a &lt;code&gt;Context.Provider&lt;/code&gt; and then call &lt;code&gt;useContext(Context)&lt;/code&gt; inside that component to access your state and helper functions.&lt;/p&gt;
+&lt;p&gt;Here’s our counter example with context:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const {useContext, useState, createContext} = React
+
+const AppContext = createContext()
+
+function AppProvider(props) {
+  const [count, setCount] = useState(0)
+  const value = { count, setCount }
+  return (
+    &amp;lt;AppContext.Provider value={value}&amp;gt;
+      {props.children}
+    &amp;lt;/AppContext.Provider&amp;gt;
+  )
+}
+
+function CountDisplay() {
+  const { count } = useContext(AppContext)
+  return &amp;lt;h2&amp;gt;The Count is: {count}&amp;lt;/h2&amp;gt;
+}
+
+function CountButton() {
+  const { setCount } = useContext(AppContext)
+  return (
+    &amp;lt;button onClick={() =&amp;gt; setCount(count =&amp;gt; count + 1)}&amp;gt;
+      Increment
+    &amp;lt;/button&amp;gt;
+  )
+}
+
+const OuterWrapper = () =&amp;gt; &amp;lt;InnerWrapper /&amp;gt;
+
+const InnerWrapper = () =&amp;gt; &amp;lt;CountButton /&amp;gt;
+
+function App() {
+  return (
+    &amp;lt;div&amp;gt;
+      &amp;lt;AppProvider&amp;gt;
+        &amp;lt;CountDisplay/&amp;gt;
+        &amp;lt;OuterWrapper/&amp;gt;
+      &amp;lt;/AppProvider&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}
+
+render(App)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here we have &lt;code&gt;CountDisplay&lt;/code&gt; and &lt;code&gt;CountButton&lt;/code&gt; components that both need to interact with the higher-level &lt;code&gt;count&lt;/code&gt; state in our context. We start by making a context with &lt;code&gt;createContext&lt;/code&gt;, then a provider component in &lt;code&gt;AppProvider&lt;/code&gt; to wrap our dependent components, and finally call &lt;code&gt;useContext&lt;/code&gt; in each component to pull out the values we need. It doesn’t matter how far apart the components are as long as they’re wrapped in a provider.&lt;/p&gt;
+&lt;p&gt;Pretty great right?&lt;/p&gt;
+&lt;h2&gt;Kent C. Dodd’s Optimizations 📈&lt;/h2&gt;
+&lt;p&gt;We can improve on this a little bit by implementing some stuff that Kent has in his article on state management. Let’s take a look:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const {useContext, useState, createContext, useMemo} = React
+const AppContext = createContext()
+
+// instead of calling useContext directly in our components,
+// we make our own hook that throws an error if we try to
+// access context outside of the provider
+function useAppContext() {
+  const context = useContext(AppContext)
+  if (!context)
+    throw new Error(&apos;AppContext must be used with AppProvider!&apos;)
+  return context
+}
+
+function AppProvider(props) {
+  const [count, setCount] = useState(0)
+  // here we use useMemo for... reasons.
+  // this says don&apos;t give back a new count/setCount unless count changes
+  const value = useMemo(() =&amp;gt; ({ count, setCount }), [count])
+  return &amp;lt;AppContext.Provider value={value} {...props} /&amp;gt;
+}
+
+function CountDisplay() {
+  const { count } = useAppContext()
+  return &amp;lt;h2&amp;gt;The Count is: {count}&amp;lt;/h2&amp;gt;
+}
+
+function CountButton() {
+  const { setCount } = useAppContext()
+  return (
+    &amp;lt;button onClick={() =&amp;gt; setCount(count =&amp;gt; count + 1)}&amp;gt;
+      Increment
+    &amp;lt;/button&amp;gt;
+  )
+}
+
+const OuterWrapper = () =&amp;gt; &amp;lt;InnerWrapper /&amp;gt;
+
+const InnerWrapper = () =&amp;gt; &amp;lt;CountButton /&amp;gt;
+
+function App() {
+  return (
+    &amp;lt;div&amp;gt;
+      &amp;lt;AppProvider&amp;gt;
+        &amp;lt;CountDisplay /&amp;gt;
+        &amp;lt;OuterWrapper /&amp;gt;
+      &amp;lt;/AppProvider&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}
+
+render(App)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The first thing we do is throw an error if we try to access the context outside of our provider. This is a great idea to improve the developer experience of your app (aka: make the console scream at you when you forget how context works).&lt;/p&gt;
+&lt;p&gt;The second thing is to memoize our context value to only re-render if the &lt;code&gt;count&lt;/code&gt; changes. Now, &lt;code&gt;useMemo&lt;/code&gt; is a difficult thing to wrap your head around, but the basic gist is that when you memoize something, you’re saying that you won’t return that value again unless your specified value changes. Kent has a &lt;a href=&quot;https://kentcdodds.com/blog/usememo-and-usecallback&quot;&gt;great article&lt;/a&gt; on that too if you want to read more.&lt;/p&gt;
+&lt;p&gt;I can’t discern a difference between using &lt;code&gt;useMemo&lt;/code&gt; and not using it, but I would venture that if you’re doing some heavy lifting in your Context Provider, it might be beneficial to apply memoization. If you read Kent’s article on &lt;code&gt;useMemo&lt;/code&gt; and &lt;code&gt;useCallback&lt;/code&gt; he cautions against using them unless you start to see performance hits. (Full Disclosure: I’ve never needed to use either one.)&lt;/p&gt;
+&lt;p&gt;Kent also spreads his &lt;code&gt;props&lt;/code&gt; on the provider instead of using &lt;code&gt;props.children&lt;/code&gt;, which is a neat trick, so I included that as well.&lt;/p&gt;
+&lt;h2&gt;The Context API’s Dirty Little Secret 🤫&lt;/h2&gt;
+&lt;p&gt;&lt;span&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/d204d0e47f5b8ef1bb8bcbba4ab82fa3/c35de/trashman.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+    &lt;span&gt;&lt;/span&gt;
+  &lt;img alt=&quot;Man making the shush gesture with his finger over his lip, laying on a mound of trash. Photo by Jordan Beltran&quot; title=&quot;Man making the shush gesture with his finger over his lip, laying on a mound of trash. Photo by Jordan Beltran&quot; src=&quot;https://leewarrick.com/blog/static/d204d0e47f5b8ef1bb8bcbba4ab82fa3/a111b/trashman.jpg&quot;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Boy, the Context API sure is great. It’s super easy to use compared to Redux and requires a lot less code, so why &lt;em&gt;wouldn’t&lt;/em&gt; you use it?&lt;/p&gt;
+&lt;p&gt;The problem with context is simple: &lt;strong&gt;Everything that consumes a context re-renders everytime that context’s state changes.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;That means that if you’re consuming your context all over the place in your app, or worse, using one context for your entire app’s state, you’re causing a ton of re-renders all over the place!&lt;/p&gt;
+&lt;p&gt;Let’s visualize this with a simple app. Let’s make a context with a counter and a message. The message will never change, but be consumed by three components that display the message in a random color on each render. The count will be consumed by one component, and be the only value that changes.&lt;/p&gt;
+&lt;p&gt;That sounds like a middle school math problem, but if you look at this code and the resulting app, the problem becomes blatantly obvious:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const {useContext, useState, createContext} = React
+const AppContext = createContext()
+
+function useAppContext() {
+  const context = useContext(AppContext)
+  if (!context)
+    throw new Error(&apos;useAppContext must be used within AppProvider!&apos;)
+  return context
+}
+
+function AppProvider(props) {
+  // the count for our counter component
+  const [count, setCount] = useState(0)
+  // this message never changes!
+  const [message, setMessage] = useState(&apos;Hello from Context!&apos;)
+  const value = {
+    count,
+    setCount,
+    message,
+    setMessage
+  }
+  return &amp;lt;AppContext.Provider value={value} {...props}/&amp;gt;
+}
+
+function Message() {
+  const { message } = useAppContext()
+  // the text will render to a random color for
+  // each instance of the Message component
+  const getColor = () =&amp;gt; (Math.floor(Math.random() * 255))
+  const style = {
+    color: `rgb(${getColor()},${getColor()},${getColor()})`
+  }
+  return (
+    &amp;lt;div&amp;gt;
+      &amp;lt;h4 style={style}&amp;gt;{message}&amp;lt;/h4&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}
+
+function Count() {
+  const {count, setCount} = useAppContext()
+  return (
+    &amp;lt;div&amp;gt;
+      &amp;lt;h3&amp;gt;Current count from context: {count}&amp;lt;/h3&amp;gt;
+      &amp;lt;button onClick={() =&amp;gt; setCount(count + 1)}&amp;gt;Increment&amp;lt;/button&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}
+
+function App() {
+  return (
+    &amp;lt;div&amp;gt;
+      &amp;lt;AppProvider&amp;gt;
+        &amp;lt;h2&amp;gt;Re-renders! 😩&amp;lt;/h2&amp;gt;
+        &amp;lt;Message /&amp;gt;
+        &amp;lt;Message /&amp;gt;
+        &amp;lt;Message /&amp;gt;
+        &amp;lt;Count /&amp;gt;
+      &amp;lt;/AppProvider&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}
+render(App)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Everything re-renders when we click increment 😱.&lt;/p&gt;
+&lt;p&gt;The message components don’t even use the &lt;code&gt;count&lt;/code&gt; from our context, but they re-render anyway. Yikes!&lt;/p&gt;
+&lt;h3&gt;What about memoization?&lt;/h3&gt;
+&lt;p&gt;Maybe we just forgot to use &lt;code&gt;useMemo&lt;/code&gt; like Kent did in his example. Let’s memoize our context and see what happens:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const {useContext, useState, createContext, useMemo} = React
+const AppContext = createContext()
+
+function useAppContext() {
+  const context = useContext(AppContext)
+  if (!context) throw new Error(&apos;useAppContext must be used within AppProvider!&apos;)
+  return context
+}
+
+function AppProvider(props) {
+  const [count, setCount] = useState(0)
+  const [message, setMessage] = useState(&apos;Hello from Context!&apos;)
+  // here we pass our value to useMemo,
+  // and tell useMemo to only give us new values
+  // when count or message change
+  const value = useMemo(() =&amp;gt; ({
+    count,
+    setCount,
+    message,
+    setMessage
+  }), [count, message])
+  return &amp;lt;AppContext.Provider value={value} {...props}/&amp;gt;
+}
+
+function Message() {
+  const { message } = useAppContext()
+  const getColor = () =&amp;gt; (Math.floor(Math.random() * 255))
+  const style = {
+    color: `rgb(${getColor()},${getColor()},${getColor()})`
+  }
+  return (
+    &amp;lt;div&amp;gt;
+      &amp;lt;h4 style={style}&amp;gt;{message}&amp;lt;/h4&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}
+
+function Count() {
+  const {count, setCount} = useAppContext()
+  return (
+    &amp;lt;div&amp;gt;
+      &amp;lt;h3&amp;gt;Current count from context: {count}&amp;lt;/h3&amp;gt;
+      &amp;lt;button onClick={() =&amp;gt; setCount(count + 1)}&amp;gt;Increment&amp;lt;/button&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}
+
+function App() {
+  return (
+    &amp;lt;div&amp;gt;
+      &amp;lt;AppProvider&amp;gt;
+        &amp;lt;h2&amp;gt;Re-renders! 😩&amp;lt;/h2&amp;gt;
+        &amp;lt;Message /&amp;gt;
+        &amp;lt;Message /&amp;gt;
+        &amp;lt;Message /&amp;gt;
+        &amp;lt;Count /&amp;gt;
+      &amp;lt;/AppProvider&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}
+render(App)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Nope! Memoization with &lt;code&gt;useMemo&lt;/code&gt; doesn’t help at all!&lt;/p&gt;
+&lt;h3&gt;What about components that don’t consume Context, do they re-render?&lt;/h3&gt;
+&lt;p&gt;That’s an excellent question, let’s test it with a Message component that doesn’t consume context:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const {useContext, useState, createContext, useMemo} = React
+const AppContext = createContext()
+
+function useAppContext() {
+  const context = useContext(AppContext)
+  if (!context) throw new Error(&apos;useAppContext must be used within AppProvider!&apos;)
+  return context
+}
+
+function AppProvider(props) {
+  const [count, setCount] = useState(0)
+  const [message, setMessage] = useState(&apos;Hello from Context!&apos;)
+  const value = useMemo(() =&amp;gt; ({
+    count,
+    setCount,
+    message,
+    setMessage
+  }), [count, message])
+  return &amp;lt;AppContext.Provider value={value} {...props}/&amp;gt;
+}
+
+// this component does NOT consume the context
+// but is still within the Provider component
+function IndependentMessage() {
+  const getColor = () =&amp;gt; (Math.floor(Math.random() * 255))
+  const style = {
+    color: `rgb(${getColor()},${getColor()},${getColor()})`
+  }
+  return (
+    &amp;lt;div&amp;gt;
+      &amp;lt;h4 style={style}&amp;gt;I&apos;m my own Independent Message!&amp;lt;/h4&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}
+
+function Message() {
+  const { message } = useAppContext()
+  const getColor = () =&amp;gt; (Math.floor(Math.random() * 255))
+  const style = {
+    color: `rgb(${getColor()},${getColor()},${getColor()})`
+  }
+  return (
+    &amp;lt;div&amp;gt;
+      &amp;lt;h4 style={style}&amp;gt;{message}&amp;lt;/h4&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}
+
+function Count() {
+  const {count, setCount} = useAppContext()
+  return (
+    &amp;lt;div&amp;gt;
+      &amp;lt;h3&amp;gt;Current count from context: {count}&amp;lt;/h3&amp;gt;
+      &amp;lt;button onClick={() =&amp;gt; setCount(count + 1)}&amp;gt;Increment&amp;lt;/button&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}
+
+function App() {
+  return (
+    &amp;lt;div&amp;gt;
+      &amp;lt;AppProvider&amp;gt;
+        &amp;lt;h2&amp;gt;Re-renders! 😩&amp;lt;/h2&amp;gt;
+        &amp;lt;Message /&amp;gt;
+        &amp;lt;Message /&amp;gt;
+        &amp;lt;Message /&amp;gt;
+        &amp;lt;IndependentMessage /&amp;gt;
+        &amp;lt;Count /&amp;gt;
+      &amp;lt;/AppProvider&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}
+render(App)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Well, this is the only good news so far. &lt;strong&gt;Only components that call &lt;code&gt;useContext&lt;/code&gt; re-render whenever the context’s state changes.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Still, this is bad news for our app. We don’t want to trigger a bunch of unnecessary re-renders everywhere we use a context.&lt;/p&gt;
+&lt;p&gt;Imagine if those message components were doing a lot of work like calculating animations, or if we had a huge React app with lots of components dependent on our context. That could lead to pretty serious performance issues, right?&lt;/p&gt;
+&lt;h2&gt;Should we stop using Context?&lt;/h2&gt;
+&lt;p&gt;&lt;span&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/8c27d995b617560da5b04f46a8069006/c35de/trash.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+    &lt;span&gt;&lt;/span&gt;
+  &lt;img alt=&quot;Sign showing man throwing away trash, photo by Gary Chan&quot; title=&quot;Sign showing man throwing away trash, photo by Gary Chan&quot; src=&quot;https://leewarrick.com/blog/static/8c27d995b617560da5b04f46a8069006/a111b/trash.jpg&quot;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;I’ll go ahead and say this now: &lt;strong&gt;no, this isn’t a reason to stop using context&lt;/strong&gt;. There’s a ton of apps out there using context and chugging along just fine, including a bunch of my own apps.&lt;/p&gt;
+&lt;p&gt;Still, performance is kind of a big deal. I don’t want to leave you sitting up at night worrying about the Context API’s dirty little secret. So let’s talk about some ways to deal with this re-render business.&lt;/p&gt;
+&lt;h3&gt;Option 1: Don’t worry at all. Keep on Context’n like you do. YOLO 🤪!&lt;/h3&gt;
+&lt;p&gt;I’ve basically used Context a whole bunch in a lot of various apps without memoization, at the top level of my app, and consumed by a bunch of components without noticing any performance hits at all. Like I said before, a lot of the React folks say you shouldn’t even worry about performance optimizations until you see performance impacts.&lt;/p&gt;
+&lt;p&gt;Still, this strategy won’t work for everyone. You may already have performance issues in your app, or if your app processes a lot of logic or animations, you may see performance issues as your app grows and end up doing some serious refactoring down the road.&lt;/p&gt;
+&lt;h3&gt;Option 2: Use Redux or Mobx&lt;/h3&gt;
+&lt;p&gt;Redux and Mobx both use the context API, so how do they help? The store that’s shared by these state management libraries with context is a little different from sharing state directly with context. When you’re using Redux and Mobx, there’s a diffing algorithm at work that makes sure to only re-render the components that actually need to re-render.&lt;/p&gt;
+&lt;p&gt;Still, context was supposed to save us from having to learn Redux and Mobx! There’s a lot of abtractions and boilerplate involved in using a state management library, making it an unattractive solution to some folks.&lt;/p&gt;
+&lt;p&gt;Plus, isn’t keeping all of our state in global state a bad practice?&lt;/p&gt;
+&lt;h3&gt;Option 3: Use Multiple Contexts, and keep state close to its Dependent Components&lt;/h3&gt;
+&lt;p&gt;This solution takes the most finesse to pull off, but gives you the best performance without reaching for Redux and Mobx. It relies on being smart about your state management choices, and only passing state up to a context if you need to share it between distant components.&lt;/p&gt;
+&lt;p&gt;There’s a few key tenants to this strategy:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Let a component manage its own state if it can.&lt;/strong&gt; This is a good practice to follow regardless of your choice of state management. For example, if you have a modal that needs to keep track of an open/closed state, but no other components need to know if that modal is open, keep that open/closed state in the modal. Don’t push state into context (or Redux) if you don’t have to!&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;If your state is shared between a parent and a few children, just prop it down.&lt;/strong&gt; This is the old school method of sharing state. Just pass it as props to the children components that need it. Passing props or “Prop-drilling” can be miserable with deeply nested components, but if you’re only passing things down a few levels, you should probably just do it.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;If the previous two things fail, use context but keep it close to the components that depend on it.&lt;/strong&gt; This means if you need to share some state, like a form for instance with multiple components, go ahead and make a separate context for just the form and wrap the form components in your provider.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;That last one deserves an example. Let’s apply it to our problem app from before. We can fix those re-renders by separating the &lt;code&gt;message&lt;/code&gt; and &lt;code&gt;count&lt;/code&gt; into their own contexts.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const { useContext, useState, createContext } = React
+const CountContext = createContext()
+
+// Now count context only worries about count!
+function useCountContext() {
+  const context = useContext(CountContext)
+  if (!context)
+    throw new Error(&apos;useCountContext must be used within CountProvider!&apos;)
+  return context
+}
+
+function CountProvider(props) {
+  const [count, setCount] = useState(0)
+  const value = { count, setCount }
+  return &amp;lt;CountContext.Provider value={value} {...props}/&amp;gt;
+}
+
+// And message context only worries about message!
+const MessageContext = createContext()
+
+function useMessageContext() {
+  const context = useContext(MessageContext)
+  if (!context)
+    throw new Error(&apos;useMessageContext must be used within MessageProvider!&apos;)
+  return context
+}
+
+function MessageProvider(props) {
+  const [message, setMessage] = useState(&apos;Hello from Context!&apos;)
+  const value = { message, setMessage }
+  return &amp;lt;MessageContext.Provider value={value} {...props}/&amp;gt;
+}
+
+function Message() {
+  const { message } = useMessageContext()
+  const getColor = () =&amp;gt; (Math.floor(Math.random() * 255))
+  const style = {
+    color: `rgb(${getColor()},${getColor()},${getColor()})`
+  }
+  return (
+    &amp;lt;div&amp;gt;
+      &amp;lt;h4 style={style}&amp;gt;{message}&amp;lt;/h4&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}
+
+function Count() {
+  const {count, setCount} = useCountContext()
+  return (
+    &amp;lt;div&amp;gt;
+      &amp;lt;h3&amp;gt;Current count from context: {count}&amp;lt;/h3&amp;gt;
+      &amp;lt;button onClick={() =&amp;gt; setCount(count + 1)}&amp;gt;Increment&amp;lt;/button&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}
+
+function App() {
+  return (
+    &amp;lt;div&amp;gt;
+      &amp;lt;h2&amp;gt;No Unnecessary Re-renders! 😎&amp;lt;/h2&amp;gt;
+      &amp;lt;MessageProvider&amp;gt;
+        &amp;lt;Message /&amp;gt;
+        &amp;lt;Message /&amp;gt;
+        &amp;lt;Message /&amp;gt;
+      &amp;lt;/MessageProvider&amp;gt;
+      &amp;lt;CountProvider&amp;gt;
+        &amp;lt;Count /&amp;gt;
+      &amp;lt;/CountProvider&amp;gt;
+    &amp;lt;/div&amp;gt;
+  )
+}
+render(App)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now our state is only shared with the components that care about that state. When we increment, the colors of our message components stay the same because &lt;code&gt;count&lt;/code&gt; lives outside of &lt;code&gt;messageContext&lt;/code&gt;.&lt;/p&gt;
+&lt;h2&gt;Final Thoughts&lt;/h2&gt;
+&lt;p&gt;Although this article’s title is a little salacious and the “problem” with context  may not be the boogie man some might envision it to be, I still think this is worth talking about. React’s flexibility makes it both a great framework for beginners as well as a devastating footgun for those that don’t know its inner-workings. I don’t forsee a lot of people tripping over this particular detail, but if you’re using context and seeing performance issues, it’s a good thing to know!&lt;/p&gt;</content:encoded><atom:link rel="self" href="https://leewarrick.com/blog/rss.xml" type="application/rss+xml"/></item><item><title><![CDATA[What are debounce and throttle functions, and how do you write them in JavaScript and React?]]></title><description><![CDATA[Have you ever heard the story of the QWERTY layout on a keyboard? The popular legend is that it was too easy to type if the letters were…]]></description><link>https://leewarrick.com/blog/how-to-debounce/</link><guid isPermaLink="false">https://leewarrick.com/blog/how-to-debounce/</guid><pubDate>Thu, 17 Oct 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
       &lt;a href=&quot;https://leewarrick.com/blog/static/91985b102e11e1a9b8ac2de71cb5733e/c35de/typewriter.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
   &lt;img alt=&quot;Photo of Typewriter by Pereanu Sebastian&quot; title=&quot;Photo of Typewriter by Pereanu Sebastian&quot; src=&quot;https://leewarrick.com/blog/static/91985b102e11e1a9b8ac2de71cb5733e/a111b/typewriter.jpg&quot;&gt;
