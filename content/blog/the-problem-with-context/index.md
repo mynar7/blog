@@ -6,7 +6,7 @@ date: 2019-11-28T12:00:00-0400
 
 React's context API is awesome. As someone that looked at Redux as a junior developer and instantly felt defeated, learning about context was a relief. I used it in my apps, quickly forgot about Redux, and never looked back.
 
-That is, until I heard about the supposed preformance problems with the Context API. Now, the big names in the React community will tell you not to worry about performance unless you start seeing issues. And yet, I keep hearing about context problems from other developers. One fellow even mentioned his boss banning the use of Context on their project.
+That is, until I heard about the supposed performance problems with the Context API. Now, the big names in the React community will tell you not to worry about performance unless you start seeing issues. And yet, I keep hearing about context problems from other developers. One fellow even mentioned his boss banning the use of Context on their project.
 
 Let's review the Context API in case you're unfamiliar before we talk about its problems.
 
