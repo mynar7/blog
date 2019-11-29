@@ -429,7 +429,7 @@ Still, this strategy won't work for everyone. You may already have performance i
 
 Redux and Mobx both use the context API, so how do they help? The store that's shared by these state management libraries with context is a little different from sharing state directly with context. When you're using Redux and Mobx, there's a diffing algorithm at work that makes sure to only re-render the components that actually need to re-render.
 
-Still, context was supposed to save us from having to learn Redux and Mobx! There's a lot of abtractions and boilerplate involved in using a state management library, making it an unattractive solution to some folks.
+Still, context was supposed to save us from having to learn Redux and Mobx! There's a lot of abstractions and boilerplate involved in using a state management library, making it an unattractive solution to some folks.
 
 Plus, isn't keeping all of our state in global state a bad practice?
 
