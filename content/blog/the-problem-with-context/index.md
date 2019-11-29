@@ -524,4 +524,4 @@ Now our state is only shared with the components that care about that state. Whe
 
 ## Final Thoughts
 
-Although this article's title is a little salacious and the "problem" with context  may not be the boogie man some might envision it to be, I still think this is worth talking about. React's flexibility makes it both a great framework for beginners as well as a devastating footgun for those that don't know its inner-workings. I don't forsee a lot of people tripping over this particular detail, but if you're using context and seeing performance issues, it's a good thing to know!
+Although this article's title is a little incendiary and the "problem" with context  may not be the boogie man some might envision it to be, I still think this is worth talking about. React's flexibility makes it both a great framework for beginners as well as a devastating footgun for those that don't know its inner-workings. I don't forsee a lot of people tripping over this particular detail, but if you're using context and seeing performance issues, it's a good thing to know!
