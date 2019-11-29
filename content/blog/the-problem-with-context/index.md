@@ -1,6 +1,6 @@
 ---
 title: The Problem with React's Context API
-date: 2019-11-29T12:00:00-0400
+date: 2019-11-28T12:00:00-0400
 ---
 ![A Gorilla looking thoughtful by Rob Schreckhise](gorilla.jpg)
 
