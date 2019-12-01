@@ -29,13 +29,12 @@ function Bio() {
               }}
             />
             <p>
-              Written by <a href="https://leewarrick.com"><strong>{author}</strong></a>, Front-end Developer, Guitarist, Gamer, and Co-host of the <a href="https://techjr.dev">Tech Jr Podcast</a>. {/*Follow him on
-              {` `}
-              <a href={`https://twitter.com/${social.twitter}`}>
-                Twitter
-            </a>, and */}<a href="https://tinyletter.com/leewarrick"><strong>Subscribe</strong></a> for updates!
-
+              Written by <a href="https://leewarrick.com"><strong>{author}</strong></a>, Co-host of the <a href="https://techjr.dev">Tech Jr Podcast</a>, Front-end Developer, Guitarist, and Gamer.
+              &nbsp;
+              <a href="https://tinyletter.com/leewarrick"><strong>Subscribe</strong></a> to my newsletter!
+              Show your support by buying some <a href="https://teespring.com/stores/tech-jr-store"><strong>SWAG.</strong></a>
             </p>
+
           </div>
         )
       }}
