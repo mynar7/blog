@@ -205,7 +205,7 @@ function throttle(cb) {
       setTimeout(() => {
         makingCall = false
         cb()
-      }, 1000)
+      }, 800)
     }
 }
 
@@ -273,6 +273,7 @@ function SearchForm() {
     if (!inputVal.trim() || makingCall.current) return
     makingCall.current = true
     setTimeout(() => {
+      makingCall.current = false
       // again, this setQuery is just so I can
       // render the query below.
       // if this API call were real, we'd probably
@@ -281,9 +282,8 @@ function SearchForm() {
       fakeAPICall()
       .then(() => {
         setCallCount(callCount => callCount + 1)
-        makingCall.current = false
       })
-    }, 1000)
+    }, 800)
   }, [inputVal])
 
   return (
