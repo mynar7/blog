@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Sun, 01 Dec 2019 01:25:15 GMT</lastBuildDate><item><title><![CDATA[The Problem with React's Context API]]></title><description><![CDATA[React’s context API is awesome. As someone that looked at Redux as a junior developer and instantly felt defeated, learning about context…]]></description><link>https://leewarrick.com/blog/the-problem-with-context/</link><guid isPermaLink="false">https://leewarrick.com/blog/the-problem-with-context/</guid><pubDate>Thu, 28 Nov 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Sat, 21 Dec 2019 19:08:03 GMT</lastBuildDate><item><title><![CDATA[The Problem with React's Context API]]></title><description><![CDATA[React’s context API is awesome. As someone that looked at Redux as a junior developer and instantly felt defeated, learning about context…]]></description><link>https://leewarrick.com/blog/the-problem-with-context/</link><guid isPermaLink="false">https://leewarrick.com/blog/the-problem-with-context/</guid><pubDate>Thu, 28 Nov 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
       &lt;a href=&quot;https://leewarrick.com/blog/static/e32a85ecdd68cc08c7896513261f347b/c35de/gorilla.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
   &lt;img alt=&quot;A Gorilla looking thoughtful by Rob Schreckhise&quot; title=&quot;A Gorilla looking thoughtful by Rob Schreckhise&quot; src=&quot;https://leewarrick.com/blog/static/e32a85ecdd68cc08c7896513261f347b/a111b/gorilla.jpg&quot;&gt;
@@ -644,7 +644,7 @@ function throttle(cb) {
       setTimeout(() =&amp;gt; {
         makingCall = false
         cb()
-      }, 1000)
+      }, 800)
     }
 }
 
@@ -704,6 +704,7 @@ function SearchForm() {
     if (!inputVal.trim() || makingCall.current) return
     makingCall.current = true
     setTimeout(() =&amp;gt; {
+      makingCall.current = false
       // again, this setQuery is just so I can
       // render the query below.
       // if this API call were real, we&apos;d probably
@@ -712,9 +713,8 @@ function SearchForm() {
       fakeAPICall()
       .then(() =&amp;gt; {
         setCallCount(callCount =&amp;gt; callCount + 1)
-        makingCall.current = false
       })
-    }, 1000)
+    }, 800)
   }, [inputVal])
 
   return (
