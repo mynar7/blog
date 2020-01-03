@@ -51,7 +51,7 @@ I thought, _"If I've spent a year learning to code, and this is how far I've com
 
 I saw myself as hopelessly outmatched. I convinced myself that coding was for child prodigies and geniuses only seen on TV. I did all the mental gymnastics required to convince myself that I was the problem.
 
-I switched majors again and got my degree in Japanese language.（こんいちは皆さん！）But I doubted my language skills too. In my mind, I couldn't possibly be good enough to work as a translator or interpreter.
+I switched majors again and got my degree in Japanese language.（こんにちは皆さん！）But I doubted my language skills too. In my mind, I couldn't possibly be good enough to work as a translator or interpreter.
 
 So I went back to school to be a firefighter. I reasoned that my father did it for 30 years, had a great retirement plan, and seemed to enjoy the job, so why shouldn't I do the same?
 
