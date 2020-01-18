@@ -31,9 +31,9 @@ This always made me think of those signs you see in restaurants and mechanic sho
 
 ![Photo of The Chimera of Arezzo, c. 400 BC, found in Arezzo, an ancient Etruscan and Roman city in Tuscany, Museo Archeologico Nazionale, Florence. By Carole Raddato. From https://www.flickr.com/photos/carolemage/22636282885](./chimera.jpg)
 
-It turns out there's another option. This is where things start to get sticky, though. Single page applications are already difficult to think about, and typically we like to think about them as using client-side, on-demand rendering only. However that is no longer the case.
+It turns out there's another option. This is where things start to get sticky, though. Single page applications are already difficult to think about, and typically we like to think about them as using client-side, on-demand rendering only. However it's now possible to mix and match dynamic and static content on both the client and server.
 
-Two make things more confusing, there's two main camps using a hybrid methodology to web app rendering and delivery. The first is server-rendered single page applications, and the second is JAMstack.
+There's two main camps using this hybrid methodology to web app rendering and delivery. The first is server-rendered single page applications, and the second is JAMstack.
 
 ### Server-Rendered SPAs
 
