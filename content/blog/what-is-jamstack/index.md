@@ -9,7 +9,7 @@ JAMstack is one of those buzzwords that leaves the listener confused whenever it
 
 However, defining "JAMstack" is a tricky thing, and the community knows it. There's why there's sites like [jamstack.wtf](https://jamstack.wtf) and [jamstack.org](https://jamstack.org) devoted to explaining just what it is.
 
-Unfortunately, you have to have a solic understanding of web development technologies before explanations of JAMstack start to make sense. So let's start with the basics.
+Unfortunately, you have to have a solid understanding of web development technologies before explanations of JAMstack start to make sense. So let's start with the basics.
 
 ## Let's Review
 
