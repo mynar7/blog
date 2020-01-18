@@ -1,6 +1,6 @@
 ---
 title: Just what is JAMstack, anyway?
-date: 2020-01-17T12:00:00-0400
+date: 2020-01-18T12:00:00-0400
 ---
 
 ![Jars of jam stacked on a shelf. A literal jamstack. Photo by Viktor Forgacs on https://unsplash.com/photos/5mGGOWD-Ths](./jamstack.jpg)
