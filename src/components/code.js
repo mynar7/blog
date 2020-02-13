@@ -43,7 +43,7 @@ export const Code = ({ codeString, language, ...props }) => {
           theme={theme}
           autorun={props.autorun}
           editingDisabled={props['no-edit']}
-          // hideCode={props['no-code']}
+          hideCode={props['no-code']}
           scripts={scripts.current}
           linkId={props.linkId}/>
       </div>

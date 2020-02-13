@@ -119,13 +119,58 @@ There's also something to be said about the _amount_ of terms like those activat
 
 ### Guess Work
 
-I personally found the amount of configuration at my fingertips to be completely overwhelming. I am the type of person that loves to know exactly what I'm doing and why. However this attitude left me at odds with Machine Learning.
+I personally found the amount of configuration at my fingertips to be completely overwhelming. I am the type of person that loves to know exactly what I'm doing and why. However this left me at odds with a data scientist's typical workflow.
 
 **Machine Learning requires a lot of experimentation**. I used to think that data scientists trained models in one go, but in reality they may train models over and over again before getting desirable results. When training models, there's many various settings to tweak, and selecting the right ones is more of a matter of trial and error than anything else. I had to let go of my need to understand and comprehend everything before I could embrace the experimentation required to solve ML problems.
 
 To put it another way, data scientists are a bit like fictional mad scientists haphazardly mixing chemicals in a lab--except data scientists are mixing mathematical functions together instead of fluid-filled beakers of various colors.
 
-## Types of Machine Learning
+## Examples of Machine Learning with JavaScript
+
+There's really two main types of projects when you're working with Machine Learning: **using a pre-trained model**, or **building and training your own model**. For the latter, JavaScript is a less than optimal solution, but when it comes to using pre-trained models, JavaScript is a fantastic tool. You can quickly make some impressive ML projects by utilizing browser APIs and web technology.
+
+**Note:** These demos were all made from concepts and lessons learned from [Gant Laborde's AI course](https://academy.infinite.red/p/beginning-machine-learning-with-tensorflow-js).
+
+<!-- <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+```js js-live no-code no-edit scripts=codepen!https://static.codepen.io/assets/embed/ei.js
+``` -->
+
+### Pre-trained Model Examples
+
+#### Image API + MobileNet Example
+
+In this demo, I pulled images from the [lorem picsum API](https://picsum.photos) and used Reach to hook them up to [MobileNet](https://github.com/tensorflow/tfjs-models/tree/master/mobilenet), which is a pre-trained model that can classify images.
+
+<p class="codepen" data-height="607" data-theme-id="default" data-default-tab="result" data-user="mynar7" data-slug-hash="ZEzNYEo" data-preview="true" style="height: 607px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="React + MobileNet ML Images app!">
+  <span>See the Pen <a href="https://codepen.io/mynar7/pen/ZEzNYEo">
+  React + MobileNet ML Images app!</a> by Lee (<a href="https://codepen.io/mynar7">@mynar7</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### Webcam + MobileNet Example
+
+![Pic of my webcam+mobilenet demo app that classifies a screenshot of me at my desk as a barbell at 30% probability](./barbell.jpg)
+
+I was also able to [hook MobileNet up to the webcam browser API](https://codepen.io/mynar7/full/MWYgQaM) so that you can point your phone/camera at an object and classify it.
+
+### Browser-based Model Training Examples
+
+#### Solving FizzBuzz with TensorFlow
+
+This example feeds a model thousands of numbers (100 through 3100) that have been solved using a simple [fizzbuzz](https://www.tomdalling.com/blog/software-design/fizzbuzz-in-too-much-detail/) algorithm. Then it tries to guess whether numbers 1-100 should be fizz, buzz, or fizzbuzz.
+
+<p class="codepen" data-height="365" data-theme-id="default" data-default-tab="result" data-user="mynar7" data-slug-hash="qBEGYoJ" data-preview="true" style="height: 365px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="FizzBuzz Solved with TensorFlow">
+  <span>See the Pen <a href="https://codepen.io/mynar7/pen/qBEGYoJ">
+  FizzBuzz Solved with TensorFlow</a> by Lee (<a href="https://codepen.io/mynar7">@mynar7</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### Cat/Dog image recognition with TensorFlow
+
+![](./dogcatapp.jpg)
+
+
+## Other Types of Machine Learning
 
 I've only experimented with **supervised** learning so far. The examples we've talked about have all involved **supervised** learning, meaning we are telling the algorithm what to look for and giving it examples with features to learn from. Supervised learning is fairly simple to wrap your head around, but there's more methods and applications of ML out there.
 
