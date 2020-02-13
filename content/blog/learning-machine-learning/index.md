@@ -127,19 +127,24 @@ To put it another way, data scientists are a bit like fictional mad scientists h
 
 ## Examples of Machine Learning with JavaScript
 
-There's really two main types of projects when you're working with Machine Learning: **using a pre-trained model**, or **building and training your own model**. For the latter, JavaScript is a less than optimal solution, but when it comes to using pre-trained models, JavaScript is a fantastic tool. You can quickly make some impressive ML projects by utilizing browser APIs and web technology.
+There's really two main types of projects when you're working with Machine Learning: **using a pre-trained model**, or **building and training your own model**. I've included examples of both below.
 
 **Note:** These demos were all made from concepts and lessons learned from [Gant Laborde's AI course](https://academy.infinite.red/p/beginning-machine-learning-with-tensorflow-js).
 
 <!-- <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
 ```js js-live no-code no-edit scripts=codepen!https://static.codepen.io/assets/embed/ei.js
+// do nothing!
 ``` -->
 
 ### Pre-trained Model Examples
 
-#### Image API + MobileNet Example
+These are super fun apps to make, and require almost no ML knowledge to pull off. I recommend trying some of these yourself! You can quickly make some impressive ML projects by utilizing browser APIs and web technology.
+
+#### [Image API + MobileNet Example](https://codepen.io/mynar7/pen/qBEGYoJ)
 
 In this demo, I pulled images from the [lorem picsum API](https://picsum.photos) and used Reach to hook them up to [MobileNet](https://github.com/tensorflow/tfjs-models/tree/master/mobilenet), which is a pre-trained model that can classify images.
+
+Lorem Picsum is mostly random artsy still-life and landscape photos from unsplash, so you get some interesting results from MobileNet's classifications.
 
 <p class="codepen" data-height="607" data-theme-id="default" data-default-tab="result" data-user="mynar7" data-slug-hash="ZEzNYEo" data-preview="true" style="height: 607px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="React + MobileNet ML Images app!">
   <span>See the Pen <a href="https://codepen.io/mynar7/pen/ZEzNYEo">
@@ -147,17 +152,21 @@ In this demo, I pulled images from the [lorem picsum API](https://picsum.photos)
   on <a href="https://codepen.io">CodePen</a>.</span>
 </p>
 
-#### Webcam + MobileNet Example
+#### [Webcam + MobileNet Example](https://codepen.io/mynar7/full/MWYgQaM)
 
 ![Pic of my webcam+mobilenet demo app that classifies a screenshot of me at my desk as a barbell at 30% probability](./barbell.jpg)
 
 I was also able to [hook MobileNet up to the webcam browser API](https://codepen.io/mynar7/full/MWYgQaM) so that you can point your phone/camera at an object and classify it.
 
+MobileNet doesn't recognize humans, which might be why it thinks I'm a barbell in the pic above.
+
 ### Browser-based Model Training Examples
 
-#### Solving FizzBuzz with TensorFlow
+Now we get into the heavy stuff. Beware running these on low-end phones and devices.
 
-This example feeds a model thousands of numbers (100 through 3100) that have been solved using a simple [fizzbuzz](https://www.tomdalling.com/blog/software-design/fizzbuzz-in-too-much-detail/) algorithm. Then it tries to guess whether numbers 1-100 should be fizz, buzz, or fizzbuzz.
+These examples take data sets and use them to train models directly in your web browser using JavaScript!
+
+#### [Solving FizzBuzz with TensorFlow](https://codepen.io/mynar7/pen/qBEGYoJ)
 
 <p class="codepen" data-height="365" data-theme-id="default" data-default-tab="result" data-user="mynar7" data-slug-hash="qBEGYoJ" data-preview="true" style="height: 365px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;" data-pen-title="FizzBuzz Solved with TensorFlow">
   <span>See the Pen <a href="https://codepen.io/mynar7/pen/qBEGYoJ">
@@ -165,13 +174,24 @@ This example feeds a model thousands of numbers (100 through 3100) that have bee
   on <a href="https://codepen.io">CodePen</a>.</span>
 </p>
 
-#### Cat/Dog image recognition with TensorFlow
+This example feeds a model thousands of numbers (100 through 3100) that have been solved (labeled) using a simple [fizzbuzz](https://www.tomdalling.com/blog/software-design/fizzbuzz-in-too-much-detail/) algorithm. Then it tries to guess whether numbers 1-100 should be fizz, buzz, or fizzbuzz.
 
-![](./dogcatapp.jpg)
+#### [Cat/Dog image recognition with TensorFlow](https://codesandbox.io/s/dogs-and-cats-in-machine-learning-w7ouw)
 
+![Screenshot of my dogs-n-cats image recognition demo app](./dogcatapp.jpg)
 
-## Other Types of Machine Learning
+This app uses Gant Laborde's [dogs-n-cats npm package](https://dogs-n-cats.netlify.com/) to train a model to recognize random dogs or cats.
 
-I've only experimented with **supervised** learning so far. The examples we've talked about have all involved **supervised** learning, meaning we are telling the algorithm what to look for and giving it examples with features to learn from. Supervised learning is fairly simple to wrap your head around, but there's more methods and applications of ML out there.
+[Click here to check out the demo on codesandbox](https://codesandbox.io/s/dogs-and-cats-in-machine-learning-w7ouw). Be warned though, it's a bit memory/resource intensive to train a model using 2000 images in the browser.
+
+The dogs-n-cats package does most of the prep work for you behind the scenes by pre-processing and pre-packaging all 2000 dog/cat images into tensors for you. All I had to do was feed the images directly into a model for training.
+
+### Other Types of Machine Learning
+
+The examples above have all involved **supervised** learning, meaning we are telling the algorithm what to look for and giving it examples with features to learn from. Supervised learning is fairly simple to wrap your head around, but there's more methods and applications of ML out there.
 
 Two examples of different ML methods are **unsupervised** and **reinforcement** learning. In **unsupervised** learning, you give the algorithm a data set that's unlabeled and let it discover and classify things on its own. With **reinforcement** learning, where the algorithm learns how to accomplish tasks through good or bad outcomes. [Think of a computer learning to beat a mario level](https://youtu.be/qv6UVOQ0F44) as an example.
+
+I'd love to dip my toes into these other types of ML at some point, but believe me when I say that getting this far with supervised learning was a huge milestone all on its own!
+
+## So just how far can you get with one course and a few months of Machine Learning study?
