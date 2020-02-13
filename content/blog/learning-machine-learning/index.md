@@ -69,8 +69,6 @@ But how would Machine Learning approach this problem? Imagine you didn't have a 
 
 To solve this with ML, you would feed your model thousands of coordinates that are labeled as on or off the specified line. After doing a lot of math and burning a lot of processing time, you'd have a model that could tell you with a certain confidence (a percentage) how likely any given point is to exist on that line.
 
-Seems pretty straight forward, right? Feed an algorithm a bunch of data and let it guess about data it hasn't seen.
-
 [This joke tweet](https://twitter.com/jebbery/status/995491957559439360) is a great summary of ML:
 
 > Machine Learning Job Interview:
@@ -95,18 +93,40 @@ Seems pretty straight forward, right? Feed an algorithm a bunch of data and let 
 
 > Interviewer: You're hired.
 
+## What kind of coding is involved in Machine Learning?
+
+Thankfully, the inner-workings (calculus and linear algebra 💀) of training a model are abstracted away from us by ML frameworks like TensorFlow. So we don't have to construct the actual algorithms used to process data and train models.
+
+However, there's still a level of math that you have to grapple with when dabbling in Machine Learning. You need to first be able to process data to pass into ML algorithms and models. You also need to have some knowledge of ML framework settings and configuration.
+
+### Preparing Data
+
+Most of the work done by data scientists is involved in **preparing the data**. When we interviewed [Data Scientist Amelia Bennett on our podcast](https://techjr.dev/episodes/2019/what-is-data-science-with-amelia-bennett), she described herself as a high-paid data janitor, and described data science itself as a "21st century dirty job".
+
+If you've ever wondered how a computer can learn to parse images, sounds, and language, the answer is math. Anything that can be described mathematically can be translated to numbers and fed into ML models. The job of the data scientist is to not only select the data, but convert it. In computer vision for example, this means converting images to arrays of pixels (RGB and location) that the algorithm can use for training. Natural language processing involves describing soundwaves using math--taking frequency and pitch numbers over time to identify spoken words.
+
+Fortunately, there are tools to help you convert non-number data to numbers out there. Tensorflow has a lot of utilities dedicated to helping you process images for instance. Still, you need to be able to use those tools and know which ones to reach for.
+
+### Training Configuration
+
+![An audio mixer with a mess of cables and knobs by Steve Harvey on https://unsplash.com/photos/xWiXi6wRLGo](./wires.jpg)
+
+Machine Learning frameworks abstract away most of the math, but you're still stuck needing to know how different algorithms affect training. So you won't be solving any problems on paper, but you're still going to be reading about mathematical concepts with scary names like `softmax`, `sigmoid`, and `ReLu`.
+
+There's also something to be said about the _amount_ of terms like those activation function names I mentioned above. When using tensorflow specifically, you might feel like you've got more knobs to twist and turn than you really know what to do with. **The TensorFlow API is massive**, and it's hard to imagine someone mastering all of it.
+
+**Note:** You may remember that there are autoML frameworks like TPOT that I mentioned above. These don't require a ton of configuration, but also give you less control over the outputted result. While these tools are useful, you'll likely find yourself using something TensorFlow or something similar the further you get into ML.
+
+### Guess Work
+
+I personally found the amount of configuration at my fingertips to be completely overwhelming. I am the type of person that loves to know exactly what I'm doing and why. However this attitude left me at odds with Machine Learning.
+
+**Machine Learning requires a lot of experimentation**. I used to think that data scientists trained models in one go, but in reality they may train models over and over again before getting desirable results. When training models, there's many various settings to tweak, and selecting the right ones is more of a matter of trial and error than anything else. I had to let go of my need to understand and comprehend everything before I could embrace the experimentation required to solve ML problems.
+
+To put it another way, data scientists are a bit like fictional mad scientists haphazardly mixing chemicals in a lab--except data scientists are mixing mathematical functions together instead of fluid-filled beakers of various colors.
+
 ## Types of Machine Learning
 
 I've only experimented with **supervised** learning so far. The examples we've talked about have all involved **supervised** learning, meaning we are telling the algorithm what to look for and giving it examples with features to learn from. Supervised learning is fairly simple to wrap your head around, but there's more methods and applications of ML out there.
 
 Two examples of different ML methods are **unsupervised** and **reinforcement** learning. In **unsupervised** learning, you give the algorithm a data set that's unlabeled and let it discover and classify things on its own. With **reinforcement** learning, where the algorithm learns how to accomplish tasks through good or bad outcomes. [Think of a computer learning to beat a mario level](https://youtu.be/qv6UVOQ0F44) as an example.
-
-## What's so hard about Machine Learning?
-
-The inner-workings (calculus and linear algebra 💀) of training a model are abstracted away from us by ML frameworks like TensorFlow. So what's the big deal with Data Science?
-
-Most of the work done by data scientists is involved in **preparing the data**. When we interviewed [Data Scientist Amelia Bennett on our podcast](https://techjr.dev/episodes/2019/what-is-data-science-with-amelia-bennett), she described herself as a high-paid data janitor, and described data science itself as a "21st century dirty job".
-
-Lots of the work in data science is in choosing what features (data points) to feed models and what to ignore. There's also a lot of work involved in converting data into forms that an ML algorithm can use.
-
-If you've ever wondered how ML work evolved into computer vision, text recognition, natural language processing, the answer is math. Images, sounds, and text can all be translated to numbers and fed into ML models. The job of the data scientist is to not only select the data, but convert it. In computer vision for example, this means converting images to arrays of pixels (RGB and location) that the algorithm can use for training. Natural language processing involves describing soundwaves using math--taking frequency and pitch numbers over time intervals to identify spoken words.
