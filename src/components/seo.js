@@ -3,7 +3,15 @@ import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { StaticQuery, graphql } from 'gatsby'
 
-function SEO({ description, lang = 'en', meta = [], keywords = [], title }) {
+function SEO({
+  description,
+  lang = 'en',
+  meta = [],
+  keywords = [],
+  title,
+  twitterImageUrl,
+  twitterImageAltText
+}) {
   return (
     <StaticQuery
       query={detailsQuery}
@@ -18,6 +26,10 @@ function SEO({ description, lang = 'en', meta = [], keywords = [], title }) {
             title={title}
             titleTemplate={title === data.site.siteMetadata.title ? title : `%s | ${data.site.siteMetadata.title}`}
             meta={[
+              {
+                name: `author`,
+                content: data.site.siteMetadata.author,
+              },
               {
                 name: `description`,
                 content: metaDescription,
@@ -36,23 +48,27 @@ function SEO({ description, lang = 'en', meta = [], keywords = [], title }) {
               },
               {
                 property: `og:image`,
-                content: data.site.siteMetadata.logo,
+                content: twitterImageUrl || data.site.siteMetadata.logo,
               },
               {
-                property: `twitter:image`,
-                content: data.site.siteMetadata.logo,
+                name: `twitter:image`,
+                content: twitterImageUrl || data.site.siteMetadata.logo,
               },
               {
-                property: `twitter:alt:image`,
-                content: `Green, purple, and black Buddhist enso swirl logo`,
+                name: `twitter:alt:image`,
+                content: twitterImageAltText || `Buddhist enso swirl logo`,
               },
               {
                 name: `twitter:card`,
-                content: `summary`,
+                content: twitterImageUrl ? `summary_large_image` : `summary`,
               },
               {
                 name: `twitter:creator`,
-                content: data.site.siteMetadata.author,
+                content: data.site.siteMetadata.social.twitter,
+              },
+              {
+                name: `twitter:site`,
+                content: data.site.siteMetadata.social.twitter,
               },
               {
                 name: `twitter:title`,
@@ -105,6 +121,9 @@ const detailsQuery = graphql`
         description
         author
         logo
+        social {
+          twitter
+        }
       }
     }
   }

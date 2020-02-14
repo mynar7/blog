@@ -1,16 +1,18 @@
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const sitePrefix = '/blog'
+const siteTitle = `Strings and Things`
+const author = `Lee Warrick`
 module.exports = {
   pathPrefix: sitePrefix,
   siteMetadata: {
-    title: `Strings and Things`,
-    author: `Lee Warrick`,
+    title: siteTitle,
+    author,
     description: `A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code`,
     siteUrl: `https://leewarrick.com/blog`,
     logo: `https://leewarrick.com/blog/logo2.png`,
     social: {
-      twitter: `leewarrickjr`,
+      twitter: `@leewarrickjr`,
       github: `mynar7`,
     },
   },
@@ -41,6 +43,20 @@ module.exports = {
           },
           {
             resolve: 'gatsby-remark-smartypants'
+          },
+          {
+            resolve: `gatsby-remark-twitter-cards`,
+            options: {
+              title: siteTitle, // website title
+              separator: '|', // default
+              author: author,
+              background: require.resolve('./content/assets/cardbase.jpg'), // path to 1200x630px file or hex code, defaults to black (#000000)
+              fontColor: '#fafafa', // defaults to white (#ffffff)
+              titleFontSize: 108,
+              subtitleFontSize: 72,
+              // fontStyle: 'monospace', // default
+              fontFile: require.resolve('./content/assets/TitilliumWeb-Black.ttf') // will override fontStyle - path to custom TTF font
+            },
           },
         ],
       },

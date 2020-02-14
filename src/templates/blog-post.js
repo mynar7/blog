@@ -8,13 +8,21 @@ import SEO from '../components/seo'
 import { rhythm, scale } from '../utils/typography'
 
 const BlogPostTemplate = (props) => {
+  // console.log(props)
   const post = props.data.mdx
   const siteTitle = props.data.site.siteMetadata.title
   const { previous, next } = props.pageContext
 
   return (
       <Layout location={props.location} title={siteTitle}>
-        <SEO title={post.frontmatter.title} description={post.excerpt} />
+        <SEO
+          title={post.frontmatter.title}
+          description={post.excerpt}
+          twitterImageUrl={props.data.site.siteMetadata.siteUrl + props.pageContext.slug + 'twitter-card.jpg'}
+          twitterImageAltText={
+            `Card with Author Portrait Logo Titled: ${props.data.mdx.frontmatter.title} written by ${props.data.site.siteMetadata.author} on ${props.data.site.siteMetadata.title}`
+          }
+          />
         <h1 style={{
           marginTop: rhythm(2.5)
         }}>
@@ -74,6 +82,7 @@ export const pageQuery = graphql`
       siteMetadata {
         title
         author
+        siteUrl
       }
     }
     mdx(fields: { slug: { eq: $slug } }) {
