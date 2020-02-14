@@ -31,7 +31,7 @@ After moving on from that work project, I didn't touch Machine Learning for mont
 
 ## You don't need to be a Mathematician to try your hand at Machine Learning
 
-![Pic of someone doing some math. May or may not be ML-related. Looks hard. Photo by Science in HD on https://unsplash.com/photos/aYxQrt5J6jM](./mathguy.jpg)
+![Pic of Enrico Fermi doing some math. May or may not be ML-related. Looks hard. Photo by Science in HD on https://unsplash.com/photos/aYxQrt5J6jM](./mathguy.jpg)
 
 _(Pictured: What I thought all Data Scientists looked like before this journey.)_
 
