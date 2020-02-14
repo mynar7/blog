@@ -159,7 +159,7 @@ Lorem Picsum is mostly random artsy still-life and landscape photos from [Unspla
 
 [This app](https://codepen.io/mynar7/full/MWYgQaM) connects MobileNet up to the webcam browser API so that you can point your phone/camera at an object and classify it.
 
-(MobileNet doesn't recognize humans, which might be why it thinks I'm a neck brace in the pic above.)
+(If you're wondering about some of the crazy results, you should know that MobileNet wasn't trained recognize humans.)
 
 ### Browser-based Model Training Examples:
 
