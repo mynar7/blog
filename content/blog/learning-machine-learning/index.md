@@ -35,7 +35,7 @@ After moving on from that work project, I didn't touch Machine Learning for mont
 
 _(Pictured: What I thought all Data Scientists looked like before this journey.)_
 
-Even though I gave up on ML, I still wanted to learn Python. I run a [meetup](https://www.meetup.com/orlando-juniors/), so I decided to get some workshops together to teach the community (and myself) Python. I reached out to the [local Python User Group](https://www.meetup.com/OrlandoPython), and its organizer, Michael DuPont, and I got together and planned out a series of talks and workshops. Michael would teach, and I would book the venues.
+Even though I gave up on ML, I still wanted to learn Python. I run a [meetup](https://www.meetup.com/orlando-juniors/), so I decided to get some workshops together to teach the community (and myself) Python. I reached out to the [local Python User Group](https://www.meetup.com/OrlandoPython). Its organizer, Michael DuPont, and I got together and planned out a series of talks and workshops where Michael would teach, and I would book the venues.
 
 The workshops were awesome, and we were also able to [record them for YouTube](https://www.youtube.com/playlist?list=PL5XS6NAljuIyolJIaZjwoMHmBW2oHsr-G). That experience taught me a lot about Python and its ecosystem, but also some interesting lessons about Machine Learning.
 
