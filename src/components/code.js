@@ -12,6 +12,10 @@ export const Code = ({ codeString, language, ...props }) => {
   const { queueScripts, addLinkedSnippet } = useCodeContext()
   const scripts = useRef([])
   const scriptPairs = useRef([])
+
+  const snippetStyle = {
+    marginBottom: rhythm(2),
+  }
   if (props.scripts) {
     scriptPairs.current = props.scripts.split(',').map(pair => {
       const [name, url] = pair.split('!')
@@ -25,7 +29,7 @@ export const Code = ({ codeString, language, ...props }) => {
   }, [])
   if (props['react-live']) {
     return (
-      <div style={{marginBottom: rhythm(2)}}>
+      <div style={snippetStyle}>
         <LiveReactEditor useRender={props['use-render']}
           code={codeString}
           theme={theme}
@@ -37,7 +41,7 @@ export const Code = ({ codeString, language, ...props }) => {
   }
   else if (props['js-live']){
     return (
-      <div style={{marginBottom: rhythm(2)}}>
+      <div style={snippetStyle}>
         <LiveJsEditor code={codeString}
           language={language}
           theme={theme}
@@ -51,7 +55,7 @@ export const Code = ({ codeString, language, ...props }) => {
   }
   else if (props['html-live'] || props['css-live']){
     return (
-      <div style={{marginBottom: rhythm(2)}}>
+      <div style={snippetStyle}>
         <LiveHtmlEditor code={codeString}
           language={language}
           editingDisabled={props['no-edit']}
@@ -63,7 +67,7 @@ export const Code = ({ codeString, language, ...props }) => {
   }
   else {
     return (
-      <div style={{marginBottom: rhythm(2)}}>
+      <div style={snippetStyle}>
         <SnippetInfo language={language}/>
         <PlainCodeHighlight code={codeString} language={language} theme={theme} />
       </div>

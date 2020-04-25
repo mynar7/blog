@@ -7,10 +7,14 @@ import OutputLabel from './OutputLabel'
 import { useCodeContext } from './CodeProvider'
 
 function HtmlComponent({code, language}) {
+  const style = {
+    color: 'var(--gray)',
+    background: 'var(--white)',
+  }
   if (language === 'css') {
     return <style dangerouslySetInnerHTML={{__html: code}} />
   } else {
-    return <div dangerouslySetInnerHTML={{__html: code}} />
+    return <div style={style} dangerouslySetInnerHTML={{__html: code}} />
   }
 }
 

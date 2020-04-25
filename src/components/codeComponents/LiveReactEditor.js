@@ -57,7 +57,10 @@ function LiveReactEditor({code, theme, scripts, useRender, editingDisabled, hide
           </>
         }
         <LiveError />
-        <LivePreview />
+        <LivePreview style={{
+          color: 'var(--gray)',
+          background: 'var(--white)',
+        }} />
         <ResetButton initialCode={code} update={forceUpdate} />
       </LiveProvider>
     )
