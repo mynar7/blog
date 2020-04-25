@@ -1,4 +1,145 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Fri, 14 Feb 2020 18:44:57 GMT</lastBuildDate><item><title><![CDATA[How much can a Front-end Developer learn about Machine Learning using only JavaScript?]]></title><description><![CDATA[Machine Learning and Artificial Intelligence have been huge buzzwords in the Tech industry for quite some time. Hearing them might make you…]]></description><link>https://leewarrick.com/blog/learning-machine-learning/</link><guid isPermaLink="false">https://leewarrick.com/blog/learning-machine-learning/</guid><pubDate>Thu, 13 Feb 2020 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Sat, 25 Apr 2020 03:17:09 GMT</lastBuildDate><item><title><![CDATA[Understanding Unix Permissions, chmod, and ls -la]]></title><description><![CDATA[Whoa! Lee, Why are you writing about terminal commands? I thought this was a front-end blog?Listen. I contain multitudes. Plus, you’re gonna…]]></description><link>https://leewarrick.com/blog/chmod-and-permissions/</link><guid isPermaLink="false">https://leewarrick.com/blog/chmod-and-permissions/</guid><pubDate>Sat, 25 Apr 2020 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/ef45d56b596407bb99cdea93540da35a/c35de/terminal.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+    &lt;span&gt;&lt;/span&gt;
+  &lt;img alt=&quot;A picture of a train terminal in Japan by Andrew Leu (https://unsplash.com/photos/fWZ1-EEYzPM). This article is not about this kind of terminal.&quot; title=&quot;A picture of a train terminal in Japan by Andrew Leu (https://unsplash.com/photos/fWZ1-EEYzPM). This article is not about this kind of terminal.&quot; src=&quot;https://leewarrick.com/blog/static/ef45d56b596407bb99cdea93540da35a/a111b/terminal.jpg&quot;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Whoa! Lee, Why are you writing about terminal commands? I thought this was a front-end blog?&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Listen. I contain multitudes. Plus, you’re gonna run across a permissions issue at some point regardless of where you hang out in the stack, so why not learn a little about what’s going on here?&lt;/p&gt;
+&lt;p&gt;Cool? Cool. Let’s roll.&lt;/p&gt;
+&lt;h2&gt;Why can’t I run this script!?&lt;/h2&gt;
+&lt;p&gt;Let’s say you’re wanting to run a certain script on your computer. Maybe you downloaded it from somewhere or copied it over from stack overflow. Maybe you wrote your own script, who knows? Let’s say you have a cool script like this one:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#!/bin/bash
+
+echo &quot;Have a great day!&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So you jump into your terminal and run &lt;code&gt;./my-script.sh&lt;/code&gt; and you’re greeted with:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ ./my-script.sh
+permission denied: ./my-script.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So you jump onto stack overflow, search ‘run script permission denied’ or something, and you get a terse answer in the way of &lt;code&gt;chmod 744 &amp;lt;filename&amp;gt;&lt;/code&gt;. So you copy that into your terminal and run it, not really worrying about the mysteries of Unix:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ chmod 744 ./my-script.sh
+$ ./my-script.sh
+Have a nice day!
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Satisfied, you go about your business, feeling appropriately greeted by your terminal.&lt;/p&gt;
+&lt;p&gt;However, deep in the back of your subconscious, you’ve unknowingly unleashed a tiny code demon. This tiny demon waits until you’re showering or about to fall asleep—basically when you’re finally finding that peaceful zen state that’s so hard to channel—and it whispers a question into your brain: &lt;em&gt;“What does that command do?”&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;For a moment, you wonder why you’re not more familiar with Unix, doubt yourself and your abilities, and then pack those feelings back down into pandora’s box and go about your day.&lt;/p&gt;
+&lt;h2&gt;Where did my dotfiles go?&lt;/h2&gt;
+&lt;p&gt;If you’ve been programming for a minute, you’re probably worked with dotfiles. Maybe your project has a &lt;code&gt;.env&lt;/code&gt; file for API keys, or maybe you colossally destroyed a git history and decided that obliterating the &lt;code&gt;.git&lt;/code&gt; folder in your project is the last option you’ve got left.&lt;/p&gt;
+&lt;p&gt;In any case, you jump into your terminal and run your trusty &lt;code&gt;ls&lt;/code&gt; command.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ ls
+work stuff morestuff not_file_you_want.js
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;Fiddlesticks! Where’s my file? It shows up in vscode, why isn’t it here!?&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;One more trip to stack overflow and you get &lt;code&gt;ls -la&lt;/code&gt; as your green checked answer, which gives you this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ ls -la
+drwxr-xr-x 15 you  you   4096 Apr 24 11:16 .
+drwxr-xr-x  3 root root  4096 Mar 30 12:09 ..
+-rw-r--r--  1 you  you     38 Apr 24 11:04 .mydotfile
+drwxr-xr-x  9 you  you   4096 Apr 16 09:50 work
+drwxr-xr-x  9 you  you   4096 Apr 13 09:50 stuff
+drwxr-xr-x  9 you  you   4096 Apr 11 09:50 morestuff
+-rw-r--r--  1 you  you     38 Apr 24 11:04 not_file_you_want.js
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Success! There’s my dot file that’s appropriately named &lt;code&gt;.mydotfile&lt;/code&gt;. But that little demon in your mind chimes in… ”&lt;em&gt;What are all those letters and dashes at the beginning?&lt;/em&gt;”&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;ARGH!&lt;/em&gt; Impostor syndrome! Doubt! Fear! &lt;strong&gt;The dark side!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;You ask yourself, &lt;em&gt;Why am I so bad at using computers!?&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;Learn Unix permissions and banish your doubt demons!&lt;/h2&gt;
+&lt;p&gt;Let’s first talk about that weird little string of letters and dashes.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-rw-r--r--  1 you  you     38 Apr 24 11:04 .mydotfile
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;That string of &lt;code&gt;-rw-r-r--r--&lt;/code&gt; is a list of permissions for that file! More on the meaning of that in a second.&lt;/p&gt;
+&lt;p&gt;The other information from left to right is the number of links to that file (1), owner, group owner, file size (38), date/time last modified, and the file name.&lt;/p&gt;
+&lt;p&gt;Now, what about that letter/dash nonsense?&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-rw-r--r--
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This is actually a grouping of 4 subsets of information.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;type | owner | group | everyone else
+------------------------------------
+-    | rw-   | r--   | r--
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For the type, the dash signifies that this is just a regular ol’ file. You’ll see &lt;code&gt;d&lt;/code&gt; to signify directories and &lt;code&gt;l&lt;/code&gt; for links, and might even see different colors in your terminal to highlight those types of files.&lt;/p&gt;
+&lt;p&gt;The rest of the columns have three more bits of info, which are specific permissions for each subset of users on the system. ‘Owner’ is the creator of the file, ‘group’ is the group of users that owner belongs to, and the last section is every other user on the system.&lt;/p&gt;
+&lt;p&gt;As for the letters themselves, they signify (r)ead (w)rite and e(x)ecute. So for the example above we have:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;type | owner | group | everyone else
+------------------------------------
+-    | rw-   | r--   | r--
+file | read/ | read  | read
+       write
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This means you (the owner) can read and write to the file, but other users can only read the file.&lt;/p&gt;
+&lt;p&gt;Here’s another set of permissions you’ll often see on directories:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;type     | owner    | group    | everyone else
+------------------------------------------
+d        | rwx      | r-x      | r-x
+directory| read/    | read/    | read/
+           write/     execute    execute
+           execute
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This means you (again, the owner) can do it all, but others can read and &lt;code&gt;cd&lt;/code&gt; into the directory.&lt;/p&gt;
+&lt;h2&gt;Changing Permissions&lt;/h2&gt;
+&lt;p&gt;Great! So now you know what all those crazy letters mean. But how about changing them?&lt;/p&gt;
+&lt;p&gt;Let’s look at our example directory from above when we ran &lt;code&gt;ls -la&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ ls -la
+drwxr-xr-x 15 you  you   4096 Apr 24 11:16 .
+drwxr-xr-x  3 root root  4096 Mar 30 12:09 ..
+-rw-r--r--  1 you  you     38 Apr 24 11:04 .mydotfile
+drwxr-xr-x  9 you  you   4096 Apr 16 09:50 work
+drwxr-xr-x  9 you  you   4096 Apr 13 09:50 stuff
+drwxr-xr-x  9 you  you   4096 Apr 11 09:50 morestuff
+-rw-r--r--  1 you  you     38 Apr 24 11:04 not_file_you_want.js
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s say we wanted to change the permissions of the &lt;code&gt;not_file_you_want.js&lt;/code&gt; file and add execute permissions for the owner.&lt;/p&gt;
+&lt;p&gt;To do this, we’ll use the &lt;code&gt;chmod&lt;/code&gt; command:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ chmod u+x not_file_you_want.js
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here the &lt;code&gt;u+x&lt;/code&gt; part may trip you up, but take another look. It’s saying (u)ser + e(x)ecute, or add execute permissions to the user.&lt;/p&gt;
+&lt;p&gt;What about more granular permissions? What if we wanted to remove all permissions from any other users?&lt;/p&gt;
+&lt;p&gt;We can be ultra specific with &lt;code&gt;chmod&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ chmod u=rwx,g-rwx,o-rwx not_file_you_want.js
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So this command says (u)ser permissions should equal (r)ead, (w)rite, and e(x)ecute. Remove all permissions from the group, and remove all permissions from all other users.&lt;/p&gt;
+&lt;h2&gt;Binary Shortcuts&lt;/h2&gt;
+&lt;p&gt;&lt;span&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/75055261b0838afeec5e84ba289fa93f/c35de/two.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+    &lt;span&gt;&lt;/span&gt;
+  &lt;img alt=&quot;A blue and grey sign with the number 2 on it. Photo by Sonny Ravesteijn (https://unsplash.com/photos/xyxjKdpUg4I)&quot; title=&quot;A blue and grey sign with the number 2 on it. Photo by Sonny Ravesteijn (https://unsplash.com/photos/xyxjKdpUg4I)&quot; src=&quot;https://leewarrick.com/blog/static/75055261b0838afeec5e84ba289fa93f/a111b/two.jpg&quot;&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;So now you can explicitly set whatever file permissions you want. But that little brain demon might still be screaming about our first stack overflow answer.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ chmod 744 ./my-script.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;What the heck does 744 mean?&lt;/p&gt;
+&lt;p&gt;This is actually shorthand for &lt;code&gt;-rwxr--r--&lt;/code&gt;. Each number represents a user subset. The first number (7) is user, the middle is group, and the last is all other users, just like we showed in our breakdown earlier: &lt;code&gt;rwx | r-- | r--&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Each number is actually a binary representation of the three permissions combined. Let’s look at just the user permissions:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;2^2     | 2^1     | 2^0
+read    | write   | execute
+---------------------------
+1       | 1       | 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here we’re indicating we want all three permissions (rwx), so we add 2^2, 2^1, 2^0 together to get 7.&lt;/p&gt;
+&lt;p&gt;For the other groups:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;2^2     | 2^1     | 2^0
+read    | write   | execute
+---------------------------
+1       | 0       | 0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We only count 2^2 which is equal to 4 for the group and others permissions, which combined with our 7 gives us 744.&lt;/p&gt;
+&lt;p&gt;Here’s some other common permission examples:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;777 = 111 111 111 = rwxrwxrwx
+666 = 110 110 110 = rw-rw-rw-
+644 = 110 100 100 = rw-r--r--
+600 = 110 000 000 = rw-------
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Pretty wild right?&lt;/p&gt;
+&lt;p&gt;So now when you see this command:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ chmod 700 my-file.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You know that means you’re giving the user all permissions and removing all permissions from everyone else. Look at you go, you little Linux Guru 😎.&lt;/p&gt;
+&lt;h2&gt;Parting Thoughts&lt;/h2&gt;
+&lt;p&gt;Special Thanks to my colleague Clay Benson for explaining this to me on a conference call. I have stared at those little strings of &lt;code&gt;rwx&lt;/code&gt; for &lt;em&gt;years&lt;/em&gt; without bothering to look up what they signify, just chalking it up to terminal magic and resiging myself to ignorance. I was actually stunned at how logical the design of Unix file permissions actually is, and the byte math absolutely floored me when I learned it and inspired me to write this post.&lt;/p&gt;
+&lt;p&gt;The next time you do some stack overflow linux wizardry, do a little research and you might surprise yourself with how much you learn. I know I will.&lt;/p&gt;</content:encoded><atom:link rel="self" href="https://leewarrick.com/blog/rss.xml" type="application/rss+xml"/></item><item><title><![CDATA[How much can a Front-end Developer learn about Machine Learning using only JavaScript?]]></title><description><![CDATA[Machine Learning and Artificial Intelligence have been huge buzzwords in the Tech industry for quite some time. Hearing them might make you…]]></description><link>https://leewarrick.com/blog/learning-machine-learning/</link><guid isPermaLink="false">https://leewarrick.com/blog/learning-machine-learning/</guid><pubDate>Thu, 13 Feb 2020 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
       &lt;a href=&quot;https://leewarrick.com/blog/static/f5d6540ebdf0d7bfd79f73928f7a6b90/971c4/pianobot.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
   &lt;img alt=&quot;Robot Playing Piano by Franck V on Unsplash: https://unsplash.com/photos/U3sOwViXhkY&quot; title=&quot;Robot Playing Piano by Franck V on Unsplash: https://unsplash.com/photos/U3sOwViXhkY&quot; src=&quot;https://leewarrick.com/blog/static/f5d6540ebdf0d7bfd79f73928f7a6b90/a111b/pianobot.jpg&quot;&gt;
