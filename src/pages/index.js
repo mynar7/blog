@@ -26,7 +26,7 @@ class BlogIndex extends React.Component {
               <h2
                 style={{
                   marginBottom: rhythm(1 / 4),
-                  color: 'inherit'
+                  color: 'inherit',
                 }}
               >
                 <Link style={{ boxShadow: `none` }} to={node.fields.slug}>
@@ -34,7 +34,15 @@ class BlogIndex extends React.Component {
                 </Link>
               </h2>
               <small>{node.frontmatter.date}</small>
-              <p dangerouslySetInnerHTML={{ __html: node.excerpt }} />
+              <div>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      node.excerpt +
+                      ` <a href="${node.fields.slug}">read more</a>`,
+                  }}
+                />
+              </div>
             </div>
           )
         })}
@@ -55,7 +63,7 @@ export const pageQuery = graphql`
     allMdx(sort: { fields: [frontmatter___date], order: DESC }) {
       edges {
         node {
-          excerpt(pruneLength: 180)
+          excerpt(pruneLength: 250)
           fields {
             slug
           }
