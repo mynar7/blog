@@ -1,7 +1,191 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>RSS for Node</generator><lastBuildDate>Sat, 25 Apr 2020 03:17:09 GMT</lastBuildDate><item><title><![CDATA[Understanding Unix Permissions, chmod, and ls -la]]></title><description><![CDATA[Whoa! Lee, Why are you writing about terminal commands? I thought this was a front-end blog?Listen. I contain multitudes. Plus, you’re gonna…]]></description><link>https://leewarrick.com/blog/chmod-and-permissions/</link><guid isPermaLink="false">https://leewarrick.com/blog/chmod-and-permissions/</guid><pubDate>Sat, 25 Apr 2020 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/ef45d56b596407bb99cdea93540da35a/c35de/terminal.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 03 Apr 2022 20:12:03 GMT</lastBuildDate><item><title><![CDATA[What's the point of tests?]]></title><description><![CDATA[Testing is one of those essential subjects that nearly every tutorial and course tends to gracefully skip over. This is tragic because as…]]></description><link>https://leewarrick.com/blog/intro-to-js-testing/</link><guid isPermaLink="false">https://leewarrick.com/blog/intro-to-js-testing/</guid><pubDate>Fri, 29 Jan 2021 03:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Testing is one of those essential subjects that nearly every tutorial and course tends to gracefully skip over. This is tragic because as soon as you enter the workforce as a developer, you’re going to be expected to write tests. You may even find yourself writing more tests than code. Too many new developers (myself included), walk into their first job blind to testing principles and practices. More than a few develop negative opinions of testing, even learning to resent tests. &lt;/p&gt;
+&lt;p&gt;That’s not to say tests are a necessary evil. In fact, I’ve learned to find a lot of comfort in well-written automated tests. Let’s discuss some benefits of tests.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const {
+  EVENT_RUN_BEGIN,
+  EVENT_RUN_END,
+  EVENT_TEST_FAIL,
+  EVENT_TEST_PASS,
+  EVENT_SUITE_BEGIN,
+  EVENT_SUITE_END
+} = Mocha.Runner.constants;
+
+mocha.setup({
+  ui: &quot;bdd&quot;,
+  reporter: function(runner) {
+        let currentSuite
+        let currentParent
+        let indent = 0
+        runner.once(EVENT_RUN_BEGIN, () =&amp;gt; {
+        })
+        runner.on(EVENT_SUITE_BEGIN, (suite) =&amp;gt; {
+        })
+        runner.on(EVENT_SUITE_END, (suite) =&amp;gt; {
+          if (suite.root) return
+            indent = indent - 2 &amp;lt; 0 ? 0 : indent - 2
+        })
+        runner.on(EVENT_TEST_PASS, (test) =&amp;gt; {
+            if (currentParent !== test.parent.parent.title) {
+                currentParent = test.parent.parent.title
+                if (currentParent) {
+                    console.log(`${&quot; &quot;.repeat(indent)}${currentParent}`)
+                    indent += 2
+                }
+            }
+            if (currentSuite !== test.parent.title) {
+                currentSuite = test.parent.title
+                console.log(`${&quot; &quot;.repeat(indent)}${currentSuite}`)
+                indent += 2
+            }
+
+            console.log(`${&quot; &quot;.repeat(indent)}🟢 ${test.title}`)
+        });
+        runner.on(EVENT_TEST_FAIL, (test) =&amp;gt; {
+            if (currentParent !== test.parent.parent.title) {
+                currentParent = test.parent.parent.title
+                if (currentParent) {
+                    console.log(`${&quot; &quot;.repeat(indent)}${currentParent}`)
+                    indent += 2
+                }
+            }
+            if (currentSuite !== test.parent.title) {
+                currentSuite = test.parent.title
+                console.log(`${&quot; &quot;.repeat(indent)}${currentSuite}`)
+                indent += 2
+            }
+
+            console.log(`${&quot; &quot;.repeat(indent)}❌ ${test.title}`)
+        });
+        runner.once(EVENT_RUN_END, () =&amp;gt; {
+            indent = 0
+            console.log(`${runner.stats.passes}/${runner.stats.passes + runner.stats.failures} tests passing`);
+        });
+  },
+  cleanReferencesAfterRun: true
+})
+window.assert = chai.assert;
+window.expect = chai.expect;
+window.mochaRun = mocha.run
+mocha.run = function() {
+  mocha.unloadFiles()
+  window.mochaRun()
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Tests make maintaining and refactoring code much easier&lt;/h2&gt;
+&lt;p&gt;Let’s say for example that you had a function that checks to see if a word is a palindrome (it’s the same backwards and forwards):&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function isPalindrome(str) {
+    str = str.toLowerCase()
+    let strNoPunc = &quot;&quot;
+    const letters = &apos;abcdefghijklmnopqrstuvwxyz&apos;.split(&quot;&quot;)
+    for(var i = 0; i &amp;lt; str.length; i++) {
+        if(letters.indexOf(str[i]) &amp;gt; -1) strNoPunc += str[i]
+    }
+    let reversed = &quot;&quot;
+    for (var i = strNoPunc.length - 1; i &amp;gt;= 0; i--) {
+        reversed += strNoPunc[i]
+    }
+    return reversed === strNoPunc
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You’re a hip JavaScript developer and you haven’t written a for loop since your code bootcamp, so it takes you some mental overhead to understand what’s happening in that function. You know it’s working because it has been humming along in your codebase for quite some time before you came across it. Still, you’ve got some fancy array methods and ES6 you’d like to use to spruce up that function. But how do you do it?&lt;/p&gt;
+&lt;p&gt;One way is to experiment with &lt;code&gt;console.log&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function isPalindrome(str) {
+    str = str.toLowerCase()
+    let strNoPunc = &quot;&quot;
+    const letters = &apos;abcdefghijklmnopqrstuvwxyz&apos;.split(&quot;&quot;)
+    for(var i = 0; i &amp;lt; str.length; i++) {
+        if(letters.indexOf(str[i]) &amp;gt; -1) strNoPunc += str[i]
+    }
+    let reversed = &quot;&quot;
+    for (var i = strNoPunc.length - 1; i &amp;gt;= 0; i--) {
+        reversed += strNoPunc[i]
+    }
+    return reversed === strNoPunc
+}
+console.log(isPalindrome(&apos;radar&apos;))
+console.log(isPalindrome(&apos;pasta&apos;))
+console.log(isPalindrome(&apos;radar!&apos;))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Apparently &lt;code&gt;isPalindrome&lt;/code&gt; returns a boolean and is able to handle special characters. But what about spaces? What about uppercase letters? Does it handle numbers? More importantly, &lt;em&gt;which one of those cases are important in your codebase?&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;That’s the rub when it comes to refactoring this function. You know more or less what the function does, but what about all the special edge cases? What if it’s fed a non-string? Does it return a boolean or throw an error? Does that matter for your existing code that’s using &lt;code&gt;isPalindrome&lt;/code&gt;?&lt;/p&gt;
+&lt;p&gt;In an ideal world, you’d have some well-written tests that outline the edge cases of your function:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function isPalindrome(str) {
+    str = str.toLowerCase()
+    let strNoPunc = &quot;&quot;
+    const letters = &apos;abcdefghijklmnopqrstuvwxyz&apos;.split(&quot;&quot;)
+    for(var i = 0; i &amp;lt; str.length; i++) {
+        if(letters.indexOf(str[i]) &amp;gt; -1) strNoPunc += str[i]
+    }
+    let reversed = &quot;&quot;
+    for (var i = strNoPunc.length - 1; i &amp;gt;= 0; i--) {
+        reversed += strNoPunc[i]
+    }
+    return reversed === strNoPunc
+}
+
+describe(&apos;isPalindrome&apos;, function() {
+    it(&apos;should return a boolean&apos;, function() {
+        expect(typeof isPalindrome(&apos;banana&apos;)).to.eq(&apos;boolean&apos;)
+    })
+    it(&apos;should return true for a palindrome&apos;, function() {
+        expect(isPalindrome(&apos;radar&apos;)).to.be.true
+    })
+    it(&apos;should return false for non-palindromes&apos;, function() {
+        expect(isPalindrome(&apos;banana&apos;)).to.be.false
+    })
+    it(&apos;should ignore special characters&apos;, function() {
+        expect(isPalindrome(&apos;radar!&apos;)).to.be.true
+    })
+    it(&apos;should ignore spaces&apos;, function() {
+        expect(isPalindrome(&apos;my gym&apos;)).to.be.true
+    })
+    it(&apos;should ignore letter casing&apos;, function() {
+        expect(isPalindrome(&apos;Eva, can I see bees in a cave?&apos;)).to.be.true
+    })
+})
+
+mocha.run()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Tests can be great documentation&lt;/h2&gt;
+&lt;p&gt;Documentation is a perennial pain for most developers. It’s so difficult to keep improving software as well as keeping its documentation up to date because essentially the two are related but disconnected. What if you had documentation that read itself and told you when your code and docs were out of sync?&lt;/p&gt;
+&lt;p&gt;Good news! That’s basically what well-written tests do. Let’s look at the case titles from the previous section:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;should return a boolean
+should return true for a palindrome
+should return false for non-palindromes
+should ignore special characters
+should ignore spaces
+should ignore letter casing
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Not only do these tests tell the developer &lt;em&gt;exactly&lt;/em&gt; how the function is supposed to behave, when you run the tests they &lt;strong&gt;enforce&lt;/strong&gt; those rules as well. Including automation that runs these tests before code merges provides a pretty power system to prevent breaking the code.&lt;/p&gt;
+&lt;h2&gt;Why don’t we teach testing?&lt;/h2&gt;
+&lt;p&gt;To the novice, testing might feel optional or even unnecessary. When you’re new to coding—especially JavaScript—there’s a lot of technology to learn to build compelling software. Testing doesn’t directly contribute to the final application. Tests are meta-code: code for your code. It’s not surprising that there’s a tendency to skip it and just keep building.&lt;/p&gt;
+&lt;p&gt;The reason introductory tutorials and courses skip or gloss over testing is that at that point in your journey to programming proficiency, your goal is to write as much software as possible. When you’re writing one-off apps that you’re unlikely to maintain or refactor, tests aren’t very useful. The focus is getting your app to work at that point and making plenty of mistakes along the way.&lt;/p&gt;
+&lt;p&gt;If you’re not a novice and you’re maybe looking at something like React components and wondering why you weren’t taught how to test your front-end code, you’ve stumbled upon the other unfortunate truth to testing: it’s hard.&lt;/p&gt;
+&lt;p&gt;Testing not only doesn’t get any credit for helping the final creation, it also happens to be an incredibly abstract and sometimes difficult thing to wrap your head around. Aside from the technical challenge of testing something like an HTML button’s functionality or an API call pulling the correct information out of a database, there’s also the question of &lt;em&gt;what&lt;/em&gt; to test.&lt;/p&gt;
+&lt;p&gt;Should you render the whole site to test that button or just render the button and test that? Do you run that test on a fake DOM for speed or slowly on a real automated browser for accuracy? Do you mock your database call or do you spin up a dummy database for your API to reach out to in your tests?&lt;/p&gt;
+&lt;p&gt;There’s a whole &lt;em&gt;philosophy&lt;/em&gt; to testing. There’s unit tests, integration tests, end-to-end tests, regression tests, smoke tests, and probably more that I don’t even know about. Testing is an entire can of worms looming above you on a shelf, casting a shadow over your computer and waiting for the day when you finally have to crack it open and unleash its chaos on your productivity. No wonder we don’t teach it in the middle of a tutorial on making buttons in React.&lt;/p&gt;
+&lt;h2&gt;Why you should learn testing&lt;/h2&gt;
+&lt;p&gt;Don’t let the previous section scare you, let this: when you’re writing production code at work, you’re going to be expected to write tests whether you know how or not. &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function add(a, b) {
+  return a + b
+}
+describe(&apos;outer wrapper&apos;, function() {
+    describe(&apos;add function&apos;, function() {
+        it(&apos;should add two numbers&apos;, function() {
+            const result = add(3, 4)
+            assert(result === 7)
+        })
+        it(&apos;should add two numbers and not fail&apos;, function() {
+            const result = add(3, 4)
+            assert(result === 8)
+        })
+    })
+})
+
+mocha.run()
+&lt;/code&gt;&lt;/pre&gt;</content:encoded><atom:link rel="self" href="https://leewarrick.com/blog/rss.xml" type="application/rss+xml"/></item><item><title><![CDATA[Understanding Unix Permissions, chmod, and ls -la]]></title><description><![CDATA[Whoa! Lee, Why are you writing about terminal commands? I thought this was a front-end blog? Listen. I contain multitudes. Plus, you’re…]]></description><link>https://leewarrick.com/blog/chmod-and-permissions/</link><guid isPermaLink="false">https://leewarrick.com/blog/chmod-and-permissions/</guid><pubDate>Sat, 25 Apr 2020 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/ef45d56b596407bb99cdea93540da35a/e5166/terminal.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;A picture of a train terminal in Japan by Andrew Leu (https://unsplash.com/photos/fWZ1-EEYzPM). This article is not about this kind of terminal.&quot; title=&quot;A picture of a train terminal in Japan by Andrew Leu (https://unsplash.com/photos/fWZ1-EEYzPM). This article is not about this kind of terminal.&quot; src=&quot;https://leewarrick.com/blog/static/ef45d56b596407bb99cdea93540da35a/a111b/terminal.jpg&quot;&gt;
+  &lt;img alt=&quot;A picture of a train terminal in Japan by Andrew Leu (https://unsplash.com/photos/fWZ1-EEYzPM). This article is not about this kind of terminal.&quot; title=&quot;A picture of a train terminal in Japan by Andrew Leu (https://unsplash.com/photos/fWZ1-EEYzPM). This article is not about this kind of terminal.&quot; src=&quot;https://leewarrick.com/blog/static/ef45d56b596407bb99cdea93540da35a/6aca1/terminal.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Whoa! Lee, Why are you writing about terminal commands? I thought this was a front-end blog?&lt;/em&gt;&lt;/p&gt;
@@ -102,9 +286,9 @@ drwxr-xr-x  9 you  you   4096 Apr 11 09:50 morestuff
 &lt;p&gt;So this command says (u)ser permissions should equal (r)ead, (w)rite, and e(x)ecute. Remove all permissions from the group, and remove all permissions from all other users.&lt;/p&gt;
 &lt;h2&gt;Binary Shortcuts&lt;/h2&gt;
 &lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/75055261b0838afeec5e84ba289fa93f/c35de/two.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/75055261b0838afeec5e84ba289fa93f/e5166/two.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;A blue and grey sign with the number 2 on it. Photo by Sonny Ravesteijn (https://unsplash.com/photos/xyxjKdpUg4I)&quot; title=&quot;A blue and grey sign with the number 2 on it. Photo by Sonny Ravesteijn (https://unsplash.com/photos/xyxjKdpUg4I)&quot; src=&quot;https://leewarrick.com/blog/static/75055261b0838afeec5e84ba289fa93f/a111b/two.jpg&quot;&gt;
+  &lt;img alt=&quot;A blue and grey sign with the number 2 on it. Photo by Sonny Ravesteijn (https://unsplash.com/photos/xyxjKdpUg4I)&quot; title=&quot;A blue and grey sign with the number 2 on it. Photo by Sonny Ravesteijn (https://unsplash.com/photos/xyxjKdpUg4I)&quot; src=&quot;https://leewarrick.com/blog/static/75055261b0838afeec5e84ba289fa93f/6aca1/two.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;So now you can explicitly set whatever file permissions you want. But that little brain demon might still be screaming about our first stack overflow answer.&lt;/p&gt;
@@ -140,9 +324,9 @@ read    | write   | execute
 &lt;h2&gt;Parting Thoughts&lt;/h2&gt;
 &lt;p&gt;Special Thanks to my colleague Clay Benson for explaining this to me on a conference call. I have stared at those little strings of &lt;code&gt;rwx&lt;/code&gt; for &lt;em&gt;years&lt;/em&gt; without bothering to look up what they signify, just chalking it up to terminal magic and resiging myself to ignorance. I was actually stunned at how logical the design of Unix file permissions actually is, and the byte math absolutely floored me when I learned it and inspired me to write this post.&lt;/p&gt;
 &lt;p&gt;The next time you do some stack overflow linux wizardry, do a little research and you might surprise yourself with how much you learn. I know I will.&lt;/p&gt;</content:encoded><atom:link rel="self" href="https://leewarrick.com/blog/rss.xml" type="application/rss+xml"/></item><item><title><![CDATA[How much can a Front-end Developer learn about Machine Learning using only JavaScript?]]></title><description><![CDATA[Machine Learning and Artificial Intelligence have been huge buzzwords in the Tech industry for quite some time. Hearing them might make you…]]></description><link>https://leewarrick.com/blog/learning-machine-learning/</link><guid isPermaLink="false">https://leewarrick.com/blog/learning-machine-learning/</guid><pubDate>Thu, 13 Feb 2020 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/f5d6540ebdf0d7bfd79f73928f7a6b90/971c4/pianobot.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/f5d6540ebdf0d7bfd79f73928f7a6b90/a2510/pianobot.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Robot Playing Piano by Franck V on Unsplash: https://unsplash.com/photos/U3sOwViXhkY&quot; title=&quot;Robot Playing Piano by Franck V on Unsplash: https://unsplash.com/photos/U3sOwViXhkY&quot; src=&quot;https://leewarrick.com/blog/static/f5d6540ebdf0d7bfd79f73928f7a6b90/a111b/pianobot.jpg&quot;&gt;
+  &lt;img alt=&quot;Robot Playing Piano by Franck V on Unsplash: https://unsplash.com/photos/U3sOwViXhkY&quot; title=&quot;Robot Playing Piano by Franck V on Unsplash: https://unsplash.com/photos/U3sOwViXhkY&quot; src=&quot;https://leewarrick.com/blog/static/f5d6540ebdf0d7bfd79f73928f7a6b90/6aca1/pianobot.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Machine Learning and Artificial Intelligence have been huge buzzwords in the Tech industry for &lt;a href=&quot;https://towardsdatascience.com/google-trends-on-data-science-160146fea72a&quot;&gt;quite some time&lt;/a&gt;. Hearing them might make you picture self-driving cars or chat bots in your head and leave you wondering what kind of programming goes into those projects. AI, in particular, has been the stuff of science fiction for so long that it’s hard not to be curious about it now that we’re seeing real-life projects surface in the news.&lt;/p&gt;
@@ -161,9 +345,9 @@ read    | write   | execute
 &lt;p&gt;After moving on from that work project, I didn’t touch Machine Learning for months.&lt;/p&gt;
 &lt;h2&gt;You don’t need to be a Mathematician to try your hand at Machine Learning&lt;/h2&gt;
 &lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/2dc6a676f9517b71fff5a3f9b9217309/a296c/mathguy.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/2dc6a676f9517b71fff5a3f9b9217309/4b190/mathguy.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Pic of Enrico Fermi doing some math. May or may not be ML-related. Looks hard. Photo by Science in HD on https://unsplash.com/photos/aYxQrt5J6jM&quot; title=&quot;Pic of Enrico Fermi doing some math. May or may not be ML-related. Looks hard. Photo by Science in HD on https://unsplash.com/photos/aYxQrt5J6jM&quot; src=&quot;https://leewarrick.com/blog/static/2dc6a676f9517b71fff5a3f9b9217309/a111b/mathguy.jpg&quot;&gt;
+  &lt;img alt=&quot;Pic of Enrico Fermi doing some math. May or may not be ML-related. Looks hard. Photo by Science in HD on https://unsplash.com/photos/aYxQrt5J6jM&quot; title=&quot;Pic of Enrico Fermi doing some math. May or may not be ML-related. Looks hard. Photo by Science in HD on https://unsplash.com/photos/aYxQrt5J6jM&quot; src=&quot;https://leewarrick.com/blog/static/2dc6a676f9517b71fff5a3f9b9217309/6aca1/mathguy.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;(Pictured: What I thought all Data Scientists looked like before this journey.)&lt;/em&gt;&lt;/p&gt;
@@ -231,9 +415,9 @@ read    | write   | execute
 &lt;p&gt;Fortunately, there are tools to help you convert non-number data to numbers out there. Tensorflow has a lot of utilities dedicated to helping you process images for instance. Still, you need to be able to use those tools and know which ones to reach for.&lt;/p&gt;
 &lt;h3&gt;Training Configuration&lt;/h3&gt;
 &lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/e626f404f9ec5cd11ac98df53d273721/971c4/wires.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/e626f404f9ec5cd11ac98df53d273721/a2510/wires.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;An audio mixer with a mess of cables and knobs by Steve Harvey on https://unsplash.com/photos/xWiXi6wRLGo&quot; title=&quot;An audio mixer with a mess of cables and knobs by Steve Harvey on https://unsplash.com/photos/xWiXi6wRLGo&quot; src=&quot;https://leewarrick.com/blog/static/e626f404f9ec5cd11ac98df53d273721/a111b/wires.jpg&quot;&gt;
+  &lt;img alt=&quot;An audio mixer with a mess of cables and knobs by Steve Harvey on https://unsplash.com/photos/xWiXi6wRLGo&quot; title=&quot;An audio mixer with a mess of cables and knobs by Steve Harvey on https://unsplash.com/photos/xWiXi6wRLGo&quot; src=&quot;https://leewarrick.com/blog/static/e626f404f9ec5cd11ac98df53d273721/6aca1/wires.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Machine Learning frameworks abstract away most of the math, but you’re still stuck needing to know how different algorithms affect training. So you won’t be solving any problems on paper, but you’re still going to be reading about mathematical concepts with scary names like &lt;code&gt;softmax&lt;/code&gt;, &lt;code&gt;sigmoid&lt;/code&gt;, and &lt;code&gt;ReLu&lt;/code&gt;.&lt;/p&gt;
@@ -250,21 +434,21 @@ read    | write   | execute
 &lt;h3&gt;Pre-trained Model Examples:&lt;/h3&gt;
 &lt;p&gt;These are super fun apps to make, and require almost no ML knowledge to pull off. I recommend trying some of these yourself! You can quickly make some impressive ML projects by utilizing browser APIs and web technology.&lt;/p&gt;
 &lt;h4&gt;&lt;a href=&quot;https://codepen.io/mynar7/pen/ZEzNYEo&quot;&gt;Image API + MobileNet Example&lt;/a&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&quot;https://leewarrick.com/blog/mobilenet-bdd47aa1b0831a218f4b2f252bc9c63a.gif&quot; alt=&quot;Gif displaying mobilenet classifying random photos&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://leewarrick.com/blog/bdd47aa1b0831a218f4b2f252bc9c63a/mobilenet.gif&quot; alt=&quot;Gif displaying mobilenet classifying random photos&quot;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://codepen.io/mynar7/pen/ZEzNYEo&quot;&gt;In this demo&lt;/a&gt;, I pulled images from the &lt;a href=&quot;https://picsum.photos&quot;&gt;lorem picsum API&lt;/a&gt; and used React to hook them up to &lt;a href=&quot;https://github.com/tensorflow/tfjs-models/tree/master/mobilenet&quot;&gt;MobileNet&lt;/a&gt;, which is a pre-trained model that can classify images.&lt;/p&gt;
 &lt;p&gt;Lorem Picsum is mostly random artsy still-life and landscape photos from &lt;a href=&quot;https://unsplash.com/&quot;&gt;Unsplash&lt;/a&gt;, so you get some interesting results from MobileNet’s classifications.&lt;/p&gt;
 &lt;h4&gt;&lt;a href=&quot;https://codepen.io/mynar7/full/MWYgQaM&quot;&gt;Webcam + MobileNet Example&lt;/a&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&quot;https://leewarrick.com/blog/webcam-e4d0fb0043bb2feb57736e5a2308b72a.gif&quot; alt=&quot;Gif of me getting mobilenet to recognize various objects&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://leewarrick.com/blog/e4d0fb0043bb2feb57736e5a2308b72a/webcam.gif&quot; alt=&quot;Gif of me getting mobilenet to recognize various objects&quot;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://codepen.io/mynar7/full/MWYgQaM&quot;&gt;This app&lt;/a&gt; connects MobileNet up to the webcam browser API so that you can point your phone/camera at an object and classify it.&lt;/p&gt;
 &lt;p&gt;(If you’re wondering about some of the crazy results, you should know that MobileNet wasn’t trained recognize humans.)&lt;/p&gt;
 &lt;h3&gt;Browser-based Model Training Examples:&lt;/h3&gt;
 &lt;p&gt;Now we get into the heavy stuff. Beware running these on low-end phones and devices.&lt;/p&gt;
 &lt;p&gt;These examples take data sets and use them to train models directly in your web browser using JavaScript!&lt;/p&gt;
 &lt;h4&gt;&lt;a href=&quot;https://codepen.io/mynar7/pen/qBEGYoJ&quot;&gt;Solving FizzBuzz with TensorFlow&lt;/a&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&quot;https://leewarrick.com/blog/fizzbuzz-04e7038477e99dd1b72bc8830854afc2.gif&quot; alt=&quot;Gif showing a model finishing training and solving fizzbuzz&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://leewarrick.com/blog/04e7038477e99dd1b72bc8830854afc2/fizzbuzz.gif&quot; alt=&quot;Gif showing a model finishing training and solving fizzbuzz&quot;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://codepen.io/mynar7/pen/qBEGYoJ&quot;&gt;This example&lt;/a&gt; feeds a model thousands of numbers (100 through 3100) that have been solved (labeled) using a simple &lt;a href=&quot;https://www.tomdalling.com/blog/software-design/fizzbuzz-in-too-much-detail/&quot;&gt;fizzbuzz&lt;/a&gt; algorithm. Then it tries to guess whether numbers 1-100 should be fizz, buzz, or fizzbuzz.&lt;/p&gt;
 &lt;h4&gt;&lt;a href=&quot;https://codesandbox.io/s/dogs-and-cats-in-machine-learning-w7ouw&quot;&gt;Cat/Dog image recognition with TensorFlow&lt;/a&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&quot;https://leewarrick.com/blog/catsndogs-627d2e4110e2dfaf7ed168b516ef491a.gif&quot; alt=&quot;Gif of my dogs-n-cats image recognition demo app recognizing random dogs and cats&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://leewarrick.com/blog/627d2e4110e2dfaf7ed168b516ef491a/catsndogs.gif&quot; alt=&quot;Gif of my dogs-n-cats image recognition demo app recognizing random dogs and cats&quot;&gt;&lt;/p&gt;
 &lt;p&gt;This app uses Gant Laborde’s &lt;a href=&quot;https://dogs-n-cats.netlify.com/&quot;&gt;dogs-n-cats npm package&lt;/a&gt; to train a model to recognize random dogs or cats.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://codesandbox.io/s/dogs-and-cats-in-machine-learning-w7ouw&quot;&gt;Click here to check out the demo on codesandbox&lt;/a&gt;. Be warned though, it’s a bit memory/resource intensive to train a model using 2000 images in the browser.&lt;/p&gt;
 &lt;p&gt;The dogs-n-cats package does most of the prep work for you behind the scenes by pre-processing and pre-packaging all 2000 dog/cat images into tensors for you. All I had to do was feed the images directly into a model for training.&lt;/p&gt;
@@ -274,9 +458,9 @@ read    | write   | execute
 &lt;p&gt;I’d love to dip my toes into these other types of ML at some point, but believe me when I say that getting this far with supervised learning was a huge milestone all on its own!&lt;/p&gt;
 &lt;h2&gt;Are you a Data Scientist now?&lt;/h2&gt;
 &lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/6e0a457906da82a99991bf721e922eb4/971c4/nopewood.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/6e0a457906da82a99991bf721e922eb4/a2510/nopewood.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Photo of the word &amp;quot;nope&amp;quot; in cursive by Daniel Herron on https://unsplash.com/photos/vBxbZokRL10&quot; title=&quot;Photo of the word &amp;quot;nope&amp;quot; in cursive by Daniel Herron on https://unsplash.com/photos/vBxbZokRL10&quot; src=&quot;https://leewarrick.com/blog/static/6e0a457906da82a99991bf721e922eb4/a111b/nopewood.jpg&quot;&gt;
+  &lt;img alt=&quot;Photo of the word &amp;quot;nope&amp;quot; in cursive by Daniel Herron on https://unsplash.com/photos/vBxbZokRL10&quot; title=&quot;Photo of the word &amp;quot;nope&amp;quot; in cursive by Daniel Herron on https://unsplash.com/photos/vBxbZokRL10&quot; src=&quot;https://leewarrick.com/blog/static/6e0a457906da82a99991bf721e922eb4/6aca1/nopewood.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Let’s get this out of the way: &lt;strong&gt;I am definitely not a data scientist after spending a little time with Machine Learning&lt;/strong&gt;.&lt;/p&gt;
@@ -288,9 +472,9 @@ read    | write   | execute
 &lt;p&gt;Data Science and Machine Learning are really cool things to dip your toes into if you can stomach the mathematics and trial-and-error that’s involved. It’s a challenging area of technology and something that businesses have begun to heavily invest in, so even having a basic understanding of the data science field is invaluable as a developer.&lt;/p&gt;
 &lt;p&gt;I definitely recommend Gant’s &lt;a href=&quot;https://academy.infinite.red/p/ai-demystified-free-5-day-mini-course&quot;&gt;free intro course&lt;/a&gt; to ML/AI concepts. If you complete that course and feel like you want to pursue the subject further, I recommend checking out Gant’s &lt;a href=&quot;https://academy.infinite.red/p/beginning-machine-learning-with-tensorflow-js&quot;&gt;paid beginner course&lt;/a&gt; on AI/ML in JavaScript as well. Gant worked very hard to make the concepts within approachable and it shows.&lt;/p&gt;
 &lt;p&gt;I hope to keep advancing my own Machine Learning skills in the future. If you have ideas on where I should go from here, or questions about this post, hit me up on &lt;a href=&quot;https://twitter.com/leewarrickjr&quot;&gt;Twitter&lt;/a&gt;! I’d love to hear from you.&lt;/p&gt;</content:encoded><atom:link rel="self" href="https://leewarrick.com/blog/rss.xml" type="application/rss+xml"/></item><item><title><![CDATA[Just what is JAMstack, anyway?]]></title><description><![CDATA[JAMstack is one of those buzzwords that leaves the listener confused whenever it’s uttered (see also PWAs, blockchain, and serverless…]]></description><link>https://leewarrick.com/blog/what-is-jamstack/</link><guid isPermaLink="false">https://leewarrick.com/blog/what-is-jamstack/</guid><pubDate>Sat, 18 Jan 2020 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/2cac76f5c8384426ef46e8a929e5f9f2/971c4/jamstack.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/2cac76f5c8384426ef46e8a929e5f9f2/a2510/jamstack.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Jars of jam stacked on a shelf. A literal jamstack. Photo by Viktor Forgacs on https://unsplash.com/photos/5mGGOWD-Ths&quot; title=&quot;Jars of jam stacked on a shelf. A literal jamstack. Photo by Viktor Forgacs on https://unsplash.com/photos/5mGGOWD-Ths&quot; src=&quot;https://leewarrick.com/blog/static/2cac76f5c8384426ef46e8a929e5f9f2/a111b/jamstack.jpg&quot;&gt;
+  &lt;img alt=&quot;Jars of jam stacked on a shelf. A literal jamstack. Photo by Viktor Forgacs on https://unsplash.com/photos/5mGGOWD-Ths&quot; title=&quot;Jars of jam stacked on a shelf. A literal jamstack. Photo by Viktor Forgacs on https://unsplash.com/photos/5mGGOWD-Ths&quot; src=&quot;https://leewarrick.com/blog/static/2cac76f5c8384426ef46e8a929e5f9f2/6aca1/jamstack.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;JAMstack is one of those buzzwords that leaves the listener confused whenever it’s uttered (see also PWAs, blockchain, and serverless). Despite the name, JAMstack is a fantastic choice for front-end web applications, and definitely worth your time as a front-end developer.&lt;/p&gt;
@@ -312,9 +496,9 @@ read    | write   | execute
 &lt;/blockquote&gt;
 &lt;h2&gt;The Chimera Option&lt;/h2&gt;
 &lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/6fae55ed7800e31c097a4ef6233dd7dc/a296c/chimera.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/6fae55ed7800e31c097a4ef6233dd7dc/4b190/chimera.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Photo of The Chimera of Arezzo, c. 400 BC, found in Arezzo, an ancient Etruscan and Roman city in Tuscany, Museo Archeologico Nazionale, Florence. By Carole Raddato. From https://www.flickr.com/photos/carolemage/22636282885&quot; title=&quot;Photo of The Chimera of Arezzo, c. 400 BC, found in Arezzo, an ancient Etruscan and Roman city in Tuscany, Museo Archeologico Nazionale, Florence. By Carole Raddato. From https://www.flickr.com/photos/carolemage/22636282885&quot; src=&quot;https://leewarrick.com/blog/static/6fae55ed7800e31c097a4ef6233dd7dc/a111b/chimera.jpg&quot;&gt;
+  &lt;img alt=&quot;Photo of The Chimera of Arezzo, c. 400 BC, found in Arezzo, an ancient Etruscan and Roman city in Tuscany, Museo Archeologico Nazionale, Florence. By Carole Raddato. From https://www.flickr.com/photos/carolemage/22636282885&quot; title=&quot;Photo of The Chimera of Arezzo, c. 400 BC, found in Arezzo, an ancient Etruscan and Roman city in Tuscany, Museo Archeologico Nazionale, Florence. By Carole Raddato. From https://www.flickr.com/photos/carolemage/22636282885&quot; src=&quot;https://leewarrick.com/blog/static/6fae55ed7800e31c097a4ef6233dd7dc/6aca1/chimera.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;It turns out there’s another option. This is where things start to get sticky, though. Single page applications are already difficult to think about, and typically we like to think about them as using client-side, on-demand rendering only. However it’s now possible to mix and match dynamic and static content on both the client and server.&lt;/p&gt;
@@ -335,9 +519,9 @@ read    | write   | execute
 &lt;p&gt;For example, this blog is built from markdown files, and at build time, Gatsby compiles the markdown files into a React application. You could also query an API or CMS like Wordpress to get your data dynamically at build time. However you’re still free to make API calls at runtime too. &lt;em&gt;You’re still building a React app&lt;/em&gt;. You’re just pre-rendering some of it.&lt;/p&gt;
 &lt;h2&gt;Are you going to talk about JAMstack or not?&lt;/h2&gt;
 &lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/ae37e1c37847fdb615b08e028b0cc707/971c4/impatient.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/ae37e1c37847fdb615b08e028b0cc707/a2510/impatient.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Incredulous looking woman with furrowed brow. Photo by Jeffrey Wegrzyn on https://unsplash.com/photos/K-chxjiTu7c&quot; title=&quot;Incredulous looking woman with furrowed brow. Photo by Jeffrey Wegrzyn on https://unsplash.com/photos/K-chxjiTu7c&quot; src=&quot;https://leewarrick.com/blog/static/ae37e1c37847fdb615b08e028b0cc707/a111b/impatient.jpg&quot;&gt;
+  &lt;img alt=&quot;Incredulous looking woman with furrowed brow. Photo by Jeffrey Wegrzyn on https://unsplash.com/photos/K-chxjiTu7c&quot; title=&quot;Incredulous looking woman with furrowed brow. Photo by Jeffrey Wegrzyn on https://unsplash.com/photos/K-chxjiTu7c&quot; src=&quot;https://leewarrick.com/blog/static/ae37e1c37847fdb615b08e028b0cc707/6aca1/impatient.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Yes! Now we can talk about what is and isn’t JAMstack. JAMstack stands for JavaScript, APIs, and markup. I find that definition entirely unhelpful, hence the lengthy lead-in for this segment.&lt;/p&gt;
@@ -372,9 +556,9 @@ read    | write   | execute
 &lt;h2&gt;Parting thoughts&lt;/h2&gt;
 &lt;p&gt;JAMstack, like most great technological trends, is a pretty awesome solution with a crummy name. It’s not a perfect solution by any stretch, but it empowers front-end developers to build all kinds of sites and applications using their exisiting skills.&lt;/p&gt;
 &lt;p&gt;So what are you waiting for? Get out there and build something!&lt;/p&gt;</content:encoded><atom:link rel="self" href="https://leewarrick.com/blog/rss.xml" type="application/rss+xml"/></item><item><title><![CDATA[The Problem with React's Context API]]></title><description><![CDATA[React’s context API is awesome. As someone that looked at Redux as a junior developer and instantly felt defeated, learning about context…]]></description><link>https://leewarrick.com/blog/the-problem-with-context/</link><guid isPermaLink="false">https://leewarrick.com/blog/the-problem-with-context/</guid><pubDate>Thu, 28 Nov 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/e32a85ecdd68cc08c7896513261f347b/c35de/gorilla.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/e32a85ecdd68cc08c7896513261f347b/e5166/gorilla.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;A Gorilla looking thoughtful by Rob Schreckhise&quot; title=&quot;A Gorilla looking thoughtful by Rob Schreckhise&quot; src=&quot;https://leewarrick.com/blog/static/e32a85ecdd68cc08c7896513261f347b/a111b/gorilla.jpg&quot;&gt;
+  &lt;img alt=&quot;A Gorilla looking thoughtful by Rob Schreckhise&quot; title=&quot;A Gorilla looking thoughtful by Rob Schreckhise&quot; src=&quot;https://leewarrick.com/blog/static/e32a85ecdd68cc08c7896513261f347b/6aca1/gorilla.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;React’s context API is awesome. As someone that looked at Redux as a junior developer and instantly felt defeated, learning about context was a relief. I used it in my apps, quickly forgot about Redux, and never looked back.&lt;/p&gt;
@@ -523,9 +707,9 @@ render(App)
 &lt;p&gt;Kent also spreads his &lt;code&gt;props&lt;/code&gt; on the provider instead of using &lt;code&gt;props.children&lt;/code&gt;, which is a neat trick, so I included that as well.&lt;/p&gt;
 &lt;h2&gt;The Context API’s Dirty Little Secret 🤫&lt;/h2&gt;
 &lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/d204d0e47f5b8ef1bb8bcbba4ab82fa3/c35de/trashman.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/d204d0e47f5b8ef1bb8bcbba4ab82fa3/e5166/trashman.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Man making the shush gesture with his finger over his lip, laying on a mound of trash. Photo by Jordan Beltran&quot; title=&quot;Man making the shush gesture with his finger over his lip, laying on a mound of trash. Photo by Jordan Beltran&quot; src=&quot;https://leewarrick.com/blog/static/d204d0e47f5b8ef1bb8bcbba4ab82fa3/a111b/trashman.jpg&quot;&gt;
+  &lt;img alt=&quot;Man making the shush gesture with his finger over his lip, laying on a mound of trash. Photo by Jordan Beltran&quot; title=&quot;Man making the shush gesture with his finger over his lip, laying on a mound of trash. Photo by Jordan Beltran&quot; src=&quot;https://leewarrick.com/blog/static/d204d0e47f5b8ef1bb8bcbba4ab82fa3/6aca1/trashman.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Boy, the Context API sure is great. It’s super easy to use compared to Redux and requires a lot less code, so why &lt;em&gt;wouldn’t&lt;/em&gt; you use it?&lt;/p&gt;
@@ -745,9 +929,9 @@ render(App)
 &lt;p&gt;Imagine if those message components were doing a lot of work like calculating animations, or if we had a huge React app with lots of components dependent on our context. That could lead to pretty serious performance issues, right?&lt;/p&gt;
 &lt;h2&gt;Should we stop using Context?&lt;/h2&gt;
 &lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/8c27d995b617560da5b04f46a8069006/c35de/trash.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/8c27d995b617560da5b04f46a8069006/e5166/trash.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Sign showing man throwing away trash, photo by Gary Chan&quot; title=&quot;Sign showing man throwing away trash, photo by Gary Chan&quot; src=&quot;https://leewarrick.com/blog/static/8c27d995b617560da5b04f46a8069006/a111b/trash.jpg&quot;&gt;
+  &lt;img alt=&quot;Sign showing man throwing away trash, photo by Gary Chan&quot; title=&quot;Sign showing man throwing away trash, photo by Gary Chan&quot; src=&quot;https://leewarrick.com/blog/static/8c27d995b617560da5b04f46a8069006/6aca1/trash.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;I’ll go ahead and say this now: &lt;strong&gt;no, this isn’t a reason to stop using context&lt;/strong&gt;. There’s a ton of apps out there using context and chugging along just fine, including a bunch of my own apps.&lt;/p&gt;
@@ -844,9 +1028,9 @@ render(App)
 &lt;p&gt;Now our state is only shared with the components that care about that state. When we increment, the colors of our message components stay the same because &lt;code&gt;count&lt;/code&gt; lives outside of &lt;code&gt;messageContext&lt;/code&gt;.&lt;/p&gt;
 &lt;h2&gt;Final Thoughts&lt;/h2&gt;
 &lt;p&gt;Although this article’s title is a little incendiary and the “problem” with context  may not be the boogie man some might envision it to be, I still think this is worth talking about. React’s flexibility makes it both a great framework for beginners as well as a devastating footgun for those that don’t know its inner-workings. I don’t forsee a lot of people tripping over this particular detail, but if you’re using context and seeing performance issues, it’s a good thing to know!&lt;/p&gt;</content:encoded><atom:link rel="self" href="https://leewarrick.com/blog/rss.xml" type="application/rss+xml"/></item><item><title><![CDATA[What are debounce and throttle functions, and how do you write them in JavaScript and React?]]></title><description><![CDATA[Have you ever heard the story of the QWERTY layout on a keyboard? The popular legend is that it was too easy to type if the letters were…]]></description><link>https://leewarrick.com/blog/how-to-debounce/</link><guid isPermaLink="false">https://leewarrick.com/blog/how-to-debounce/</guid><pubDate>Thu, 17 Oct 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/91985b102e11e1a9b8ac2de71cb5733e/c35de/typewriter.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/91985b102e11e1a9b8ac2de71cb5733e/e5166/typewriter.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Photo of Typewriter by Pereanu Sebastian&quot; title=&quot;Photo of Typewriter by Pereanu Sebastian&quot; src=&quot;https://leewarrick.com/blog/static/91985b102e11e1a9b8ac2de71cb5733e/a111b/typewriter.jpg&quot;&gt;
+  &lt;img alt=&quot;Photo of Typewriter by Pereanu Sebastian&quot; title=&quot;Photo of Typewriter by Pereanu Sebastian&quot; src=&quot;https://leewarrick.com/blog/static/91985b102e11e1a9b8ac2de71cb5733e/6aca1/typewriter.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Have you ever heard the story of the QWERTY layout on a keyboard? The &lt;a href=&quot;https://en.wikipedia.org/wiki/Typewriter#QWERTY&quot;&gt;popular legend&lt;/a&gt; is that it was too easy to type if the letters were arranged alphabetically, and this caused mechanical typewriters to jam. The most common letters were too close together, supposedly. So to fix this, the QWERTY layout was invented, to &lt;em&gt;slow down the typist&lt;/em&gt;.&lt;/p&gt;
@@ -1109,9 +1293,9 @@ render(SearchForm)
 &lt;p&gt;But would you ever implement this yourself in real life?&lt;/p&gt;
 &lt;p&gt;Sure! If you just needed simple functionality like this, you could absolutely manage your own debounce logic/helpers in your app. However, there’s no shame in pulling in Lodash and using the &lt;a href=&quot;https://lodash.com/docs/4.17.15#debounce&quot;&gt;debounce&lt;/a&gt; or &lt;a href=&quot;https://lodash.com/docs/4.17.15#throttle&quot;&gt;throttle&lt;/a&gt; functions that they’ve implemented.&lt;/p&gt;
 &lt;p&gt;I find it fun to try and implement my own solutions, and I think it’s worth the mental gymnastics to give this stuff a shot in your own code every once in a while. But don’t be fooled, nobody will judge you if you reach for a third-party solution!&lt;/p&gt;</content:encoded><atom:link rel="self" href="https://leewarrick.com/blog/rss.xml" type="application/rss+xml"/></item><item><title><![CDATA[Front-end Fisticuffs: Angular vs React vs Vue in 2019]]></title><description><![CDATA[Being a front-end developer is a bit like being a cowboy in a rodeo. As a developer, you’ll find yourself wrangling a new framework over and…]]></description><link>https://leewarrick.com/blog/angular-vs-react-vs-vue/</link><guid isPermaLink="false">https://leewarrick.com/blog/angular-vs-react-vs-vue/</guid><pubDate>Sat, 05 Oct 2019 14:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/5aca234f740d624418ae46972aae98c7/c35de/cowboy.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/5aca234f740d624418ae46972aae98c7/e5166/cowboy.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Cowboy riding horse and kicking up dirt by Lee Pigott&quot; title=&quot;Cowboy riding horse and kicking up dirt by Lee Pigott&quot; src=&quot;https://leewarrick.com/blog/static/5aca234f740d624418ae46972aae98c7/a111b/cowboy.jpg&quot;&gt;
+  &lt;img alt=&quot;Cowboy riding horse and kicking up dirt by Lee Pigott&quot; title=&quot;Cowboy riding horse and kicking up dirt by Lee Pigott&quot; src=&quot;https://leewarrick.com/blog/static/5aca234f740d624418ae46972aae98c7/6aca1/cowboy.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Being a front-end developer is a bit like being a cowboy in a rodeo. As a developer, you’ll find yourself wrangling a new framework over and over because of the speed at which the front-end landscape evolves. Sure, learning comes with the territory as a developer, but front-end development in particular is becoming quite the skillset to maintain.&lt;/p&gt;
@@ -1128,9 +1312,9 @@ render(SearchForm)
 &lt;p&gt;If you’re building a static site like a business information page, you might not need a framework. But for complex applications like your banking website or the game I mentioned above, a framework can bring a lot to the table, albeit with its own costs.&lt;/p&gt;
 &lt;h2&gt;The Big 3: Angular, React, and Vue&lt;/h2&gt;
 &lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/3d7cb1773b4a5026fa0ee52622d6d1cb/c35de/threehorses.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/3d7cb1773b4a5026fa0ee52622d6d1cb/e5166/threehorses.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Three Horses, Photo by Doruk Yemenici&quot; title=&quot;Three Horses, Photo by Doruk Yemenici&quot; src=&quot;https://leewarrick.com/blog/static/3d7cb1773b4a5026fa0ee52622d6d1cb/a111b/threehorses.jpg&quot;&gt;
+  &lt;img alt=&quot;Three Horses, Photo by Doruk Yemenici&quot; title=&quot;Three Horses, Photo by Doruk Yemenici&quot; src=&quot;https://leewarrick.com/blog/static/3d7cb1773b4a5026fa0ee52622d6d1cb/6aca1/threehorses.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Before we talk about picking a framework, let’s talk about the differences between them. As of 2019, there’s three big players in the JavaScript front-end framework game: Angular, React and Vue.&lt;/p&gt;
@@ -1189,9 +1373,9 @@ render(SearchForm)
 &lt;/ul&gt;
 &lt;h2&gt;Choosing a Framework&lt;/h2&gt;
 &lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/ab0c4eb0f448243f0b817b9453ad1bd8/c35de/lanternrider.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/ab0c4eb0f448243f0b817b9453ad1bd8/e5166/lanternrider.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Man riding a horse, lighting his path with a lanterm by Priscilla De Preez&quot; title=&quot;Man riding a horse, lighting his path with a lanterm by Priscilla De Preez&quot; src=&quot;https://leewarrick.com/blog/static/ab0c4eb0f448243f0b817b9453ad1bd8/a111b/lanternrider.jpg&quot;&gt;
+  &lt;img alt=&quot;Man riding a horse, lighting his path with a lanterm by Priscilla De Preez&quot; title=&quot;Man riding a horse, lighting his path with a lanterm by Priscilla De Preez&quot; src=&quot;https://leewarrick.com/blog/static/ab0c4eb0f448243f0b817b9453ad1bd8/6aca1/lanternrider.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Now that we’ve talked about the big 3, how do you pick one to learn?&lt;/p&gt;
@@ -1207,9 +1391,9 @@ render(SearchForm)
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: If you’re curious about how web development evolved from Geocities to React, I did &lt;a href=&quot;https://www.youtube.com/watch?v=-W2hZadx8fE&quot;&gt;a brief talk on the history of web development and its current landscape.&lt;/a&gt;&lt;/p&gt;</content:encoded><atom:link rel="self" href="https://leewarrick.com/blog/rss.xml" type="application/rss+xml"/></item><item><title><![CDATA[How to make menus with CSS—no JavaScript or Bootstrap required!]]></title><description><![CDATA[I think a lot of new developers, myself included, are really excited about CSS until it comes time to start building more modern website…]]></description><link>https://leewarrick.com/blog/css-only-menus/</link><guid isPermaLink="false">https://leewarrick.com/blog/css-only-menus/</guid><pubDate>Fri, 27 Sep 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;I think a lot of new developers, myself included, are really excited about CSS until it comes time to start building more modern website features like menus.&lt;/p&gt;
 &lt;p&gt;I remember building my first site, feeling empowered by CSS to do my own styles, and feeling really proud of myself …until I needed a navigation menu.&lt;/p&gt;
 &lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/c0e4e4ede21d6cb9df4bc9393be8e428/c35de/ugh.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/c0e4e4ede21d6cb9df4bc9393be8e428/e5166/ugh.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Pouring coffee into a mug marked &amp;quot;UGH&amp;quot;. Photo by Nathan Dumlao&quot; title=&quot;Pouring coffee into a mug marked &amp;quot;UGH&amp;quot;. Photo by Nathan Dumlao&quot; src=&quot;https://leewarrick.com/blog/static/c0e4e4ede21d6cb9df4bc9393be8e428/a111b/ugh.jpg&quot;&gt;
+  &lt;img alt=&quot;Pouring coffee into a mug marked &amp;quot;UGH&amp;quot;. Photo by Nathan Dumlao&quot; title=&quot;Pouring coffee into a mug marked &amp;quot;UGH&amp;quot;. Photo by Nathan Dumlao&quot; src=&quot;https://leewarrick.com/blog/static/c0e4e4ede21d6cb9df4bc9393be8e428/6aca1/ugh.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;As soon as I added a few links to my header, I began to run out of room on smaller screens. My site had to look good on mobile, so I was left with a choice:&lt;/p&gt;
@@ -1885,9 +2069,9 @@ details li {
 &lt;h2&gt;Parting Thoughts&lt;/h2&gt;
 &lt;p&gt;CSS is powerful, and we could all use more excuses to practice and learn more and do more with it. HTML deserves a shout-out here as well. You can build a lot with HTML and CSS alone. Certainly more than I thought was possible when I started out.&lt;/p&gt;
 &lt;p&gt;JavaScript may rule the world, but CSS and HTML deserve your attention as a front-end developer as well.&lt;/p&gt;</content:encoded><atom:link rel="self" href="https://leewarrick.com/blog/rss.xml" type="application/rss+xml"/></item><item><title><![CDATA[Bridging the Gap between React's useState, useReducer, and Redux]]></title><description><![CDATA[Redux is one of those technologies that I consider a “personal Everest”. Everytime I look at it, I feel like there’s no end to the…]]></description><link>https://leewarrick.com/blog/a-guide-to-usestate-and-usereducer/</link><guid isPermaLink="false">https://leewarrick.com/blog/a-guide-to-usestate-and-usereducer/</guid><pubDate>Thu, 12 Sep 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/ba29f3c8bad89c521880863a2ddfe9a2/c35de/mindthegap.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/ba29f3c8bad89c521880863a2ddfe9a2/e5166/mindthegap.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Photo of a man carelessly leaping over a very deep chasm by Alex Radelich&quot; title=&quot;Photo of a man carelessly leaping over a very deep chasm by Alex Radelich&quot; src=&quot;https://leewarrick.com/blog/static/ba29f3c8bad89c521880863a2ddfe9a2/a111b/mindthegap.jpg&quot;&gt;
+  &lt;img alt=&quot;Photo of a man carelessly leaping over a very deep chasm by Alex Radelich&quot; title=&quot;Photo of a man carelessly leaping over a very deep chasm by Alex Radelich&quot; src=&quot;https://leewarrick.com/blog/static/ba29f3c8bad89c521880863a2ddfe9a2/6aca1/mindthegap.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Redux is one of those technologies that I consider a “personal Everest”. Everytime I look at it, I feel like there’s no end to the boilerplate and patterns to memorize.&lt;/p&gt;
@@ -1951,9 +2135,9 @@ render(FormExample)
 &lt;p&gt;And what if you need to manage more complicated data structures or perform side effects?&lt;/p&gt;
 &lt;h2&gt;The ‘useReducer’ Hook&lt;/h2&gt;
 &lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/1a1acb148e3f2c1505bb60e360fc0d10/c35de/cooking.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/1a1acb148e3f2c1505bb60e360fc0d10/e5166/cooking.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Photo of a man stirring a campfire cooking pot by Gary Sandoz&quot; title=&quot;Photo of a man stirring a campfire cooking pot by Gary Sandoz&quot; src=&quot;https://leewarrick.com/blog/static/1a1acb148e3f2c1505bb60e360fc0d10/a111b/cooking.jpg&quot;&gt;
+  &lt;img alt=&quot;Photo of a man stirring a campfire cooking pot by Gary Sandoz&quot; title=&quot;Photo of a man stirring a campfire cooking pot by Gary Sandoz&quot; src=&quot;https://leewarrick.com/blog/static/1a1acb148e3f2c1505bb60e360fc0d10/6aca1/cooking.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Now we’ve entered &lt;code&gt;useReducer&lt;/code&gt; territory. The reducer in ‘useReducer’ comes from Redux, which in turn borrowed it from JavaScript’s &lt;code&gt;Array.reduce()&lt;/code&gt;.&lt;/p&gt;
@@ -2597,9 +2781,9 @@ render(FormExample)
 &lt;h2&gt;Parting Thoughts&lt;/h2&gt;
 &lt;p&gt;This post is full of advanced concepts and I hope that you were able to learn some of them even if you didn’t make it all the way to the end. &lt;strong&gt;Don’t fret if you didn’t understand every concept and example.&lt;/strong&gt; Start at the easy stuff, and start applying and practicing those concepts first in your own code before moving on to the more difficult concepts. That’s how I learned them.&lt;/p&gt;
 &lt;p&gt;Thanks for reading this huge article, cheers!&lt;/p&gt;</content:encoded><atom:link rel="self" href="https://leewarrick.com/blog/rss.xml" type="application/rss+xml"/></item><item><title><![CDATA[React's useEffect and useRef Explained for Mortals]]></title><description><![CDATA[If the React docs leave you in the dust, or Dan Abramov’s blog makes you feel like you’re reading a scroll handed down from Mt Olympus…]]></description><link>https://leewarrick.com/blog/react-use-effect-explained/</link><guid isPermaLink="false">https://leewarrick.com/blog/react-use-effect-explained/</guid><pubDate>Fri, 06 Sep 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/fdb92914fc9093dee6a2c20dad8fbd50/c35de/acropolis.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/fdb92914fc9093dee6a2c20dad8fbd50/e5166/acropolis.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Photo of the Acropolis of Athens, Athens, Greece by Cristina Gottardi&quot; title=&quot;Photo of the Acropolis of Athens, Athens, Greece by Cristina Gottardi&quot; src=&quot;https://leewarrick.com/blog/static/fdb92914fc9093dee6a2c20dad8fbd50/a111b/acropolis.jpg&quot;&gt;
+  &lt;img alt=&quot;Photo of the Acropolis of Athens, Athens, Greece by Cristina Gottardi&quot; title=&quot;Photo of the Acropolis of Athens, Athens, Greece by Cristina Gottardi&quot; src=&quot;https://leewarrick.com/blog/static/fdb92914fc9093dee6a2c20dad8fbd50/6aca1/acropolis.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;If the React docs leave you in the dust, or Dan Abramov’s &lt;a href=&quot;https://overreacted.io/a-complete-guide-to-useeffect/&quot;&gt;blog&lt;/a&gt; makes you feel like you’re reading a scroll handed down from Mt Olympus written in ancient Greek, you’re not alone.&lt;/p&gt;
@@ -2863,9 +3047,9 @@ render(&amp;lt;PokemonForm /&amp;gt;)
 &lt;p&gt;In any case, I’ve fallen into the stale closure trap many, many times when writing hooks. I didn’t even know it had a name until I read it in &lt;a href=&quot;https://docs.google.com/presentation/d/1PUvpXMBEDS45rd0wHu6tF3j_8wmGC6cOLtOw2hzU-mw/edit#slide=id.p&quot;&gt;this talk&lt;/a&gt; by Rich Harris, the man behind &lt;a href=&quot;https://svelte.dev/&quot;&gt;Svelte&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Apparently, I’m not the only one tripping over them in hooks, either:&lt;/p&gt;
 &lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/5a5dbcc6667a5da9eeabc5cbe90a1427/ed46b/staleclosures.png&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/5a5dbcc6667a5da9eeabc5cbe90a1427/f213e/staleclosures.png&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Photo of Tweet by Kent Dodds asking about hooks pitfalls and a snarky response of &amp;quot;stale closures&amp;quot;&quot; title=&quot;Photo of Tweet by Kent Dodds asking about hooks pitfalls and a snarky response of &amp;quot;stale closures&amp;quot;&quot; src=&quot;https://leewarrick.com/blog/static/5a5dbcc6667a5da9eeabc5cbe90a1427/dbb61/staleclosures.png&quot;&gt;
+  &lt;img alt=&quot;Photo of Tweet by Kent Dodds asking about hooks pitfalls and a snarky response of &amp;quot;stale closures&amp;quot;&quot; title=&quot;Photo of Tweet by Kent Dodds asking about hooks pitfalls and a snarky response of &amp;quot;stale closures&amp;quot;&quot; src=&quot;https://leewarrick.com/blog/static/5a5dbcc6667a5da9eeabc5cbe90a1427/a6d36/staleclosures.png&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;React even mentions it in their &lt;a href=&quot;https://reactjs.org/docs/hooks-faq.html#why-am-i-seeing-stale-props-or-state-inside-my-function&quot;&gt;docs&lt;/a&gt;:&lt;/p&gt;
@@ -3005,10 +3189,10 @@ render(&amp;lt;Counter/&amp;gt;)
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;You won’t see the ref count change until you trigger a re-render by setting state.&lt;/p&gt;
 &lt;h2&gt;Parting Thoughts&lt;/h2&gt;
-&lt;p&gt;I love hooks and functional components in React, but the quirks I’ve outlined have given me pause. I don’t like being required to know so much about the inner-workings of React to use it. I think it presents a roadblock for those learning React, and I hope in the future the React team comes up with some better ways to handle these quirks.&lt;/p&gt;</content:encoded><atom:link rel="self" href="https://leewarrick.com/blog/rss.xml" type="application/rss+xml"/></item><item><title><![CDATA[Staying Sane while Organizing CSS]]></title><description><![CDATA[In my time as a front-end developer, I’ve seen and heard a lot of gripes about CSS.I often see people reach for a CSS framework like…]]></description><link>https://leewarrick.com/blog/staying-sane-with-css/</link><guid isPermaLink="false">https://leewarrick.com/blog/staying-sane-with-css/</guid><pubDate>Sun, 01 Sep 2019 17:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/2fd06797aa9f09bb57ed8458570b82f3/971c4/mugcss.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+&lt;p&gt;I love hooks and functional components in React, but the quirks I’ve outlined have given me pause. I don’t like being required to know so much about the inner-workings of React to use it. I think it presents a roadblock for those learning React, and I hope in the future the React team comes up with some better ways to handle these quirks.&lt;/p&gt;</content:encoded><atom:link rel="self" href="https://leewarrick.com/blog/rss.xml" type="application/rss+xml"/></item><item><title><![CDATA[Staying Sane while Organizing CSS]]></title><description><![CDATA[In my time as a front-end developer, I’ve seen and heard a lot of gripes about CSS. I often see people reach for a CSS framework like…]]></description><link>https://leewarrick.com/blog/staying-sane-with-css/</link><guid isPermaLink="false">https://leewarrick.com/blog/staying-sane-with-css/</guid><pubDate>Sun, 01 Sep 2019 17:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/2fd06797aa9f09bb57ed8458570b82f3/a2510/mugcss.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Mug with &apos;CSS is Awesome&apos; written on it, but &apos;Awesome&apos; overflows the border of the text&quot; title=&quot;Mug with &apos;CSS is Awesome&apos; written on it, but &apos;Awesome&apos; overflows the border of the text&quot; src=&quot;https://leewarrick.com/blog/static/2fd06797aa9f09bb57ed8458570b82f3/a111b/mugcss.jpg&quot;&gt;
+  &lt;img alt=&quot;Mug with &apos;CSS is Awesome&apos; written on it, but &apos;Awesome&apos; overflows the border of the text&quot; title=&quot;Mug with &apos;CSS is Awesome&apos; written on it, but &apos;Awesome&apos; overflows the border of the text&quot; src=&quot;https://leewarrick.com/blog/static/2fd06797aa9f09bb57ed8458570b82f3/6aca1/mugcss.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;In my time as a front-end developer, I’ve seen and heard a lot of gripes about CSS.&lt;/p&gt;
@@ -3220,9 +3404,9 @@ render(&amp;lt;Counter/&amp;gt;)
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: If you check this layout on mobile, you’ll see it is responsive without any additional work. The &lt;code&gt;flex-wrap&lt;/code&gt; property makes our children elements wrap to a new line if there’s not enough space. Flexbox in general works very well with creating responsive layouts.&lt;/p&gt;
 &lt;h2&gt;Parting Thoughts&lt;/h2&gt;
 &lt;p&gt;Hopefully by now you see the power of applying some organizational principles to your CSS. With a little practice, you can get some amazing things done with only a few lines of code.&lt;/p&gt;</content:encoded><atom:link rel="self" href="https://leewarrick.com/blog/rss.xml" type="application/rss+xml"/></item><item><title><![CDATA[Finding the Courage to Code]]></title><description><![CDATA[Once I overheard someone describe a kid they met that knew he wanted to be a podiatrist 👣👨‍⚕️ at age 6. This story is not about that…]]></description><link>https://leewarrick.com/blog/the-courage-to-code/</link><guid isPermaLink="false">https://leewarrick.com/blog/the-courage-to-code/</guid><pubDate>Sun, 25 Aug 2019 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/6d10004003ed837c7402cd1283b0d75b/971c4/roadsign.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/6d10004003ed837c7402cd1283b0d75b/a2510/roadsign.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Photo of Lonely Winding Road Sign by Fabien Bazanegue&quot; title=&quot;Photo of Lonely Winding Road Sign by Fabien Bazanegue&quot; src=&quot;https://leewarrick.com/blog/static/6d10004003ed837c7402cd1283b0d75b/a111b/roadsign.jpg&quot;&gt;
+  &lt;img alt=&quot;Photo of Lonely Winding Road Sign by Fabien Bazanegue&quot; title=&quot;Photo of Lonely Winding Road Sign by Fabien Bazanegue&quot; src=&quot;https://leewarrick.com/blog/static/6d10004003ed837c7402cd1283b0d75b/6aca1/roadsign.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Once I overheard someone describe a kid they met that knew he wanted to be a podiatrist 👣👨‍⚕️ at age 6. This story is not about that person.&lt;/p&gt;
@@ -3247,9 +3431,9 @@ render(&amp;lt;Counter/&amp;gt;)
 &lt;p&gt;I thought, &lt;em&gt;“If I’ve spent a year learning to code, and this is how far I’ve come, how will I ever make anything useful?”&lt;/em&gt;&lt;/p&gt;
 &lt;h2&gt;Succombing to Self-doubt&lt;/h2&gt;
 &lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/850489fa2701f344d35eca8247973d96/971c4/desert.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/850489fa2701f344d35eca8247973d96/a2510/desert.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Photo of a man walking through the desert by Dan Grinwis&quot; title=&quot;Photo of a man walking through the desert by Dan Grinwis&quot; src=&quot;https://leewarrick.com/blog/static/850489fa2701f344d35eca8247973d96/a111b/desert.jpg&quot;&gt;
+  &lt;img alt=&quot;Photo of a man walking through the desert by Dan Grinwis&quot; title=&quot;Photo of a man walking through the desert by Dan Grinwis&quot; src=&quot;https://leewarrick.com/blog/static/850489fa2701f344d35eca8247973d96/6aca1/desert.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;I saw myself as hopelessly outmatched. I convinced myself that coding was for child prodigies and geniuses only seen on TV. I did all the mental gymnastics required to convince myself that I was the problem.&lt;/p&gt;
@@ -3276,9 +3460,9 @@ render(&amp;lt;Counter/&amp;gt;)
 &lt;p&gt;So there I was with like-minded, indecisive people that were struggling to learn, having fun building things, and just as clueless as I was. It was so radically different from that college class I had taken fifteen years ago. It was invigorating.&lt;/p&gt;
 &lt;h2&gt;Getting Hired as a Developer&lt;/h2&gt;
 &lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/611c7daf802a5a15a05cc4c0bd3df098/971c4/climbing.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/611c7daf802a5a15a05cc4c0bd3df098/a2510/climbing.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Photo of man climbing a mountain in Yosemite by Billy Onjea&quot; title=&quot;Photo of man climbing a mountain in Yosemite by Billy Onjea&quot; src=&quot;https://leewarrick.com/blog/static/611c7daf802a5a15a05cc4c0bd3df098/a111b/climbing.jpg&quot;&gt;
+  &lt;img alt=&quot;Photo of man climbing a mountain in Yosemite by Billy Onjea&quot; title=&quot;Photo of man climbing a mountain in Yosemite by Billy Onjea&quot; src=&quot;https://leewarrick.com/blog/static/611c7daf802a5a15a05cc4c0bd3df098/6aca1/climbing.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;I worked very, very hard in class. I knew that this was my chance to change course. I took it very seriously.&lt;/p&gt;
@@ -3304,9 +3488,9 @@ render(&amp;lt;Counter/&amp;gt;)
 &lt;p&gt;It’s a little like the &lt;a href=&quot;https://psychcentral.com/lib/the-5-stages-of-loss-and-grief/&quot;&gt;five stages of grief&lt;/a&gt;; some people are in different spots or skip steps, but everyone struggles through roughly the same process.&lt;/p&gt;
 &lt;h2&gt;1. Exposure to a New Topic&lt;/h2&gt;
 &lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/2da77f2fee4504f6c268c971c8947f5b/971c4/pain.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/2da77f2fee4504f6c268c971c8947f5b/a2510/pain.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Photo by Aarón Blanco Tejedor of mural of man in pain&quot; title=&quot;Photo by Aarón Blanco Tejedor of mural of man in pain&quot; src=&quot;https://leewarrick.com/blog/static/2da77f2fee4504f6c268c971c8947f5b/a111b/pain.jpg&quot;&gt;
+  &lt;img alt=&quot;Photo by Aarón Blanco Tejedor of mural of man in pain&quot; title=&quot;Photo by Aarón Blanco Tejedor of mural of man in pain&quot; src=&quot;https://leewarrick.com/blog/static/2da77f2fee4504f6c268c971c8947f5b/6aca1/pain.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;When you’re first introduced to a completely new concept, it can be overwhelming.&lt;/p&gt;
@@ -3363,9 +3547,9 @@ render(&amp;lt;Counter/&amp;gt;)
 &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; If you’re looking for a blog post topic, this is a great start. I &lt;strong&gt;guarantee&lt;/strong&gt; that the workflow knowledge you take for granted is crucial to a novice’s continued learning out there. You probably know more than you think you do, so share it.&lt;/p&gt;
 &lt;h2&gt;4. Defining a Small, Attainable Goal&lt;/h2&gt;
 &lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/97619f9c4f00665ce37cb17d3dc5c2fb/971c4/lego.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/97619f9c4f00665ce37cb17d3dc5c2fb/a2510/lego.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Photo by Kelly Sikkema of a child building a rocket ship out of legos&quot; title=&quot;Photo by Kelly Sikkema of a child building a rocket ship out of legos&quot; src=&quot;https://leewarrick.com/blog/static/97619f9c4f00665ce37cb17d3dc5c2fb/a111b/lego.jpg&quot;&gt;
+  &lt;img alt=&quot;Photo by Kelly Sikkema of a child building a rocket ship out of legos&quot; title=&quot;Photo by Kelly Sikkema of a child building a rocket ship out of legos&quot; src=&quot;https://leewarrick.com/blog/static/97619f9c4f00665ce37cb17d3dc5c2fb/6aca1/lego.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Once you’ve got a good workflow and can actually execute the code you’re writing, it’s time to figure out something to build.&lt;/p&gt;
@@ -3397,9 +3581,9 @@ render(&amp;lt;Counter/&amp;gt;)
 &lt;p&gt;✨🎵🕊&lt;strong&gt;G L O R I O U S&lt;/strong&gt;🕊🎵✨&lt;/p&gt;
 &lt;h2&gt;6. Maintaining Momentum&lt;/h2&gt;
 &lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/d67696a08dc0564dba337868a19c524a/971c4/hiking.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/d67696a08dc0564dba337868a19c524a/a2510/hiking.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Photo by Brian Erickson of running on a mountain pass&quot; title=&quot;Photo by Brian Erickson of running on a mountain pass&quot; src=&quot;https://leewarrick.com/blog/static/d67696a08dc0564dba337868a19c524a/a111b/hiking.jpg&quot;&gt;
+  &lt;img alt=&quot;Photo by Brian Erickson of running on a mountain pass&quot; title=&quot;Photo by Brian Erickson of running on a mountain pass&quot; src=&quot;https://leewarrick.com/blog/static/d67696a08dc0564dba337868a19c524a/6aca1/hiking.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Once you have that first win, it’s time to get another under your belt.&lt;/p&gt;
@@ -3416,9 +3600,9 @@ render(&amp;lt;Counter/&amp;gt;)
 &lt;p&gt;Becomes: &lt;em&gt;“Hmm, better figure out a workflow.”&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;And so on.&lt;/p&gt;
 &lt;p&gt;I’ve been through these steps myself many times as a developer. You’ll get faster if you keep going.&lt;/p&gt;</content:encoded><atom:link rel="self" href="https://leewarrick.com/blog/rss.xml" type="application/rss+xml"/></item><item><title><![CDATA[How to Debug JavaScript Quickly]]></title><description><![CDATA[If you’ve ever thought, “meh… I’m fine with console.log, learning to debug is as painful as rolling in fire ants”, this article is for you…]]></description><link>https://leewarrick.com/blog/debugging-javascript/</link><guid isPermaLink="false">https://leewarrick.com/blog/debugging-javascript/</guid><pubDate>Mon, 12 Aug 2019 03:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/d8b30a405f9f7076dc088249d765c2bf/96f4b/fireants.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/d8b30a405f9f7076dc088249d765c2bf/4012a/fireants.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Photo of fire ants&quot; title=&quot;Photo of fire ants&quot; src=&quot;https://leewarrick.com/blog/static/d8b30a405f9f7076dc088249d765c2bf/a111b/fireants.jpg&quot;&gt;
+  &lt;img alt=&quot;Photo of fire ants&quot; title=&quot;Photo of fire ants&quot; src=&quot;https://leewarrick.com/blog/static/d8b30a405f9f7076dc088249d765c2bf/6aca1/fireants.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;If you’ve ever thought, &lt;em&gt;“meh… I’m fine with&lt;/em&gt; &lt;code&gt;console.log&lt;/code&gt;&lt;em&gt;, learning to debug is as painful as rolling in fire ants”&lt;/em&gt;, this article is for you!&lt;/p&gt;
@@ -3873,7 +4057,7 @@ console.log(&quot;Mama makes a meatball that&apos;s &quot; + /*meatball.&amp;lt;
 &lt;p&gt;If reading this post discouraged you from podcasting, that wasn’t my intention.&lt;/p&gt;
 &lt;p&gt;If you’re passionate about it, do it! My aim was to help you succeed by covering all the facets of podcasting you might not have thought about. So I hope this post was helpful and informative. I truly enjoy producing content for Tech Jr, and I hope to be able to continue to do so.&lt;/p&gt;
 &lt;p&gt;Many thanks to all the other podcasters out there that offer advice and support for our show. And kudos to those podcasters out there that continue to deliver great content.&lt;/p&gt;
-&lt;p&gt;And of course, thank you, reader, for making it through this lengthy post. 👏😎✨&lt;/p&gt;</content:encoded><atom:link rel="self" href="https://leewarrick.com/blog/rss.xml" type="application/rss+xml"/></item><item><title><![CDATA[7 Bad Habits of a Successful Developer]]></title><description><![CDATA[Welcome to my blog!I’m a front-end developer, meetup organizer, podcast host, and I get paid for some of those things.Before we start, I’m…]]></description><link>https://leewarrick.com/blog/bad-habits-successful-dev/</link><guid isPermaLink="false">https://leewarrick.com/blog/bad-habits-successful-dev/</guid><pubDate>Fri, 12 Jul 2019 14:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Welcome to my blog!&lt;/p&gt;
+&lt;p&gt;And of course, thank you, reader, for making it through this lengthy post. 👏😎✨&lt;/p&gt;</content:encoded><atom:link rel="self" href="https://leewarrick.com/blog/rss.xml" type="application/rss+xml"/></item><item><title><![CDATA[7 Bad Habits of a Successful Developer]]></title><description><![CDATA[Welcome to my blog! I’m a front-end developer, meetup organizer, podcast host, and I get paid for some of those things. Before we start, I’m…]]></description><link>https://leewarrick.com/blog/bad-habits-successful-dev/</link><guid isPermaLink="false">https://leewarrick.com/blog/bad-habits-successful-dev/</guid><pubDate>Fri, 12 Jul 2019 14:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Welcome to my blog!&lt;/p&gt;
 &lt;p&gt;I’m a front-end &lt;a href=&quot;https://www.linkedin.com/in/lee-warrick&quot;&gt;developer&lt;/a&gt;, meetup &lt;a href=&quot;https://meetup.com/project-code-experience&quot;&gt;organizer&lt;/a&gt;, &lt;a href=&quot;https://techjr.dev&quot;&gt;podcast&lt;/a&gt; host, and I get paid for some of those things.&lt;/p&gt;
 &lt;p&gt;Before we start, I’m not saying you have to be or do all those things to be successful. Making software is really my only metric for being successful as a developer. If you code and make things, that’s what matters at the end of the day. Everything else is a bonus in my book.&lt;/p&gt;
 &lt;p&gt;That being said, I’d like to talk about some things that I could do better.&lt;/p&gt;
@@ -3884,9 +4068,9 @@ console.log(&quot;Mama makes a meatball that&apos;s &quot; + /*meatball.&amp;lt;
 &lt;p&gt;Don’t do this. Take a break, get away from the screen, and go walk around outside for a few minutes.&lt;/p&gt;
 &lt;h2&gt;2. Going down rabbit holes&lt;/h2&gt;
 &lt;p&gt;&lt;span&gt;
-      &lt;a href=&quot;https://leewarrick.com/blog/static/a321c6d327761b0f5e89e8ca5b4a5da7/96f4b/rabbit.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+      &lt;a href=&quot;https://leewarrick.com/blog/static/a321c6d327761b0f5e89e8ca5b4a5da7/4012a/rabbit.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
-  &lt;img alt=&quot;Photo of a peaceful Rabbit&quot; title=&quot;Photo of a peaceful Rabbit&quot; src=&quot;https://leewarrick.com/blog/static/a321c6d327761b0f5e89e8ca5b4a5da7/a111b/rabbit.jpg&quot;&gt;
+  &lt;img alt=&quot;Photo of a peaceful Rabbit&quot; title=&quot;Photo of a peaceful Rabbit&quot; src=&quot;https://leewarrick.com/blog/static/a321c6d327761b0f5e89e8ca5b4a5da7/6aca1/rabbit.jpg&quot; loading=&quot;lazy&quot;&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;“Going down a rabbit hole” is what happens when you run into a problem while writing code and start jumping between researching solutions, without actually accomplishing the task.&lt;/p&gt;
