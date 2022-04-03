@@ -28,7 +28,7 @@ function CodeProvider(props) {
     setLogs(refLogs.current)
   }
   useEffect(() => {
-    const checkWindow = () => window.innerWidth < 980 ? setShouldShowEditor(false) : setShouldShowEditor(true)
+    const checkWindow = () => window.innerWidth <= 600 ? setShouldShowEditor(false) : setShouldShowEditor(true)
     checkWindow()
     const determineWindowSize = (() => {
       let timeoutId
