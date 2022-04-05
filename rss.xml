@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 04 Apr 2022 18:44:15 GMT</lastBuildDate><item><title><![CDATA[What's the point of tests?]]></title><description><![CDATA[Testing is a subject that nearly every tutorial and course tends to gracefully skip over. This is tragic because as soon as you enter the…]]></description><link>https://leewarrick.com/blog/why-write-tests/</link><guid isPermaLink="false">https://leewarrick.com/blog/why-write-tests/</guid><pubDate>Sun, 03 Apr 2022 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Strings and Things]]></title><description><![CDATA[A blog that's mostly about code. I talk about front-end web development, give career advice, and sometimes ruminate on life lessons learned with connections to code]]></description><link>https://leewarrick.com/blog</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 05 Apr 2022 01:31:25 GMT</lastBuildDate><item><title><![CDATA[What's the point of tests?]]></title><description><![CDATA[Testing is a subject that nearly every tutorial and course tends to gracefully skip over. This is tragic because as soon as you enter the…]]></description><link>https://leewarrick.com/blog/why-write-tests/</link><guid isPermaLink="false">https://leewarrick.com/blog/why-write-tests/</guid><pubDate>Sun, 03 Apr 2022 16:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span&gt;
       &lt;a href=&quot;https://leewarrick.com/blog/static/f895f08a8735a26c5e6869bb5b314632/a2510/multimeter.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
     &lt;span&gt;&lt;/span&gt;
   &lt;img alt=&quot;Picture of a multimeter testing circuits. Photo by Nicolas Thomas https://unsplash.com/photos/3GZi6OpSDcY&quot; title=&quot;Picture of a multimeter testing circuits. Photo by Nicolas Thomas https://unsplash.com/photos/3GZi6OpSDcY&quot; src=&quot;https://leewarrick.com/blog/static/f895f08a8735a26c5e6869bb5b314632/6aca1/multimeter.jpg&quot; loading=&quot;lazy&quot;&gt;
@@ -222,6 +222,38 @@ should ignore letter casing
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Well-written tests can be a great reference for understanding how a piece of code works without having to step through the implementation. Looking at the test cases above, you’re able to learn a lot about the function in question without even looking at the function’s code.&lt;/p&gt;
 &lt;p&gt;Not only do these tests tell the developer &lt;em&gt;exactly&lt;/em&gt; how the function is supposed to behave, when you run the tests they &lt;strong&gt;enforce&lt;/strong&gt; those rules as well. Including automation that runs these tests before deploys provides a pretty powerful system to prevent breaking the project when refactoring or introducing new features.&lt;/p&gt;
+&lt;h2&gt;Tests force us to reflect on implementation&lt;/h2&gt;
+&lt;p&gt;Testing forces us to think about our code beyond how it solves our immediate problem. Naturally that means thinking of aforementioned edge cases, but it also makes us think about the how the program itself is constructed.&lt;/p&gt;
+&lt;p&gt;Let’s say we were working on a calculator application. We’re implementing an add function for our app, and so we write it to take two numbers, and output them to the paragraph tag below:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;h3&amp;gt;Calculator Output: &amp;lt;span id=&quot;output&quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/h3&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;function add(num1, num2) {
+  const sum = num1 + num2
+  document.getElementById(&apos;output&apos;).textContent = sum
+}
+
+add(2, 3)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;All done, right? Well, let’s say we now want to write a test for our add function. Unlike &lt;code&gt;isPalindrome&lt;/code&gt; above, &lt;code&gt;add&lt;/code&gt; doesn’t just return its output, it sends it to the DOM. Our &lt;code&gt;add&lt;/code&gt; function has a side effect: it depends on certain HTML elements to exist to function properly. To write our test, we have to either stub &lt;code&gt;getElementById&lt;/code&gt; and monitor it to make sure it’s being passed the correct input, or access the &lt;code&gt;#output&lt;/code&gt; element to check its text. &lt;/p&gt;
+&lt;p&gt;We could do those things, but do we really need to test that &lt;code&gt;getElementById&lt;/code&gt; is implemented correctly? I’d argue that the engineers at Google and Mozilla are very capable of maintaining this JS feature without us needing to test it. What we really need to know is if we’re adding correctly.&lt;/p&gt;
+&lt;p&gt;With that in mind, it might make more sense to split our function into two and separate the DOM manipulation from the calculation. &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function add(num1, num2) {
+  return num1 + num2
+}
+function updateOutput(value) {
+  document.getElementById(&apos;output&apos;).textContent = value
+}
+
+describe(&apos;add&apos;, () =&amp;gt; {
+    it(&apos;should add two numbers&apos;, () =&amp;gt; {
+        expect(add(2, 3)).to.eq(5)
+    })
+})
+
+mocha.run()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We’ve isolated a side effect and made &lt;code&gt;add&lt;/code&gt; a pure function without really thinking about the code from a functional standpoint. We refactored to make testing easier, but code that’s easy to test is also more reusable and maintainable. Since this is a calculator app, we’re likely to need to update the DOM in the same way for other operations like multiplication and division. We’re also now free to use the add function in other places in the app as we see fit.&lt;/p&gt;
+&lt;p&gt;Even though it’s a bit silly to write a test for something like an addition operation, the exercise of thinking about the code and how to test it has guided us to a better solution. This is why it’s often said that code that’s hard to test is a “code smell”. &lt;/p&gt;
 &lt;h2&gt;Closing thoughts&lt;/h2&gt;
 &lt;p&gt;Writing tests is like writing documentation or learning Git: you don’t appreciate it until you need it. Because tests don’t directly contribute to the functionality of the product, they’re often overlooked by teams looking to iterate quickly. You’d be hard-pressed to find good tutorials on tests or courses that bother to spend time teaching how to write them for the same reason.&lt;/p&gt;
 &lt;p&gt;However, the nature of code is that it’s temporary. There will always be revisions, refactors, or rewrites to any code that lives long enough to be deemed legacy. In each of those cases, well-written tests can make a huge difference when revisiting old code.&lt;/p&gt;
