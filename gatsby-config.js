@@ -1,5 +1,5 @@
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
+const jsdom = require('jsdom')
+const { JSDOM } = jsdom
 const sitePrefix = '/blog'
 const siteTitle = `Strings and Things`
 const author = `Lee Warrick`
@@ -36,13 +36,13 @@ module.exports = {
       options: {
         plugins: [
           {
-            resolve: 'gatsby-remark-images'
+            resolve: 'gatsby-remark-images',
           },
           {
             resolve: `gatsby-remark-copy-linked-files`,
           },
           {
-            resolve: 'gatsby-remark-smartypants'
+            resolve: 'gatsby-remark-smartypants',
           },
           {
             resolve: `gatsby-remark-twitter-cards`,
@@ -55,7 +55,9 @@ module.exports = {
               titleFontSize: 108,
               subtitleFontSize: 72,
               // fontStyle: 'monospace', // default
-              fontFile: require.resolve('./content/assets/TitilliumWeb-Black.ttf') // will override fontStyle - path to custom TTF font
+              fontFile: require.resolve(
+                './content/assets/TitilliumWeb-Black.ttf'
+              ), // will override fontStyle - path to custom TTF font
             },
           },
         ],
@@ -102,10 +104,13 @@ module.exports = {
         feeds: [
           {
             serialize: ({ query: { site, allMarkdownRemark } }) =>
-            allMarkdownRemark.edges.map(edge => {
+              allMarkdownRemark.edges.map(edge => {
                 const dom = new JSDOM(edge.node.html)
                 dom.window.document.querySelectorAll('img').forEach(img => {
-                  const siteUrl = site.siteMetadata.siteUrl.replace(sitePrefix, "")
+                  const siteUrl = site.siteMetadata.siteUrl.replace(
+                    sitePrefix,
+                    ''
+                  )
                   img.src = siteUrl + img.src
                   img.parentNode.href = siteUrl + img.parentNode.href
                 })
@@ -117,26 +122,26 @@ module.exports = {
                   element.removeAttribute('sizes')
                 })
                 const siteHTMLString = dom.window.document.body.innerHTML
-                  // .replace(/\n/g, "") // remove newline
-                  // .replace(/[\t ]+\</g, "<") // remove whitespace before tags
-                  // .replace(/\>[\t ]+\</g, "><") // remove ws between tags
-                  // .replace(/\>[\t ]+$/g, ">") // remove ws after tags
+                // .replace(/\n/g, "") // remove newline
+                // .replace(/[\t ]+\</g, "<") // remove whitespace before tags
+                // .replace(/\>[\t ]+\</g, "><") // remove ws between tags
+                // .replace(/\>[\t ]+$/g, ">") // remove ws after tags
                 return {
                   ...edge.node.frontmatter,
                   description: edge.node.excerpt,
                   url: site.siteMetadata.siteUrl + edge.node.fields.slug,
                   guid: site.siteMetadata.siteUrl + edge.node.fields.slug,
                   custom_elements: [
-                    { "content:encoded": siteHTMLString },
+                    { 'content:encoded': siteHTMLString },
                     {
-                      "atom:link": {
+                      'atom:link': {
                         _attr: {
-                          rel: "self",
+                          rel: 'self',
                           href: site.siteMetadata.siteUrl + '/rss.xml',
-                          type: "application/rss+xml"
+                          type: 'application/rss+xml',
                         },
-                      }
-                    }
+                      },
+                    },
                   ],
                 }
               }),
@@ -168,7 +173,7 @@ module.exports = {
             output: `rss.xml`,
           },
         ],
-      }
+      },
     },
     {
       resolve: `gatsby-plugin-manifest`,

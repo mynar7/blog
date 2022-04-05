@@ -11,6 +11,7 @@ class BlogIndex extends React.Component {
     const { data } = this.props
     const siteTitle = data.site.siteMetadata.title
     const posts = data.allMdx.edges
+    const { homeUrl } = data.site.siteMetadata
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
@@ -21,6 +22,7 @@ class BlogIndex extends React.Component {
         <Bio />
         {posts.map(({ node }) => {
           const title = node.frontmatter.title || node.fields.slug
+          console.log(node)
           return (
             <div key={node.fields.slug}>
               <h2
@@ -34,14 +36,14 @@ class BlogIndex extends React.Component {
                 </Link>
               </h2>
               <small>{node.frontmatter.date}</small>
-              <div>
+              <div style={{ marginBottom: rhythm(2) }}>
                 <p
+                  style={{ display: 'inline' }}
                   dangerouslySetInnerHTML={{
-                    __html:
-                      node.excerpt +
-                      ` <a href="${node.fields.slug}">read more</a>`,
+                    __html: node.excerpt,
                   }}
                 />
+                <Link to={node.fields.slug}>read more</Link>
               </div>
             </div>
           )
