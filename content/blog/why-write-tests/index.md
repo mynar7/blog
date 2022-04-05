@@ -253,6 +253,52 @@ Well-written tests can be a great reference for understanding how a piece of cod
 
 Not only do these tests tell the developer _exactly_ how the function is supposed to behave, when you run the tests they **enforce** those rules as well. Including automation that runs these tests before deploys provides a pretty powerful system to prevent breaking the project when refactoring or introducing new features.
 
+## Tests force us to reflect on implementation
+
+Testing forces us to think about our code beyond how it solves our immediate problem. Naturally that means thinking of aforementioned edge cases, but it also makes us think about the how the program itself is constructed.
+
+Let's say we were working on a calculator application. We're implementing an add function for our app, and so we write it to take two numbers, and output them to the paragraph tag below:
+
+```html html-live no-edit
+<h3>Calculator Output: <span id="output"></span></h3>
+```
+
+```js js-live autorun
+function add(num1, num2) {
+  const sum = num1 + num2
+  document.getElementById('output').textContent = sum
+}
+
+add(2, 3)
+```
+
+All done, right? Well, let's say we now want to write a test for our add function. Unlike `isPalindrome` above, `add` doesn't just return its output, it sends it to the DOM. Our `add` function has a side effect: it depends on certain HTML elements to exist to function properly. To write our test, we have to either stub `getElementById` and monitor it to make sure it's being passed the correct input, or access the `#output` element to check its text. 
+
+We could do those things, but do we really need to test that `getElementById` is implemented correctly? I'd argue that the engineers at Google and Mozilla are very capable of maintaining this JS feature without us needing to test it. What we really need to know is if we're adding correctly.
+
+With that in mind, it might make more sense to split our function into two and separate the DOM manipulation from the calculation. 
+
+```js js-live scripts=mocha,chai
+function add(num1, num2) {
+  return num1 + num2
+}
+function updateOutput(value) {
+  document.getElementById('output').textContent = value
+}
+
+describe('add', () => {
+	it('should add two numbers', () => {
+		expect(add(2, 3)).to.eq(5)
+	})
+})
+
+mocha.run()
+```
+
+We've isolated a side effect and made `add` a pure function without really thinking about the code from a functional standpoint. We refactored to make testing easier, but code that's easy to test is also more reusable and maintainable. Since this is a calculator app, we're likely to need to update the DOM in the same way for other operations like multiplication and division. We're also now free to use the add function in other places in the app as we see fit.
+
+Even though it's a bit silly to write a test for something like an addition operation, the exercise of thinking about the code and how to test it has guided us to a better solution. This is why it's often said that code that's hard to test is a "code smell". 
+
 ## Closing thoughts 
 
 Writing tests is like writing documentation or learning Git: you don't appreciate it until you need it. Because tests don't directly contribute to the functionality of the product, they're often overlooked by teams looking to iterate quickly. You'd be hard-pressed to find good tutorials on tests or courses that bother to spend time teaching how to write them for the same reason.
