@@ -1,3 +1,5 @@
+const requireEsm = require('esm')(module)
+require.esm = (id) => requireEsm(id).default
 const jsdom = require('jsdom')
 const { JSDOM } = jsdom
 const sitePrefix = '/blog'
@@ -32,40 +34,11 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-transformer-remark`,
-      options: {
-        plugins: [
-          {
-            resolve: 'gatsby-remark-images',
-          },
-          {
-            resolve: `gatsby-remark-copy-linked-files`,
-          },
-          {
-            resolve: 'gatsby-remark-smartypants',
-          },
-          {
-            resolve: `gatsby-remark-twitter-cards`,
-            options: {
-              title: siteTitle, // website title
-              separator: '|', // default
-              author: author,
-              background: require.resolve('./content/assets/cardbase.jpg'), // path to 1200x630px file or hex code, defaults to black (#000000)
-              fontColor: '#fafafa', // defaults to white (#ffffff)
-              titleFontSize: 108,
-              subtitleFontSize: 72,
-              // fontStyle: 'monospace', // default
-              fontFile: require.resolve(
-                './content/assets/TitilliumWeb-Black.ttf'
-              ), // will override fontStyle - path to custom TTF font
-            },
-          },
-        ],
-      },
-    },
-    {
       resolve: `gatsby-plugin-mdx`,
       options: {
+        mdxOptions: {
+          remarkPlugins: [require.esm('remark-mdx-code-meta')],
+        },
         extensions: ['.mdx', '.md'],
         gatsbyRemarkPlugins: [
           {
@@ -86,8 +59,23 @@ module.exports = {
           {
             resolve: `gatsby-remark-smartypants`,
           },
+          {
+            resolve: `gatsby-remark-twitter-cards`,
+            options: {
+              title: siteTitle, // website title
+              separator: '|', // default
+              author: author,
+              background: require.resolve('./content/assets/cardbase.jpg'), // path to 1200x630px file or hex code, defaults to black (#000000)
+              fontColor: '#fafafa', // defaults to white (#ffffff)
+              titleFontSize: 108,
+              subtitleFontSize: 72,
+              // fontStyle: 'monospace', // default
+              fontFile: require.resolve(
+                './content/assets/TitilliumWeb-Black.ttf'
+              ), // will override fontStyle - path to custom TTF font
+            },
+          },
         ],
-        plugins: [`gatsby-remark-images`],
       },
     },
     `gatsby-transformer-sharp`,
@@ -103,10 +91,11 @@ module.exports = {
       options: {
         feeds: [
           {
+            title: 'banana',
             serialize: ({ query: { site, allMarkdownRemark } }) =>
-              allMarkdownRemark.edges.map(edge => {
+              allMarkdownRemark.edges.map((edge) => {
                 const dom = new JSDOM(edge.node.html)
-                dom.window.document.querySelectorAll('img').forEach(img => {
+                dom.window.document.querySelectorAll('img').forEach((img) => {
                   const siteUrl = site.siteMetadata.siteUrl.replace(
                     sitePrefix,
                     ''
@@ -114,7 +103,7 @@ module.exports = {
                   img.src = siteUrl + img.src
                   img.parentNode.href = siteUrl + img.parentNode.href
                 })
-                dom.window.document.querySelectorAll('*').forEach(element => {
+                dom.window.document.querySelectorAll('*').forEach((element) => {
                   element.removeAttribute('style')
                   element.removeAttribute('class')
                   element.removeAttribute('data-meta')

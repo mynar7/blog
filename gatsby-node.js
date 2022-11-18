@@ -22,12 +22,15 @@ exports.createPages = ({ graphql, actions }) => {
                 title
               }
               body
+              internal {
+                contentFilePath
+              }
             }
           }
         }
       }
     `
-  ).then(result => {
+  ).then((result) => {
     if (result.errors) {
       throw result.errors
     }
@@ -41,7 +44,7 @@ exports.createPages = ({ graphql, actions }) => {
 
       createPage({
         path: post.node.fields.slug,
-        component: blogPost,
+        component: `${blogPost}?__contentFilePath=${post.node.internal.contentFilePath}`,
         context: {
           slug: post.node.fields.slug,
           previous,
