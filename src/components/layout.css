@@ -9,14 +9,6 @@
   --dark-white: rgb(203, 199, 192);
   --dark-primary: rgb(26, 27, 28);
 }
-::selection {
-  color: var(--white);
-  background: var(--primary);
-}
-::-moz-selection {
-  color: var(--white);
-  background: var(--primary);
-}
 body {
   color: var(--gray);
   background-color: var(--white);

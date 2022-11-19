@@ -90,26 +90,26 @@ module.exports = {
       options: {
         feeds: [
           {
-            title: 'banana',
+            title: 'Strings and Things',
             serialize: ({ query: { site, allMdx } }) =>
               allMdx.edges.map((edge) => {
-                const dom = new JSDOM(edge.node.html)
-                dom.window.document.querySelectorAll('img').forEach((img) => {
-                  const siteUrl = site.siteMetadata.siteUrl.replace(
-                    sitePrefix,
-                    ''
-                  )
-                  img.src = siteUrl + img.src
-                  img.parentNode.href = siteUrl + img.parentNode.href
-                })
-                dom.window.document.querySelectorAll('*').forEach((element) => {
-                  element.removeAttribute('style')
-                  element.removeAttribute('class')
-                  element.removeAttribute('data-meta')
-                  element.removeAttribute('srcset')
-                  element.removeAttribute('sizes')
-                })
-                const siteHTMLString = dom.window.document.body.innerHTML
+                // const dom = new JSDOM(edge.node.html)
+                // dom.window.document.querySelectorAll('img').forEach((img) => {
+                //   const siteUrl = site.siteMetadata.siteUrl.replace(
+                //     sitePrefix,
+                //     ''
+                //   )
+                //   img.src = siteUrl + img.src
+                //   img.parentNode.href = siteUrl + img.parentNode.href
+                // })
+                // dom.window.document.querySelectorAll('*').forEach((element) => {
+                //   element.removeAttribute('style')
+                //   element.removeAttribute('class')
+                //   element.removeAttribute('data-meta')
+                //   element.removeAttribute('srcset')
+                //   element.removeAttribute('sizes')
+                // })
+                // const siteHTMLString = dom.window.document.body.innerHTML
                 // .replace(/\n/g, "") // remove newline
                 // .replace(/[\t ]+\</g, "<") // remove whitespace before tags
                 // .replace(/\>[\t ]+\</g, "><") // remove ws between tags
@@ -120,7 +120,7 @@ module.exports = {
                   url: site.siteMetadata.siteUrl + edge.node.fields.slug,
                   guid: site.siteMetadata.siteUrl + edge.node.fields.slug,
                   custom_elements: [
-                    { 'content:encoded': siteHTMLString },
+                    //{ 'content:encoded': siteHTMLString },
                     {
                       'atom:link': {
                         _attr: {
@@ -138,8 +138,7 @@ module.exports = {
               allMdx(
                 limit: 1000,
                 sort: {
-                  order: DESC,
-                  fields: [frontmatter___date]
+                  frontmatter: {date: DESC}
                 }
               ) {
                 edges {
@@ -152,7 +151,6 @@ module.exports = {
                       slug
                     }
                     excerpt
-                    html
                   }
                 }
               }
