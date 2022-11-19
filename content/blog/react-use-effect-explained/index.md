@@ -31,7 +31,7 @@ The function `add` does nothing except take an input and return an output. It do
 
 Let's introduce a side effect.
 
-```js js-live autorun linkId=ex1 no-edit
+```js js-live autorun linkId="ex1" no-edit
 const resultDiv = document.getElementById('add-example')
 function add(a, b) {
     const result = a + b
@@ -41,7 +41,7 @@ function add(a, b) {
 add(3, 4)
 ```
 
-```html html-live linkId=ex1 no-edit
+```html html-live linkId="ex1" no-edit
 <div id="add-example"></div>
 ```
 

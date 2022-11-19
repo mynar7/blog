@@ -1,7 +1,7 @@
 import React from 'react'
 import Highlight, { defaultProps } from 'prism-react-renderer'
 
-function PlainCodeHighlight({code, language, theme}) {
+function PlainCodeHighlight({ code, language, theme }) {
   const styles = {
     // whiteSpace: 'pre-wrap',
     // wordBreak: 'keep-all',
@@ -9,12 +9,12 @@ function PlainCodeHighlight({code, language, theme}) {
     overflowX: 'auto',
     padding: '10px',
     fontSize: '0.8rem',
-    lineHeight: 'inherit'
+    lineHeight: 'inherit',
   }
   return (
     <Highlight {...defaultProps} code={code} language={language} theme={theme}>
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={{...style, ...styles}}>
+        <pre className={className} style={{ ...style, ...styles }}>
           {tokens.map((line, i) => (
             <div {...getLineProps({ line, key: i })}>
               {line.map((token, key) => (
@@ -29,3 +29,4 @@ function PlainCodeHighlight({code, language, theme}) {
 }
 
 export default PlainCodeHighlight
+

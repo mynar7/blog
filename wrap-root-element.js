@@ -8,7 +8,6 @@ import { CodeProvider } from './src/components/codeComponents/CodeProvider'
 // components are stable
 const components = {
   pre: (preProps) => {
-    console.log(preProps)
     if (preProps && preProps.children && preProps.children.type === 'code') {
       const {
         children: codeString,
@@ -21,6 +20,7 @@ const components = {
         className,
         language,
         ...rest,
+        ...preProps,
       }
       return <Code {...props} />
     } else {

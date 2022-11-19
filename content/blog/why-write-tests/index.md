@@ -9,7 +9,7 @@ Testing is a subject that nearly every tutorial and course tends to gracefully s
 
 Tests are not a necessary evil. In fact, I've found a lot of comfort in well-written automated tests as I've progressed in my career. With that said, let's discuss some benefits of tests.
 
-```js js-live autorun no-code scripts=mocha!https://cdnjs.cloudflare.com/ajax/libs/mocha/8.0.1/mocha.min.js,chai!https://cdnjs.cloudflare.com/ajax/libs/chai/4.2.0/chai.min.js,sinon!https://cdnjs.cloudflare.com/ajax/libs/sinon.js/9.0.2/sinon.min.js
+```js js-live autorun no-code scripts="mocha!https://cdnjs.cloudflare.com/ajax/libs/mocha/8.0.1/mocha.min.js,chai!https://cdnjs.cloudflare.com/ajax/libs/chai/4.2.0/chai.min.js,sinon!https://cdnjs.cloudflare.com/ajax/libs/sinon.js/9.0.2/sinon.min.js"
 const {
   EVENT_RUN_BEGIN,
   EVENT_RUN_END,
@@ -128,7 +128,7 @@ That's the rub when it comes to refactoring this function. You know more or less
 
 In an ideal world, you'd have some well-written tests that outline the edge cases of your function. Test cases should cover the functionalities and behaviors of your code that are critical for the final product. Try rewriting the function below and running the tests to see if you can do better.
 
-```js js-live scripts=mocha,chai
+```js js-live scripts="mocha,chai"
 function isPalindrome(str) {
 	str = str.toLowerCase()
 	let strNoPunc = ""
@@ -171,7 +171,7 @@ Were you able to get all the test cases to pass?
 
 Did you write something like the following? If you didn't, can you see what the solution below is missing? Try and add the missing code using the test cases:
 
-```js js-live scripts=mocha,chai
+```js js-live scripts="mocha,chai"
 function isPalindrome(str) {
 	return str === str.split("").reverse().join("")
 }
@@ -202,7 +202,7 @@ mocha.run()
 
 In the code above, we solved the main palindrome problem, but failed to handle special characters, casing, and spaces. Here's the code with solutions for all the tests:
 
-```js js-live scripts=mocha,chai
+```js js-live scripts="mocha,chai"
 function isPalindrome(str) {
 	str = str.toLowerCase().replaceAll(/[^a-z]/g, "")
 	return str === str.split("").reverse().join("")

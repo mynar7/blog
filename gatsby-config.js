@@ -1,10 +1,9 @@
-const requireEsm = require('esm')(module)
-require.esm = (id) => requireEsm(id).default
 const jsdom = require('jsdom')
 const { JSDOM } = jsdom
 const sitePrefix = '/blog'
 const siteTitle = `Strings and Things`
 const author = `Lee Warrick`
+const { remarkMdxCodeMeta } = require('remark-mdx-code-meta')
 module.exports = {
   pathPrefix: sitePrefix,
   siteMetadata: {
@@ -37,7 +36,7 @@ module.exports = {
       resolve: `gatsby-plugin-mdx`,
       options: {
         mdxOptions: {
-          remarkPlugins: [require.esm('remark-mdx-code-meta')],
+          remarkPlugins: [remarkMdxCodeMeta],
         },
         extensions: ['.mdx', '.md'],
         gatsbyRemarkPlugins: [
@@ -92,8 +91,8 @@ module.exports = {
         feeds: [
           {
             title: 'banana',
-            serialize: ({ query: { site, allMarkdownRemark } }) =>
-              allMarkdownRemark.edges.map((edge) => {
+            serialize: ({ query: { site, allMdx } }) =>
+              allMdx.edges.map((edge) => {
                 const dom = new JSDOM(edge.node.html)
                 dom.window.document.querySelectorAll('img').forEach((img) => {
                   const siteUrl = site.siteMetadata.siteUrl.replace(
@@ -136,7 +135,7 @@ module.exports = {
               }),
             query: `
             {
-              allMarkdownRemark(
+              allMdx(
                 limit: 1000,
                 sort: {
                   order: DESC,
