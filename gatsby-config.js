@@ -1,6 +1,6 @@
 const jsdom = require('jsdom')
 const { JSDOM } = jsdom
-const sitePrefix = '/blog'
+const sitePrefix = `/blog`
 const siteTitle = `Strings and Things`
 const author = `Lee Warrick`
 const { remarkMdxCodeMeta } = require('remark-mdx-code-meta')
