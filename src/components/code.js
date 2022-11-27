@@ -17,11 +17,11 @@ export const Code = ({ codeString, language, ...props }) => {
     marginBottom: rhythm(2),
   }
   if (props.scripts) {
-    scriptPairs.current = props.scripts.split(',').map(pair => {
+    scriptPairs.current = props.scripts.split(',').map((pair) => {
       const [name, url] = pair.split('!')
-      return {name, url}
+      return { name, url }
     })
-    scripts.current = scriptPairs.current.map(scriptObj => scriptObj.name)
+    scripts.current = scriptPairs.current.map((scriptObj) => scriptObj.name)
   }
   useEffect(() => {
     queueScripts(scriptPairs.current)
@@ -30,46 +30,53 @@ export const Code = ({ codeString, language, ...props }) => {
   if (props['react-live']) {
     return (
       <div style={snippetStyle}>
-        <LiveReactEditor useRender={props['use-render']}
+        <LiveReactEditor
+          useRender={props['use-render']}
           code={codeString}
           theme={theme}
           editingDisabled={props['no-edit']}
           hideCode={props['no-code']}
-          scripts={scripts.current}/>
+          scripts={scripts.current}
+        />
       </div>
     )
-  }
-  else if (props['js-live']){
+  } else if (props['js-live']) {
     return (
       <div style={snippetStyle}>
-        <LiveJsEditor code={codeString}
+        <LiveJsEditor
+          code={codeString}
           language={language}
           theme={theme}
           autorun={props.autorun}
           editingDisabled={props['no-edit']}
           hideCode={props['no-code']}
           scripts={scripts.current}
-          linkId={props.linkId}/>
+          linkId={props.linkId}
+        />
       </div>
     )
-  }
-  else if (props['html-live'] || props['css-live']){
+  } else if (props['html-live'] || props['css-live']) {
     return (
       <div style={snippetStyle}>
-        <LiveHtmlEditor code={codeString}
+        <LiveHtmlEditor
+          code={codeString}
           language={language}
           editingDisabled={props['no-edit']}
           hideCode={props['no-code']}
           theme={theme}
-          linkId={props.linkId}/>
+          linkId={props.linkId}
+        />
       </div>
     )
-  }
-  else {
+  } else {
     return (
       <div style={snippetStyle}>
-        <SnippetInfo language={language}/>
-        <PlainCodeHighlight code={codeString} language={language} theme={theme} />
+        <SnippetInfo language={language} />
+        <PlainCodeHighlight
+          code={codeString}
+          language={language}
+          theme={theme}
+        />
       </div>
     )
   }

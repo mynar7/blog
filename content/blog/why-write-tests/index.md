@@ -9,7 +9,7 @@ Testing is a subject that nearly every tutorial and course tends to gracefully s
 
 Tests are not a necessary evil. In fact, I've found a lot of comfort in well-written automated tests as I've progressed in my career. With that said, let's discuss some benefits of tests.
 
-```js js-live autorun no-code scripts=mocha!https://cdnjs.cloudflare.com/ajax/libs/mocha/8.0.1/mocha.min.js,chai!https://cdnjs.cloudflare.com/ajax/libs/chai/4.2.0/chai.min.js,sinon!https://cdnjs.cloudflare.com/ajax/libs/sinon.js/9.0.2/sinon.min.js
+```js js-live autorun no-code scripts="mocha!https://cdnjs.cloudflare.com/ajax/libs/mocha/8.0.1/mocha.min.js,chai!https://cdnjs.cloudflare.com/ajax/libs/chai/4.2.0/chai.min.js,sinon!https://cdnjs.cloudflare.com/ajax/libs/sinon.js/9.0.2/sinon.min.js"
 const {
   EVENT_RUN_BEGIN,
   EVENT_RUN_END,
@@ -22,53 +22,53 @@ const {
 mocha.setup({
   ui: "bdd",
   reporter: function(runner) {
-		let currentSuite
-		let currentParent
-		let indent = 0
-		runner.once(EVENT_RUN_BEGIN, () => {
-		})
-		runner.on(EVENT_SUITE_BEGIN, (suite) => {
-		})
-		runner.on(EVENT_SUITE_END, (suite) => {
-		  if (suite.root) return
-		 	indent = indent - 2 < 0 ? 0 : indent - 2
-		})
-		runner.on(EVENT_TEST_PASS, (test) => {
-			if (currentParent !== test.parent.parent.title) {
-				currentParent = test.parent.parent.title
-				if (currentParent) {
-					console.log(`${" ".repeat(indent)}${currentParent}`)
-					indent += 2
-				}
-			}
-			if (currentSuite !== test.parent.title) {
-				currentSuite = test.parent.title
-				console.log(`${" ".repeat(indent)}${currentSuite}`)
-				indent += 2
-			}
+    let currentSuite
+    let currentParent
+    let indent = 0
+    runner.once(EVENT_RUN_BEGIN, () => {
+    })
+    runner.on(EVENT_SUITE_BEGIN, (suite) => {
+    })
+    runner.on(EVENT_SUITE_END, (suite) => {
+      if (suite.root) return
+       indent = indent - 2 < 0 ? 0 : indent - 2
+    })
+    runner.on(EVENT_TEST_PASS, (test) => {
+      if (currentParent !== test.parent.parent.title) {
+        currentParent = test.parent.parent.title
+        if (currentParent) {
+          console.log(`${" ".repeat(indent)}${currentParent}`)
+          indent += 2
+        }
+      }
+      if (currentSuite !== test.parent.title) {
+        currentSuite = test.parent.title
+        console.log(`${" ".repeat(indent)}${currentSuite}`)
+        indent += 2
+      }
 
-			console.log(`${" ".repeat(indent)}🟢 ${test.title}`)
-		});
-		runner.on(EVENT_TEST_FAIL, (test) => {
-			if (currentParent !== test.parent.parent.title) {
-				currentParent = test.parent.parent.title
-				if (currentParent) {
-					console.log(`${" ".repeat(indent)}${currentParent}`)
-					indent += 2
-				}
-			}
-			if (currentSuite !== test.parent.title) {
-				currentSuite = test.parent.title
-				console.log(`${" ".repeat(indent)}${currentSuite}`)
-				indent += 2
-			}
+      console.log(`${" ".repeat(indent)}🟢 ${test.title}`)
+    });
+    runner.on(EVENT_TEST_FAIL, (test) => {
+      if (currentParent !== test.parent.parent.title) {
+        currentParent = test.parent.parent.title
+        if (currentParent) {
+          console.log(`${" ".repeat(indent)}${currentParent}`)
+          indent += 2
+        }
+      }
+      if (currentSuite !== test.parent.title) {
+        currentSuite = test.parent.title
+        console.log(`${" ".repeat(indent)}${currentSuite}`)
+        indent += 2
+      }
 
-			console.log(`${" ".repeat(indent)}❌ ${test.title}`)
-		});
-		runner.once(EVENT_RUN_END, () => {
-			indent = 0
-			console.log(`${runner.stats.passes}/${runner.stats.passes + runner.stats.failures} tests passing`);
-		});
+      console.log(`${" ".repeat(indent)}❌ ${test.title}`)
+    });
+    runner.once(EVENT_RUN_END, () => {
+      indent = 0
+      console.log(`${runner.stats.passes}/${runner.stats.passes + runner.stats.failures} tests passing`);
+    });
   },
   cleanReferencesAfterRun: true
 })
@@ -87,17 +87,17 @@ Let's say for example that you had a function that checks to see if a word is a 
 
 ```js 
 function isPalindrome(str) {
-	str = str.toLowerCase()
-	let strNoPunc = ""
-	const letters = 'abcdefghijklmnopqrstuvwxyz'.split("")
-	for(var i = 0; i < str.length; i++) {
-		if(letters.indexOf(str[i]) > -1) strNoPunc += str[i]
-	}
-	let reversed = ""
-	for (var i = strNoPunc.length - 1; i >= 0; i--) {
-		reversed += strNoPunc[i]
-	}
-	return reversed === strNoPunc
+  str = str.toLowerCase()
+  let strNoPunc = ""
+  const letters = 'abcdefghijklmnopqrstuvwxyz'.split("")
+  for(var i = 0; i < str.length; i++) {
+    if(letters.indexOf(str[i]) > -1) strNoPunc += str[i]
+  }
+  let reversed = ""
+  for (var i = strNoPunc.length - 1; i >= 0; i--) {
+    reversed += strNoPunc[i]
+  }
+  return reversed === strNoPunc
 }
 ```
 You haven't written a for loop since you first learned JavaScript, so it takes you a second to read through and see what's happening in the function. It's been humming along in your codebase for quite some time before you came across it, but you know you could write a more readable version. How do you proceed, though?
@@ -106,17 +106,17 @@ One way is to manually test with `console.log`:
 
 ```js js-live autorun
 function isPalindrome(str) {
-	str = str.toLowerCase()
-	let strNoPunc = ""
-	const letters = 'abcdefghijklmnopqrstuvwxyz'.split("")
-	for(var i = 0; i < str.length; i++) {
-		if(letters.indexOf(str[i]) > -1) strNoPunc += str[i]
-	}
-	let reversed = ""
-	for (var i = strNoPunc.length - 1; i >= 0; i--) {
-		reversed += strNoPunc[i]
-	}
-	return reversed === strNoPunc
+  str = str.toLowerCase()
+  let strNoPunc = ""
+  const letters = 'abcdefghijklmnopqrstuvwxyz'.split("")
+  for(var i = 0; i < str.length; i++) {
+    if(letters.indexOf(str[i]) > -1) strNoPunc += str[i]
+  }
+  let reversed = ""
+  for (var i = strNoPunc.length - 1; i >= 0; i--) {
+    reversed += strNoPunc[i]
+  }
+  return reversed === strNoPunc
 }
 console.log(isPalindrome('radar'))
 console.log(isPalindrome('pasta'))
@@ -128,40 +128,40 @@ That's the rub when it comes to refactoring this function. You know more or less
 
 In an ideal world, you'd have some well-written tests that outline the edge cases of your function. Test cases should cover the functionalities and behaviors of your code that are critical for the final product. Try rewriting the function below and running the tests to see if you can do better.
 
-```js js-live scripts=mocha,chai
+```js js-live scripts="mocha,chai"
 function isPalindrome(str) {
-	str = str.toLowerCase()
-	let strNoPunc = ""
-	const letters = 'abcdefghijklmnopqrstuvwxyz'.split("")
-	for(var i = 0; i < str.length; i++) {
-		if(letters.indexOf(str[i]) > -1) strNoPunc += str[i]
-	}
-	let reversed = ""
-	for (var i = strNoPunc.length - 1; i >= 0; i--) {
-		reversed += strNoPunc[i]
-	}
-	return reversed === strNoPunc
+  str = str.toLowerCase()
+  let strNoPunc = ""
+  const letters = 'abcdefghijklmnopqrstuvwxyz'.split("")
+  for(var i = 0; i < str.length; i++) {
+    if(letters.indexOf(str[i]) > -1) strNoPunc += str[i]
+  }
+  let reversed = ""
+  for (var i = strNoPunc.length - 1; i >= 0; i--) {
+    reversed += strNoPunc[i]
+  }
+  return reversed === strNoPunc
 }
 
 describe('isPalindrome', function() {
-	it('should return a boolean', function() {
-		expect(typeof isPalindrome('banana')).to.eq('boolean')
-	})
-	it('should return true for a palindrome', function() {
-		expect(isPalindrome('radar')).to.be.true
-	})
-	it('should return false for non-palindromes', function() {
-		expect(isPalindrome('banana')).to.be.false
-	})
-	it('should ignore special characters', function() {
-		expect(isPalindrome('radar!')).to.be.true
-	})
-	it('should ignore spaces', function() {
-		expect(isPalindrome('my gym')).to.be.true
-	})
-	it('should ignore letter casing', function() {
-		expect(isPalindrome('Eva, can I see bees in a cave?')).to.be.true
-	})
+  it('should return a boolean', function() {
+    expect(typeof isPalindrome('banana')).to.eq('boolean')
+  })
+  it('should return true for a palindrome', function() {
+    expect(isPalindrome('radar')).to.be.true
+  })
+  it('should return false for non-palindromes', function() {
+    expect(isPalindrome('banana')).to.be.false
+  })
+  it('should ignore special characters', function() {
+    expect(isPalindrome('radar!')).to.be.true
+  })
+  it('should ignore spaces', function() {
+    expect(isPalindrome('my gym')).to.be.true
+  })
+  it('should ignore letter casing', function() {
+    expect(isPalindrome('Eva, can I see bees in a cave?')).to.be.true
+  })
 })
 
 mocha.run()
@@ -171,30 +171,30 @@ Were you able to get all the test cases to pass?
 
 Did you write something like the following? If you didn't, can you see what the solution below is missing? Try and add the missing code using the test cases:
 
-```js js-live scripts=mocha,chai
+```js js-live scripts="mocha,chai"
 function isPalindrome(str) {
-	return str === str.split("").reverse().join("")
+  return str === str.split("").reverse().join("")
 }
 
 describe('isPalindrome', function() {
-	it('should return a boolean', function() {
-		expect(typeof isPalindrome('banana')).to.eq('boolean')
-	})
-	it('should return true for a palindrome', function() {
-		expect(isPalindrome('radar')).to.be.true
-	})
-	it('should return false for non-palindromes', function() {
-		expect(isPalindrome('banana')).to.be.false
-	})
-	it('should ignore special characters', function() {
-		expect(isPalindrome('radar!')).to.be.true
-	})
-	it('should ignore spaces', function() {
-		expect(isPalindrome('my gym')).to.be.true
-	})
-	it('should ignore letter casing', function() {
-		expect(isPalindrome('Eva, can I see bees in a cave?')).to.be.true
-	})
+  it('should return a boolean', function() {
+    expect(typeof isPalindrome('banana')).to.eq('boolean')
+  })
+  it('should return true for a palindrome', function() {
+    expect(isPalindrome('radar')).to.be.true
+  })
+  it('should return false for non-palindromes', function() {
+    expect(isPalindrome('banana')).to.be.false
+  })
+  it('should ignore special characters', function() {
+    expect(isPalindrome('radar!')).to.be.true
+  })
+  it('should ignore spaces', function() {
+    expect(isPalindrome('my gym')).to.be.true
+  })
+  it('should ignore letter casing', function() {
+    expect(isPalindrome('Eva, can I see bees in a cave?')).to.be.true
+  })
 })
 
 mocha.run()
@@ -202,31 +202,31 @@ mocha.run()
 
 In the code above, we solved the main palindrome problem, but failed to handle special characters, casing, and spaces. Here's the code with solutions for all the tests:
 
-```js js-live scripts=mocha,chai
+```js js-live scripts="mocha,chai"
 function isPalindrome(str) {
-	str = str.toLowerCase().replaceAll(/[^a-z]/g, "")
-	return str === str.split("").reverse().join("")
+  str = str.toLowerCase().replaceAll(/[^a-z]/g, "")
+  return str === str.split("").reverse().join("")
 }
 
 describe('isPalindrome', function() {
-	it('should return a boolean', function() {
-		expect(typeof isPalindrome('banana')).to.eq('boolean')
-	})
-	it('should return true for a palindrome', function() {
-		expect(isPalindrome('radar')).to.be.true
-	})
-	it('should return false for non-palindromes', function() {
-		expect(isPalindrome('banana')).to.be.false
-	})
-	it('should ignore special characters', function() {
-		expect(isPalindrome('radar!')).to.be.true
-	})
-	it('should ignore spaces', function() {
-		expect(isPalindrome('my gym')).to.be.true
-	})
-	it('should ignore letter casing', function() {
-		expect(isPalindrome('Eva, can I see bees in a cave?')).to.be.true
-	})
+  it('should return a boolean', function() {
+    expect(typeof isPalindrome('banana')).to.eq('boolean')
+  })
+  it('should return true for a palindrome', function() {
+    expect(isPalindrome('radar')).to.be.true
+  })
+  it('should return false for non-palindromes', function() {
+    expect(isPalindrome('banana')).to.be.false
+  })
+  it('should ignore special characters', function() {
+    expect(isPalindrome('radar!')).to.be.true
+  })
+  it('should ignore spaces', function() {
+    expect(isPalindrome('my gym')).to.be.true
+  })
+  it('should ignore letter casing', function() {
+    expect(isPalindrome('Eva, can I see bees in a cave?')).to.be.true
+  })
 })
 
 mocha.run()
