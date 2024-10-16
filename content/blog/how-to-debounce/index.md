@@ -113,6 +113,7 @@ React allows us to encapsulate logic in components, so we can skip the fancy Jav
 Let's take a look:
 
 ```jsx react-live use-render
+const { useState, useRef, useEffect } = React
 // just an async helper
 function fakeAPICall() {
   return new Promise(resolve => {
@@ -121,11 +122,11 @@ function fakeAPICall() {
 }
 
 function SearchForm() {
-  const [inputVal, setInputVal] = React.useState("")
-  const [query, setQuery] = React.useState("")
-  const inputRef = React.useRef("")
-  const [callCount, setCallCount] = React.useState(0)
-  const timeoutId = React.useRef()
+  const [inputVal, setInputVal] = useState("")
+  const [query, setQuery] = useState("")
+  const inputRef = useRef("")
+  const [callCount, setCallCount] = useState(0)
+  const timeoutId = useRef()
 
   function handleChange(e) {
     setInputVal(e.target.value)
@@ -134,7 +135,7 @@ function SearchForm() {
     inputRef.current = e.target.value
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     // if the user keeps typing, stop the API call!
     clearTimeout(timeoutId.current)
     // don't make an API call with no data
@@ -246,6 +247,8 @@ This new version uses a simple `true`/`false` value to determine if we should tr
 Let's apply this same functionality to our previous React example.
 
 ```jsx react-live use-render
+const {useState, useRef, useEffect} = React
+
 // just an async helper
 function fakeAPICall() {
   return new Promise(resolve => {
@@ -254,11 +257,11 @@ function fakeAPICall() {
 }
 
 function SearchForm() {
-  const [inputVal, setInputVal] = React.useState("")
-  const [query, setQuery] = React.useState("")
-  const inputRef = React.useRef("")
-  const [callCount, setCallCount] = React.useState(0)
-  const makingCall = React.useRef(false)
+  const [inputVal, setInputVal] = useState("")
+  const [query, setQuery] = useState("")
+  const inputRef = useRef("")
+  const [callCount, setCallCount] = useState(0)
+  const makingCall = useRef(false)
 
   function handleChange(e) {
     setInputVal(e.target.value)
@@ -267,7 +270,7 @@ function SearchForm() {
     inputRef.current = e.target.value
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     // if there's no value or we've already triggered a call
     // prevent further calls
     if (!inputVal.trim() || makingCall.current) return

@@ -29,7 +29,7 @@ function Bio() {
               }}
             />
             <p>
-              Written by <a href="https://leewarrick.com"><strong>{author}</strong></a>, Co-host of the <a href="https://techjr.dev">Tech Jr Podcast</a>, Front-end Developer, Guitarist, and Gamer.
+              Written by <a href="https://leewarrick.com"><strong>{author}</strong></a>, Co-host of the <a href="https://techjr.dev">Tech Jr Podcast</a>, Software Engineer, Guitarist, and Gamer.
               &nbsp;
               <a href="https://tinyletter.com/leewarrick"><strong>Subscribe</strong></a> to my newsletter!
               Show your support by buying some <a href="https://teespring.com/stores/tech-jr-store"><strong>SWAG.</strong></a>

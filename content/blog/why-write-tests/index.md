@@ -278,7 +278,7 @@ We could do those things, but do we really need to test that `getElementById` is
 
 With that in mind, it might make more sense to split our function into two and separate the DOM manipulation from the calculation. 
 
-```js js-live scripts=mocha,chai
+```js js-live scripts="mocha,chai"
 function add(num1, num2) {
   return num1 + num2
 }
@@ -287,9 +287,9 @@ function updateOutput(value) {
 }
 
 describe('add', () => {
-	it('should add two numbers', () => {
-		expect(add(2, 3)).to.eq(5)
-	})
+  it('should add two numbers', () => {
+    expect(add(2, 3)).to.eq(5)
+  })
 })
 
 mocha.run()
